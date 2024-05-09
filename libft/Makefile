@@ -48,7 +48,16 @@ SRC = ft_atoi.c \
       ft_putendl_fd.c \
       ft_striteri.c \
 	  ft_free_2d.c \
-	  ft_line_len.c
+	  ft_line_len.c \
+	  ft_lstadd_back.c \
+      ft_lstadd_front.c \
+      ft_lstclear.c \
+      ft_lstdelone.c \
+      ft_lstiter.c \
+      ft_lstlast.c \
+      ft_lstmap.c \
+      ft_lstnew.c \
+      ft_lstsize.c
 
 OBJS = $(SRC:.c=.o)
 FLAGS = -Wall -Wextra -Werror
