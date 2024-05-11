@@ -6,7 +6,7 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/11 18:05:25 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/05/11 18:34:49 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 # define MINISHELL_H
 
 #include "../../libft/libft.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 typedef struct s_minishell
 {
 	t_list	*input_history;
 }	t_minishell;
 
-void	minishell_run(t_minishell m);
+void	minishell_run(t_minishell *m);
 
 #endif
