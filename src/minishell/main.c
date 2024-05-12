@@ -3,21 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/11 18:35:59 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/05/12 11:13:32 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+t_cmd*	execcmd(void)
+{
+	t_cmd *cmd;
+	cmd = malloc(sizeof(*cmd));
+	ft_memset(cmd, 0 , sizeof(*cmd));
+	cmd->type = EXEC;
+	return(t_cmd*)cmd;
+}
+//later we can put all parameters to the function(file, mode,fd, etc.)
+t_cmd*	redircmd(void)
+{
+	t_redircmd	*cmd;
+	cmd = malloc(sizeof(*cmd));
+	memset(cmd, 0, sizeof(*cmd));
+	cmd->type = REDIR;
+	// cmd->cmd = "command";
+	cmd->file = "filename";
+	cmd->efile = '\0';
+	cmd->mode = 2;
+	cmd->fd = 0;
+	return (t_cmd*)cmd;
+}
+
 int main(int argc, char **argv)
 {
-	static t_minishell	*m;
+	// static t_minishell	*m;
 
-	m = malloc(sizeof(t_minishell));
-	minishell_run(m);
+	// m = malloc(sizeof(t_minishell));
+	printf("ac is %d and program name is %s\n",argc, argv[0] );
+	t_cmd	*cmd = execcmd();
+	t_redircmd	*redir_cmd = (t_redircmd*)redircmd();
+	printf("t_cmd type is %d\n", cmd->type);
+	printf("redircmd\ntype: %d\nfile: %s\n",redir_cmd->type, redir_cmd->file);
+	// minishell_run(m);
 	return (EXIT_SUCCESS);
 }
 
