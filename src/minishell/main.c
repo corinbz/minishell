@@ -6,7 +6,7 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/11 18:35:59 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/05/12 17:15:35 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int main(int argc, char **argv)
 {
 	static t_minishell	*m;
 
+	(void)argv;
+	(void)argc;
 	m = malloc(sizeof(t_minishell));
 	minishell_run(m);
 	return (EXIT_SUCCESS);

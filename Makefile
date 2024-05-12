@@ -6,8 +6,7 @@ LIBFT = ./libft/libft.a
 LIBFTDIR = ./libft/
 OBJDIR = ./obj/
 
-SRC := $(shell find ./src/pipex/ -name "*.c")
-
+SRC := $(shell find ./src/minishell/ -name "*.c")
 
 #Colors
 
@@ -20,7 +19,7 @@ NC=\033[0m # No Color
 OBJS = $(addprefix $(OBJDIR), $(notdir $(SRC:.c=.o)))
 
 
-$(OBJDIR)%.o: src/pipex/%.c
+$(OBJDIR)%.o: src/minishell/%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -I$(LIBFTDIR) -c $< -o $@
 	@echo "$(GREEN)Compiled $< successfully!$(NC)"
@@ -29,7 +28,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@make -s -C $(LIBFTDIR)
-	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFTDIR) -lft -I$(LIBFTDIR) -o $@
+	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFTDIR) -lft -lreadline -I$(LIBFTDIR) -o $@
 	@echo "$(BLUE)$(NAME) created successfully!$(NC)"
 
 clean:
