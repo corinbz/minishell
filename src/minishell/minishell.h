@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/12 11:02:58 by corin            ###   ########.fr       */
+/*   Updated: 2024/05/13 10:34:25 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ typedef struct s_minishell
 }	t_minishell;
 
 void	minishell_run(t_minishell *m);
-
+//constructor functions
+t_cmd*	execcmd(void);
+t_cmd*	redircmd(void);
 //Corin added from here
 /*
 Example for execcmd struct
@@ -34,10 +36,12 @@ Example for execcmd struct
 o --> argv
 x --> eargv
 */
-#define EXEC  1
-#define REDIR 2
-#define PIPE  3
-#define LIST  4
+typedef enum s_cmd_type
+{
+	EXEC =  1,
+	REDIR = 2,
+	PIPE  = 3,
+};
 
 typedef struct s_cmd
 {
@@ -46,7 +50,7 @@ typedef struct s_cmd
 
 typedef struct s_execcmd
 {
-	int		type;//EXEC || REDIR || PIPE || LIST
+	int		type;//EXEC || REDIR || PIPE 
 	char	*argv[10];//points to program name + flags
 	char	*eargv[10];//points to the null terminator after each argv string
 	//maybe we can null terminate another way?
