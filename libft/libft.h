@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 21:23:39 by corin             #+#    #+#             */
-/*   Updated: 2024/05/09 17:57:51 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/05/16 18:41:33 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	*ft_calloc(size_t num_elements, size_t element_size);
 char	*ft_strdup(const char *str);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putnbr_fd(int nb, int fd);
-void	ft_putstr_fd(char *s, int fd);
+void	ft_putstr_fd(const char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 size_t	ft_line_len(char *str);
