@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 10:31:39 by corin             #+#    #+#             */
-/*   Updated: 2024/05/16 18:45:12 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/05/16 18:48:29 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	ft_panic(const char *s)
 }
 
 //fork with error handling
-int	ft_fork(void)
+pid_t	ft_fork(void)
 {
-	int	pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)
