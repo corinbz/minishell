@@ -8,6 +8,7 @@ OBJDIR = ./obj/
 
 SRC := $(shell find ./src/minishell/ -name "*.c")
 
+
 #Colors
 
 GREEN=\033[1;32m
@@ -28,7 +29,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@make -s -C $(LIBFTDIR)
-	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFTDIR) -lft -lreadline -I$(LIBFTDIR) -o $@
+	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFTDIR) -lft -I$(LIBFTDIR) -o $@
 	@echo "$(BLUE)$(NAME) created successfully!$(NC)"
 
 clean:

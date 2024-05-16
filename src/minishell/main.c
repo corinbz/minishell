@@ -3,23 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/12 17:15:35 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/05/13 10:10:20 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+
 int main(int argc, char **argv)
 {
-	static t_minishell	*m;
+	// static t_minishell	*m;
 
-	(void)argv;
-	(void)argc;
-	m = malloc(sizeof(t_minishell));
-	minishell_run(m);
+	// m = malloc(sizeof(t_minishell));
+	printf("ac is %d and program name is %s\n",argc, argv[0] );
+	t_cmd	*cmd = execcmd();
+	// t_redircmd	*redir_cmd = (t_redircmd*)redircmd();
+	t_cmd	*redir_cmd = (t_cmd*)redircmd();
+	printf("t_cmd type is %d\n", cmd->type);
+	printf("redircmd\ntype: %d\nfile: s\n",redir_cmd->type);
+	// minishell_run(m);
 	return (EXIT_SUCCESS);
 }
 
