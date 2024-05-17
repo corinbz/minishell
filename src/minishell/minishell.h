@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/13 10:34:25 by corin            ###   ########.fr       */
+/*   Updated: 2024/05/17 11:11:19 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@ typedef struct s_minishell
 	t_list	*input_history;
 }	t_minishell;
 
-void	minishell_run(t_minishell *m);
-//constructor functions
-t_cmd*	execcmd(void);
-t_cmd*	redircmd(void);
 //Corin added from here
 /*
 Example for execcmd struct
@@ -41,7 +37,7 @@ typedef enum s_cmd_type
 	EXEC =  1,
 	REDIR = 2,
 	PIPE  = 3,
-};
+} t_cmd_type;
 
 typedef struct s_cmd
 {
@@ -73,4 +69,8 @@ typedef struct s_pipecmd
 	t_cmd	*right;
 }	t_pipecmd;
 
+// void	minishell_run(t_minishell *m);
+//constructor functions
+t_cmd*	execcmd(void);
+t_cmd*	redircmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd);
 #endif
