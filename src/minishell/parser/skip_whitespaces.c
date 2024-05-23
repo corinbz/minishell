@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_pipe.c                                       :+:      :+:    :+:   */
+/*   skip_whitespaces.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 02:44:50 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/23 10:10:19 by erybolov         ###   ########.fr       */
+/*   Created: 2024/05/23 09:15:59 by erybolov          #+#    #+#             */
+/*   Updated: 2024/05/23 09:16:11 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_cmd	*parse_pipe(char **input)
+void	skip_whitespaces(char **input)
 {
-	parse_exec_with_redirections(input);
-	//todo unwind parse recursion
-}
+	const char	whitespaces[] = " \t\r\n\v";
 
+	while (**input && ft_strchr(whitespaces, **input))
+		(*input)++;
+}
