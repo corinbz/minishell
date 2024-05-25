@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/25 11:37:06 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/05/25 12:06:27 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,6 @@ t_cmd*	execcmd(void);
 t_cmd*	redircmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd);
 
 //builtins
-void ft_pwd(char **envp);
+void	ft_pwd(char **envp);
+void	ft_env(char **envp);
 #endif

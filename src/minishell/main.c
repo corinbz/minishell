@@ -6,27 +6,22 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/25 11:37:39 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/05/25 12:30:20 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *test1 = "echo hello";
-
 int main(int argc, char **argv, char **envp)
 {
-	// static t_minishell	*m;
-
-	// m = malloc(sizeof(t_minishell));
 	printf("ac is %d and program name is %s\n",argc, argv[0] );
-	t_cmd	*cmd = execcmd();
-	// t_redircmd	*redir_cmd = (t_redircmd*)redircmd();
-	// t_cmd	*redir_cmd = (t_cmd*)redircmd();
-	printf("t_cmd type is %d\n", cmd->type);
-	// printf("redircmd\ntype: %d\nfile: s\n",redir_cmd->type);
-	// minishell_run(m);
-	ft_pwd(envp);
+	envp = NULL;
+	while(1)
+	{
+		char *line = readline("my_shell$");
+		if (line == NULL || !ft_strncmp("exit", line, 5))
+			exit(1);
+	}
 	return (EXIT_SUCCESS);
 }
 
