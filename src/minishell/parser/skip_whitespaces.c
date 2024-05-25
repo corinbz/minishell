@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   skip_whitespaces.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/15 16:14:50 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/05/16 18:42:03 by erybolov         ###   ########.fr       */
+/*   Created: 2024/05/23 09:15:59 by erybolov          #+#    #+#             */
+/*   Updated: 2024/05/23 09:16:11 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-void	ft_putstr_fd(const char *s, int fd)
+void	skip_whitespaces(char **input)
 {
-	write(fd, s, ft_strlen(s));
+	const char	whitespaces[] = " \t\r\n\v";
+
+	while (**input && ft_strchr(whitespaces, **input))
+		(*input)++;
 }

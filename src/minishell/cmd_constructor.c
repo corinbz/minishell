@@ -6,13 +6,13 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 10:09:33 by corin             #+#    #+#             */
-/*   Updated: 2024/05/13 10:21:08 by corin            ###   ########.fr       */
+/*   Updated: 2024/05/25 11:08:52 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmd*	execcmd(void)
+t_cmd	*create_exec_cmd(void)
 {
 	t_cmd *cmd;
 
@@ -21,12 +21,12 @@ t_cmd*	execcmd(void)
 		return (NULL);
 	ft_memset(cmd, 0 , sizeof(*cmd));
 	cmd->type = EXEC;
-	return(t_cmd*)cmd;
+	return (t_cmd*)cmd;
 }
 
-t_cmd*	redircmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd)
+t_cmd	*create_redir_cmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd, bool heredoc)
 {
-	t_redircmd	*cmd;
+	t_redir_cmd	*cmd;
 	
 	cmd = malloc(sizeof(*cmd));
 	if (!cmd)
@@ -34,15 +34,20 @@ t_cmd*	redircmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd)
 	ft_memset(cmd, 0, sizeof(*cmd));
 	cmd->type = REDIR;
 	cmd->cmd = subcmd;
-	cmd->file = file;
-	cmd->efile = efile;
+	cmd->token_start_pos = file;
+	cmd->token_end_pos = efile;
 	cmd->mode = mode;
 	cmd->fd = fd;
+	if (heredoc)
+		cmd->heredoc = true;
+	else
+		cmd->heredoc = false;
 	return (t_cmd*)cmd;
 }
-t_cmd *pipecmd(t_cmd *left, t_cmd *right)
+
+t_cmd	*create_pipe_cmd(t_cmd *left, t_cmd *right)
 {
-	t_pipecmd *cmd;
+	t_pipe_cmd	*cmd;
 
 	cmd = malloc(sizeof(*cmd));
 	if (!cmd)
@@ -52,5 +57,4 @@ t_cmd *pipecmd(t_cmd *left, t_cmd *right)
 	cmd->left = left;
 	cmd->right = right;
 	return ((t_cmd*)cmd);
-	
 }
