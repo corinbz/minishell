@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_constructor.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 10:09:33 by corin             #+#    #+#             */
-/*   Updated: 2024/05/13 10:21:08 by corin            ###   ########.fr       */
+/*   Updated: 2024/05/25 13:08:49 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_cmd*	execcmd(void)
 
 t_cmd*	redircmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd)
 {
-	t_redircmd	*cmd;
+	t_redir_cmd	*cmd;
 	
 	cmd = malloc(sizeof(*cmd));
 	if (!cmd)
@@ -42,7 +42,7 @@ t_cmd*	redircmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd)
 }
 t_cmd *pipecmd(t_cmd *left, t_cmd *right)
 {
-	t_pipecmd *cmd;
+	t_pipe_cmd *cmd;
 
 	cmd = malloc(sizeof(*cmd));
 	if (!cmd)

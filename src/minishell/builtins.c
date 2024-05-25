@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:31:10 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/05/25 12:20:30 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/05/25 13:23:44 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,20 @@ unset with no options
 exit with no options
 */
 
-void	ft_pwd(char **envp)
+void	ft_pwd()
 {
-	int	i;
-
-	i = 0;
-	while(envp[i])
+	char *buff;
+	
+	buff = getcwd(NULL, 0);
+	if (buff)
 	{
-		if(ft_strncmp("PWD", envp[i], 3) == 0)
-		{
-			printf("%s\n", envp[i] + 4);
-			return ;
-		}
-		i++;
+		printf("%s\n", buff);
+		free(buff);
 	}
-	printf("PWD not found\n");
+	else
+	{
+		printf("getcwd error\n");
+	}
 }
 
 void	ft_env(char **envp)
