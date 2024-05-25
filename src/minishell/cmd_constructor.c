@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 10:09:33 by corin             #+#    #+#             */
-/*   Updated: 2024/05/25 10:59:29 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/05/25 11:08:52 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_cmd	*create_exec_cmd(void)
 	return (t_cmd*)cmd;
 }
 
-t_cmd	*create_redir_cmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd)
+t_cmd	*create_redir_cmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd, bool heredoc)
 {
 	t_redir_cmd	*cmd;
 	
@@ -38,8 +38,13 @@ t_cmd	*create_redir_cmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd
 	cmd->token_end_pos = efile;
 	cmd->mode = mode;
 	cmd->fd = fd;
+	if (heredoc)
+		cmd->heredoc = true;
+	else
+		cmd->heredoc = false;
 	return (t_cmd*)cmd;
 }
+
 t_cmd	*create_pipe_cmd(t_cmd *left, t_cmd *right)
 {
 	t_pipe_cmd	*cmd;

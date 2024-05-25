@@ -6,45 +6,45 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 08:17:49 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/23 09:22:49 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/05/25 09:26:36 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	token_switch(char **input_ptr, char **token_start_pos, char **token_end_pos)
+static char	token_switch(char **input, char **token_start_pos, char **token_end_pos)
 {
 	char	token;
 
 	token = **token_start_pos;
-	if (**input_ptr == '|')
-		(*input_ptr)++;
-	else if (**input_ptr == '>')
+	if (**input == '|')
+		(*input)++;
+	else if (**input == '>')
 	{
-		(*input_ptr)++;
-		if (**input_ptr == '>')
+		(*input)++;
+		if (**input == '>')
 		{
 			token = '+';
-			(*input_ptr)++;
+			(*input)++;
 		}
 	}
-	else if (**input_ptr == '<')
+	else if (**input == '<')
 	{
-		(*input_ptr)++;
-		if (**input_ptr == '<')
+		(*input)++;
+		if (**input == '<')
 		{
 			token = '-';
-			(*input_ptr)++;
+			(*input)++;
 		}
 	}
 	else
 	{
 		token = 'a';
-		while (**input_ptr && !ft_strchr(" \t\r\n\v|<>", **input_ptr))
-			(*input_ptr)++;
+		while (**input && !ft_strchr("\t\r\n\v>< |", **input))
+			(*input)++;
 	}
-	*token_end_pos = *input_ptr;
-	skip_whitespaces(input_ptr);
+	*token_end_pos = *input;
+	skip_whitespaces(input);
 	return (token);
 }
 
