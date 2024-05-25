@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/25 13:30:41 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/05/25 13:38:18 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_redir_cmd
 }	t_redir_cmd;
 
 typedef struct s_pipe_cmd
+typedef struct s_pipe_cmd
 {
 	t_cmd_enum	type;
 	t_cmd		*left;
@@ -91,6 +92,7 @@ t_cmd	*parse_exec(char **input);
 t_cmd	*parse_redirections(t_cmd *cmd, char **input);
 
 //builtins
+void	ft_pwd();
 void	ft_pwd();
 void	ft_env(char **envp);
 
