@@ -6,7 +6,7 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 02:44:50 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/23 10:10:19 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/05/25 11:18:10 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 
 t_cmd	*parse_pipe(char **input)
 {
-	parse_exec_with_redirections(input);
+	t_cmd	*cmd;
+
+	cmd = parse_exec(input);
+
+	return (cmd);
 	//todo unwind parse recursion
 }
 
