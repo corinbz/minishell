@@ -6,14 +6,15 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/17 11:11:56 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/05/25 11:37:39 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char *test1 = "echo hello";
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **envp)
 {
 	// static t_minishell	*m;
 
@@ -25,6 +26,7 @@ int main(int argc, char **argv)
 	printf("t_cmd type is %d\n", cmd->type);
 	// printf("redircmd\ntype: %d\nfile: s\n",redir_cmd->type);
 	// minishell_run(m);
+	ft_pwd(envp);
 	return (EXIT_SUCCESS);
 }
 
