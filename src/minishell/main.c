@@ -6,82 +6,98 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/25 13:21:16 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/05/25 16:46:29 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// t_cmd	*mock_exec_cmd(void)
-// {
-// 	t_exec_cmd	*cmd;
+t_cmd	*mock_exec_cmd(void)
+{
+	t_exec_cmd	*cmd;
 
-// 	cmd = malloc(sizeof(t_exec_cmd));
-// 	cmd->type = EXEC;
-// 	cmd->argv[0] = "ls";
-// 	cmd->argv[1] = "-l";
-// 	cmd->argv[2] = NULL;
-// 	cmd->eargv[0] = cmd->argv[0] + 2;
-// 	cmd->eargv[1] = cmd->argv[1] + 2;
-// 	cmd->eargv[2] = NULL;
-// 	return ((t_cmd *)cmd);
-// }
+	cmd = malloc(sizeof(t_exec_cmd));
+	cmd->type = EXEC;
+	cmd->argv[0] = "ls";
+	cmd->argv[1] = "-l";
+	cmd->argv[2] = NULL;
+	cmd->eargv[0] = cmd->argv[0] + 2;
+	cmd->eargv[1] = cmd->argv[1] + 2;
+	cmd->eargv[2] = NULL;
+	return ((t_cmd *)cmd);
+}
 
-// t_cmd	*mock_redir_cmd(void)
-// {
-// 	t_redir_cmd	*cmd;
+t_cmd	*mock_redir_cmd(void)
+{
+	t_redir_cmd	*cmd;
 
-// 	cmd = malloc(sizeof(t_redir_cmd));
-// 	cmd->type = REDIR;
-// 	cmd->cmd = mock_exec_cmd();
-// 	cmd->token_start_pos = "output.txt";
-// 	cmd->token_end_pos = cmd->token_start_pos + 10;
-// 	cmd->mode = O_WRONLY | O_CREAT;
-// 	cmd->fd = 1;
-// 	cmd->heredoc = false;
-// 	return ((t_cmd *)cmd);
-// }
+	cmd = malloc(sizeof(t_redir_cmd));
+	cmd->type = REDIR;
+	cmd->cmd = mock_exec_cmd();
+	cmd->token_start_pos = "output.txt";
+	cmd->token_end_pos = cmd->token_start_pos + 10;
+	cmd->mode = O_WRONLY | O_CREAT;
+	cmd->fd = 1;
+	cmd->heredoc = false;
+	return ((t_cmd *)cmd);
+}
 
-// t_cmd	*mock_pipe_cmd(void)
-// {
-// 	t_pipe_cmd	*cmd;
+t_cmd	*mock_pipe_cmd(void)
+{
+	t_pipe_cmd	*cmd;
 
-// 	cmd = malloc(sizeof(t_pipe_cmd));
-// 	cmd->type = PIPE;
-// 	cmd->left = mock_exec_cmd();
-// 	cmd->right = mock_redir_cmd();
-// 	return ((t_cmd *)cmd);
-// }
+	cmd = malloc(sizeof(t_pipe_cmd));
+	cmd->type = PIPE;
+	cmd->left = mock_exec_cmd();
+	cmd->right = mock_redir_cmd();
+	return ((t_cmd *)cmd);
+}
 
-// t_cmd	*parse_cmd(char *input)
-// {
-// 	if (strcmp(input, "exec") == 0)
-// 		return mock_exec_cmd();
-// 	else if (strcmp(input, "redir") == 0)
-// 		return mock_redir_cmd();
-// 	else if (strcmp(input, "pipe") == 0)
-// 		return mock_pipe_cmd();
-// 	else
-// 		return NULL;
-// }
+t_cmd	*parse_cmd(char *input)
+{
+	if (strcmp(input, "exec") == 0)
+		return mock_exec_cmd();
+	else if (strcmp(input, "redir") == 0)
+		return mock_redir_cmd();
+	else if (strcmp(input, "pipe") == 0)
+		return mock_pipe_cmd();
+	else
+		return NULL;
+}
 
 int main(int argc, char **argv, char **envp)
 {
-	printf("ac is %d and program name is %s\n",argc, argv[0] );
-	envp[0] = NULL;
-	ft_pwd();
-	while(1)
+	t_exec_cmd *mock_data;
+
+	if (argc != 1 || argv[1])
 	{
-		char *line = readline("my_shell$ ");
-		if (line == NULL || !ft_strncmp("exit", line, 5))
-		{
-			free(line);
-			exit(1);
-		}
-		add_history(line);
-		free(line);
+		printf("This program does not accept arguments\n");
+		exit(0);
 	}
-	rl_clear_history();
+	mock_data = (t_exec_cmd*)parse_cmd("exec");
+	char **paths = get_possible_paths(envp);
+	if (paths)
+	{
+		char *full_path = get_path(mock_data->argv[0], paths);
+		printf("%s\n", full_path);
+	}
+	free(mock_data);
+	ft_free_2d(paths);
+	// while(1)
+	// {
+	// 	char *line = readline("my_shell$ ");
+	// 	if (line == NULL || !ft_strncmp("exit", line, 5))
+	// 	{
+	// 		free(line);
+	// 		exit(1);
+	// 	}
+	// 	add_history(line);
+	// 	free(line);
+	// }
+	// char *path = ft_strjoin("/usr/bin/", mock_data->argv[0]);
+	// char **args = mock_data->argv;
+	// execve(path,args,envp);
+	// rl_clear_history();
 	return (EXIT_SUCCESS);
 }
 

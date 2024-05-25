@@ -1,12 +1,13 @@
 NAME = minishell
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra #-Werror
 
 LIBFT = ./libft/libft.a
 LIBFTDIR = ./libft/
 OBJDIR = ./obj/
 INCLUDES = -I$(LIBFTDIR) -I/usr/include/readline
 
+# Find all .c files in the src/ directory and its subdirectories
 SRC := $(shell find ./src/minishell/ -name "*.c")
 
 # Colors
@@ -16,11 +17,11 @@ YELLOW = \033[1;33m
 RED = \033[1;31m
 NC = \033[0m # No Color
 
-OBJS = $(addprefix $(OBJDIR), $(notdir $(SRC:.c=.o)))
+OBJS = $(SRC:src/%.c=$(OBJDIR)%.o)
 
-$(OBJDIR)%.o: src/minishell/%.c
+$(OBJDIR)%.o: src/%.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 	@echo "$(GREEN)Compiled $< successfully!$(NC)"
 
 all: $(NAME)

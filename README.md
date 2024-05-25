@@ -1,3 +1,6 @@
+resources:
+https://m4nnb3ll.medium.com/minishell-building-a-mini-bash-a-42-project-b55a10598218
+
 # Allowed functions
 ## text input output utils
 - printf
