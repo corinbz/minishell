@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/25 13:30:41 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/05/26 16:10:15 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ char	get_token(char **input, char **token_start_pos, char **token_end_pos);
 void	ft_panic(const char *s);
 t_cmd	*parse_exec(char **input);
 t_cmd	*parse_redirections(t_cmd *cmd, char **input);
+void	null_terminate_cmd(t_cmd *cmd);
 
 //builtins
 void	ft_pwd();

@@ -6,7 +6,7 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 02:37:04 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/23 10:10:47 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/05/26 16:12:04 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ t_cmd	*parse_cmd(char *input)
 	t_cmd	*cmd;
 
 	cmd = parse_pipe(&input);
-	//peek & panic if not the end after parsing
-	//terminate cmd & return
+	skip_whitespaces(&input);
+	if (*input)
+		ft_panic("minishell: parse leftovers\n");
+	null_terminate_cmd(cmd);
+	return (cmd);
 }
