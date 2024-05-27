@@ -31,14 +31,14 @@ t_cmd	*parse_exec(char **input)
 			break ;
 		if (token != 'a')
 			ft_panic("minishell: syntax error\n");
-		cmd_as_exec_cmd->argv[arguments_count] = token_start_pos;
-		cmd_as_exec_cmd->eargv[arguments_count] = token_end_pos;
+		cmd_as_exec_cmd->arg_start[arguments_count] = token_start_pos;
+		cmd_as_exec_cmd->arg_end[arguments_count] = token_end_pos;
 		arguments_count++;
 		if (arguments_count >= MAX_ARGUMENTS)
 			ft_panic("minishell: too many args\n");
 		result_cmd = parse_redirections(result_cmd, input);
 	}
-	cmd_as_exec_cmd->argv[arguments_count] = NULL;
-	cmd_as_exec_cmd->eargv[arguments_count] = NULL;
+	cmd_as_exec_cmd->arg_start[arguments_count] = NULL;
+	cmd_as_exec_cmd->arg_end[arguments_count] = NULL;
 	return (result_cmd);
 }

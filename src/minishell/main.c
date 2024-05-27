@@ -3,55 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/25 16:46:29 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/05/27 10:22:22 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmd	*mock_exec_cmd(void)
-{
-	t_exec_cmd	*cmd;
+// t_cmd	*mock_exec_cmd(void)
+// {
+// 	t_exec_cmd	*sub_cmd;
 
-	cmd = malloc(sizeof(t_exec_cmd));
-	cmd->type = EXEC;
-	cmd->argv[0] = "ls";
-	cmd->argv[1] = "-l";
-	cmd->argv[2] = NULL;
-	cmd->eargv[0] = cmd->argv[0] + 2;
-	cmd->eargv[1] = cmd->argv[1] + 2;
-	cmd->eargv[2] = NULL;
-	return ((t_cmd *)cmd);
-}
+// 	sub_cmd = malloc(sizeof(t_exec_cmd));
+// 	sub_cmd->type = EXEC;
+// 	sub_cmd->arg_start[0] = "ls";
+// 	sub_cmd->arg_start[1] = "-l";
+// 	sub_cmd->arg_start[2] = NULL;
+// 	sub_cmd->arg_end[0] = sub_cmd->arg_start[0] + 2;
+// 	sub_cmd->arg_end[1] = sub_cmd->arg_start[1] + 2;
+// 	sub_cmd->arg_end[2] = NULL;
+// 	return ((t_cmd *)sub_cmd);
+// }
 
-t_cmd	*mock_redir_cmd(void)
-{
-	t_redir_cmd	*cmd;
+// t_cmd	*mock_redir_cmd(void)
+// {
+// 	t_redir_cmd	*sub_cmd;
 
-	cmd = malloc(sizeof(t_redir_cmd));
-	cmd->type = REDIR;
-	cmd->cmd = mock_exec_cmd();
-	cmd->token_start_pos = "output.txt";
-	cmd->token_end_pos = cmd->token_start_pos + 10;
-	cmd->mode = O_WRONLY | O_CREAT;
-	cmd->fd = 1;
-	cmd->heredoc = false;
-	return ((t_cmd *)cmd);
-}
+// 	sub_cmd = malloc(sizeof(t_redir_cmd));
+// 	sub_cmd->type = REDIR;
+// 	sub_cmd->sub_cmd = mock_exec_cmd();
+// 	sub_cmd->token_start_pos = "output.txt";
+// 	sub_cmd->token_end_pos = sub_cmd->token_start_pos + 10;
+// 	sub_cmd->mode = O_WRONLY | O_CREAT;
+// 	sub_cmd->fd = 1;
+// 	sub_cmd->heredoc = false;
+// 	return ((t_cmd *)sub_cmd);
+// }
 
-t_cmd	*mock_pipe_cmd(void)
-{
-	t_pipe_cmd	*cmd;
+// t_cmd	*mock_pipe_cmd(void)
+// {
+// 	t_pipe_cmd	*sub_cmd;
 
-	cmd = malloc(sizeof(t_pipe_cmd));
-	cmd->type = PIPE;
-	cmd->left = mock_exec_cmd();
-	cmd->right = mock_redir_cmd();
-	return ((t_cmd *)cmd);
-}
+// 	sub_cmd = malloc(sizeof(t_pipe_cmd));
+// 	sub_cmd->type = PIPE;
+// 	sub_cmd->left = mock_exec_cmd();
+// 	sub_cmd->right = mock_redir_cmd();
+// 	return ((t_cmd *)sub_cmd);
+// }
 
 t_cmd	*parse_cmd(char *input)
 {

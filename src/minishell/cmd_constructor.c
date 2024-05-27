@@ -24,7 +24,7 @@ t_cmd	*create_exec_cmd(void)
 	return (t_cmd*)cmd;
 }
 
-t_cmd	*create_redir_cmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd, bool heredoc)
+t_cmd	*create_redir_cmd(t_cmd *sub_cmd, char *file, char *efile, int mode, int fd, bool heredoc)
 {
 	t_redir_cmd	*cmd;
 	
@@ -33,7 +33,7 @@ t_cmd	*create_redir_cmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd
 		return (NULL);
 	ft_memset(cmd, 0, sizeof(*cmd));
 	cmd->type = REDIR;
-	cmd->cmd = subcmd;
+	cmd->sub_cmd = sub_cmd;
 	cmd->token_start_pos = file;
 	cmd->token_end_pos = efile;
 	cmd->mode = mode;
