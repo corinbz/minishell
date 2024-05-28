@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/27 10:23:09 by corin            ###   ########.fr       */
+/*   Updated: 2024/05/28 09:34:28 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <fcntl.h>
+#include <sys/wait.h>
 
 
 typedef struct s_minishell
@@ -92,7 +93,6 @@ t_cmd	*parse_redirections(t_cmd *cmd, char **input);
 void	null_terminate_cmd(t_cmd *cmd);
 
 //builtins
-void	ft_pwd();
 void	ft_pwd();
 void	ft_env(char **envp);
 

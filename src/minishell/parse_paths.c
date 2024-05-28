@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_paths.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:09:11 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/05/25 16:45:08 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/05/28 12:59:23 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ static bool	executable_exists(char *path)
 char **get_possible_paths(char **envp)
 {
 	char	**possible_paths;
-	char	*tmp;
 	int		i;
-	int j = 0;
+	// int j = 0;
 
 	i = 0;
 	if(envp)
@@ -60,8 +59,11 @@ char *get_path(char *cmd, char **paths)
 	while(paths[i])
 	{
 		full_path = ft_strjoin(paths[i], cmd);
+		if(!full_path)
+			return(free(cmd), NULL);
 		if(executable_exists(full_path))
 			return(free(cmd), full_path);
+		free(full_path);
 		i++;
 	}
 	free(cmd);
