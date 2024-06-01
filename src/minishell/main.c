@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/25 13:21:16 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/01 15:44:52 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,22 +67,31 @@
 
 int main(int argc, char **argv, char **envp)
 {
-	printf("ac is %d and program name is %s\n",argc, argv[0] );
-	envp[0] = NULL;
-	ft_pwd();
-	while(1)
-	{
-		char *line = readline("my_shell$ ");
-		if (line == NULL || !ft_strncmp("exit", line, 5))
-		{
-			free(line);
-			exit(1);
-		}
-		add_history(line);
-		free(line);
-	}
-	rl_clear_history();
-	return (EXIT_SUCCESS);
+
+
+//	char		cmd_to_parse[100] = "ls -la"; //works
+//	char		cmd_to_parse[100] = "ls -la > output.txt"; //seems to work
+	char		cmd_to_parse[100] = "ls -la | grep student | wc -l"; //check with ls - la with wrong syntax
+	t_cmd		*test = parse_cmd(cmd_to_parse);
+
+//	test = parse_cmd("test input | with pipe > and redir.txt");
+
+//	printf("ac is %d and program name is %s\n",argc, argv[0] );
+//	envp[0] = NULL;
+//	ft_pwd();
+//	while(1)
+//	{
+//		char *line = readline("my_shell$ ");
+//		if (line == NULL || !ft_strncmp("exit", line, 5))
+//		{
+//			free(line);
+//			exit(1);
+//		}
+//		add_history(line);
+//		free(line);
+//	}
+//	rl_clear_history();
+//	return (EXIT_SUCCESS);
 }
 
 /* m as variable name because later we would like to work with nested structs like m->some->struct->another

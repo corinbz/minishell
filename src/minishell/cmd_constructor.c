@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 10:09:33 by corin             #+#    #+#             */
-/*   Updated: 2024/05/25 13:29:03 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/01 15:01:46 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_cmd	*create_exec_cmd(void)
 {
-	t_cmd *cmd;
+	t_exec_cmd	*cmd;
 
 	cmd = malloc(sizeof(*cmd));
 	if (!cmd)

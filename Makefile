@@ -1,6 +1,6 @@
 NAME = minishell
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g3
 
 LIBFT = ./libft/libft.a
 LIBFTDIR = ./libft/
@@ -16,7 +16,7 @@ YELLOW = \033[1;33m
 RED = \033[1;31m
 NC = \033[0m # No Color
 
-OBJS = $(addprefix $(OBJDIR), $(notdir $(SRC:.c=.o)))
+OBJS = $(patsubst ./src/minishell/%.c, $(OBJDIR)%.o, $(SRC))
 
 $(OBJDIR)%.o: src/minishell/%.c
 	@mkdir -p $(dir $@)
