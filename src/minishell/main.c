@@ -22,14 +22,6 @@ int	exec_exec(t_cmd *cmd, char **envp)
 	paths = get_possible_paths(envp);
 	type_exec_cmd = (t_exec_cmd*)cmd;
 	cmd_path = get_path(type_exec_cmd->arg_start[0], paths);
-	// printf("cmd_path: %s\n", cmd_path);
-	// printf("cmd args: %s\n", type_exec_cmd->arg_start[1]);
-	// while(type_exec_cmd->arg_start[i])
-	// {
-	// 	// printf("gothere \n");
-	// 	printf("cmd arg %i: %s\n", i, type_exec_cmd->arg_start[i]);
-	// 	i++;
-	// }
 	if(execve(cmd_path, type_exec_cmd->arg_start, envp) == -1)
 		{
 		printf("execve failed on %s\n", type_exec_cmd->arg_start[0]);
@@ -42,6 +34,7 @@ int exec_redir(t_cmd *cmd, char **envp)
 {
 	t_redir_cmd	*type_redir_cmd;
 	int			new_fd;
+	char		*error;
 
 	type_redir_cmd = (t_redir_cmd*)cmd;
 	close(type_redir_cmd->fd);
@@ -49,12 +42,12 @@ int exec_redir(t_cmd *cmd, char **envp)
 	printf("new_fd is %i\n", new_fd);
 	if(new_fd < 0)
 	{
-		// printf("failed to open %s\n", type_redir_cmd->token_start_pos);
-		char *error = "failed to create file\n";
+		error = "failed to create file\n";
 		ft_putstr_fd(error,2);
 		return(1);
 	}
 	exec_cmd(type_redir_cmd->sub_cmd, envp);
+	close(new_fd);
 	return (0);
 }
 
@@ -67,7 +60,6 @@ int exec_pipe(t_cmd *cmd, char **envp)
 	int			status;
 	int			status2;
 
-	printf("got into pipe\n");
 	type_pipe_cmd = (t_pipe_cmd*)cmd;
 	if(pipe(end) < 0)
 		ft_panic("pipe");
@@ -91,8 +83,7 @@ int exec_pipe(t_cmd *cmd, char **envp)
 		exec_cmd(type_pipe_cmd->right, envp);
 	}
 	waitpid(left, &status, 0);
-	// waitpid(right, &status2, 0);
-	printf("inside main\n");
+	waitpid(right, &status2, 0);
 	return(0);
 }
 int exec_cmd(t_cmd *cmd, char **envp)
@@ -123,32 +114,6 @@ int main(int argc, char **argv, char **envp)
 		ft_panic("This program does not accept arguments\n");
 		exit(0);
 	}
-	t_exec_cmd *mock_exec1;
-	t_exec_cmd *mock_exec2;
-	t_pipe_cmd *mock_pipe;
-	t_redir_cmd *mock_redir;
-	char *output = "output";
-
-	mock_exec1 = (t_exec_cmd*)create_exec_cmd();
-	mock_exec1->arg_start[0] = "ls";
-	mock_exec1->arg_start[1] = "-l";
-	mock_exec1->arg_start[2] = "-i";
-
-	mock_exec2 = (t_exec_cmd*)create_exec_cmd();
-	mock_exec2->arg_start[0] = "grep";
-	mock_exec2->arg_start[1] = "README";
-
-	mock_pipe = (t_pipe_cmd*)create_pipe_cmd((t_cmd*)mock_exec1,(t_cmd*)mock_exec2);
-	mock_redir = (t_redir_cmd*)create_redir_cmd((t_cmd*)mock_pipe,output, NULL, 2 ,1 , 0);
-	// exec_cmd((t_cmd*)mock_exec1, envp);
-	// exec_pipe((t_cmd*)mock_pipe, envp);
-	exec_redir((t_cmd*)mock_redir, envp);
-	// ft_free_2d(mock_exec1->arg_start);
-	free(mock_exec1);
-	free(mock_exec2);
-	free(mock_pipe);
-	free(mock_redir);
-	// free(mock_cmd);
 	return (EXIT_SUCCESS);
 }
 
