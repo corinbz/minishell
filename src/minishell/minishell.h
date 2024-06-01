@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/28 09:34:28 by corin            ###   ########.fr       */
+/*   Updated: 2024/06/01 12:40:59 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,9 @@ t_cmd	*create_exec_cmd(void);
 t_cmd	*create_redir_cmd(t_cmd *sub_cmd, char *file, char *efile, int mode, int fd, bool heredoc);
 t_cmd	*create_pipe_cmd(t_cmd *left, t_cmd *right);
 
+//utils
+pid_t	ft_fork(void);
+
 //parser functions
 t_cmd	*parse_cmd(char *input);
 t_cmd	*parse_pipe(char **input);
@@ -99,5 +102,6 @@ void	ft_env(char **envp);
 //executor
 char **get_possible_paths(char **envp);
 char *get_path(char *cmd, char **paths);
+int exec_cmd(t_cmd *cmd, char **envp);
 
 #endif
