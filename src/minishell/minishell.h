@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/01 12:40:59 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/02 14:38:17 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ x --> arg_end
 */
 
 #define MAX_ARGUMENTS 10
+#define DEFAULT_CHMOD 0644
 
 typedef enum s_cmd_enum
 {

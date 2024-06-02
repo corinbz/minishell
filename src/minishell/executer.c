@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:51:21 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/06/01 16:52:00 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/02 14:38:22 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ int exec_redir(t_cmd *cmd, char **envp)
 
 	type_redir_cmd = (t_redir_cmd*)cmd;
 	close(type_redir_cmd->fd);
-	new_fd = open(type_redir_cmd->token_start_pos, (O_RDWR | O_CREAT));
-	printf("new_fd is %i\n", new_fd);
+	new_fd = open(type_redir_cmd->token_start_pos, type_redir_cmd->mode, DEFAULT_CHMOD);
 	if(new_fd < 0)
 	{
 		error = "failed to create file\n";
@@ -66,22 +65,21 @@ int exec_pipe(t_cmd *cmd, char **envp)
 	left = ft_fork();
 	if(left == 0)
 	{
-		printf("got inside left\n");
 		close(end[0]);
 		dup2(end[1], STDOUT_FILENO);
 		close(end[1]);
 		exec_cmd(type_pipe_cmd->left, envp);
 	}
-
 	right = ft_fork();
 	if(right == 0)
 	{
-		printf("got inside right\n");
 		close(end[1]);
 		dup2(end[0], STDIN_FILENO);
 		close(end[0]);
 		exec_cmd(type_pipe_cmd->right, envp);
 	}
+	close(end[0]);
+	close(end[1]);
 	waitpid(left, &status, 0);
 	waitpid(right, &status2, 0);
 	return(0);

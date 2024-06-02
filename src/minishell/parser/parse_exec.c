@@ -6,7 +6,7 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 02:50:26 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/25 11:11:48 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/06/02 12:54:51 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_cmd	*parse_exec(char **input)
 			ft_panic("minishell: syntax error\n");
 		cmd_as_exec_cmd->arg_start[arguments_count] = token_start_pos;
 		cmd_as_exec_cmd->arg_end[arguments_count] = token_end_pos;
+		*token_end_pos = '\0';
 		arguments_count++;
 		if (arguments_count >= MAX_ARGUMENTS)
 			ft_panic("minishell: too many args\n");
