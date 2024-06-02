@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/02 14:38:30 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/06/02 15:19:16 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,11 @@ int main(int argc, char **argv, char **envp)
 		ft_panic("This program does not accept arguments\n");
 		exit(0);
 	}
-	char	input[100] = "ls -la | grep student | wc -l >> output.txt";
-	t_cmd 	*output = parse_cmd(input);
-	exec_cmd(output, envp);
+	// char	input[100] = "ls -la | grep student | wc -l >> output.txt";
+	// t_cmd 	*output = parse_cmd(input);
+	// exec_cmd(output, envp);
+	char *eof = "eof";
+	ft_heredoc(eof, envp);
 	return (EXIT_SUCCESS);
 }
 

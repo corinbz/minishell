@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/02 14:38:17 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/06/02 15:55:48 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,8 @@ void	ft_env(char **envp);
 char **get_possible_paths(char **envp);
 char *get_path(char *cmd, char **paths);
 int exec_cmd(t_cmd *cmd, char **envp);
+void	minishell_run(t_minishell *m);
+//heredoc
+int ft_heredoc(char *eof, char **envp);
 
 #endif

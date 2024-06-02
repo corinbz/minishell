@@ -3,35 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_run.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:10:09 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/12 10:43:52 by corin            ###   ########.fr       */
+/*   Updated: 2024/06/02 15:14:18 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	minishell_run(t_minishell *m)
-// {
-// 	char	*input;
+void	minishell_run(t_minishell *m)
+{
+	char	*input;
 
-// 	while (1)
-// 	{
-// 		input = readline("minishell: ");
-// 		if (!input)
-// 		{
-// 			printf("exit\n");
-// 			exit(0); //add cleanup
-// 		}
-// 		if (*input)
-// 		{
-// 			add_history(input);
-// 			ft_lstadd_back(&m->input_history, ft_lstnew(input));
-// 			//parse & process input functions
-// 		}
-// 	}
-// }
+	while (1)
+	{
+		input = readline("minishell: ");
+		if (!input)
+		{
+			printf("exit\n");
+			exit(0); //add cleanup
+		}
+		if (*input)
+		{
+			add_history(input);
+			ft_lstadd_back(&m->input_history, ft_lstnew(input));
+			//parse & process input functions
+		}
+	}
+}
 
 /*
  * main program loop that connects with other modules (input parsing, history etc)

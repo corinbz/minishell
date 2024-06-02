@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_paths.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:09:11 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/05/28 12:59:23 by corin            ###   ########.fr       */
+/*   Updated: 2024/06/02 14:51:56 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,17 @@ char **get_possible_paths(char **envp)
 {
 	char	**possible_paths;
 	int		i;
-	// int j = 0;
 
 	i = 0;
 	if(envp)
 	{
 		while (envp[i])
 		{
-			// printf("%s\n",envp[i]);
 			if(!ft_strncmp("PATH", envp[i], 4))
 			{
 				possible_paths = ft_split(envp[i] + 5, ':');
 				if(!possible_paths)
 					return(ft_panic("possible paths malloc failed\n"), NULL);
-				// while(possible_paths[j])
-				// {
-				// 	printf("%s\n", possible_paths[j]);
-				// 	j++;
-				// }
 				return(possible_paths);
 			}
 			i++;
