@@ -6,7 +6,7 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 08:17:49 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/25 14:15:55 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/06/01 16:06:10 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	token_switch(char **input, char **token_start_pos, char **token_end_
 {
 	char	token;
 
-	token = **token_start_pos;
+	token = **input;
 	if (**input == '|')
 		(*input)++;
 	else if (**input == '>')
@@ -43,8 +43,6 @@ static char	token_switch(char **input, char **token_start_pos, char **token_end_
 		while (**input && !ft_strchr("\t\r\n\v>< |", **input))
 			(*input)++;
 	}
-	*token_end_pos = *input; //todo check if we need to do -1 for executor convenience
-	skip_whitespaces(input);
 	return (token);
 }
 
@@ -60,7 +58,7 @@ char	get_token(char **input, char **token_start_pos, char **token_end_pos)
 	else
 		token = '\0';
 	if (token_end_pos)
-		*token_end_pos = *input;
+		*token_end_pos = *input; //todo check if we need to do -1 for executor convenience
 	skip_whitespaces(input);
 	return (token);
 }
