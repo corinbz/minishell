@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:51:21 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/06/02 14:38:22 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/06/07 09:36:07 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ int exec_redir(t_cmd *cmd, char **envp)
 
 	type_redir_cmd = (t_redir_cmd*)cmd;
 	close(type_redir_cmd->fd);
+	// if(type_redir_cmd->heredoc)
+	// {
+	// 	char *eof = "eof";
+	// 	ft_heredoc(eof, envp);
+	// }
 	new_fd = open(type_redir_cmd->token_start_pos, type_redir_cmd->mode, DEFAULT_CHMOD);
 	if(new_fd < 0)
 	{

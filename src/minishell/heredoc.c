@@ -12,42 +12,39 @@
 
 #include "minishell.h"
 
-int ft_heredoc(char *eof, char **envp)
+int ft_heredoc(t_heredoc *heredoc, char **envp)
 {
-	char *input;
-	char *ret;
-	char *new_ret;
-	char *input_newline;
+	char	*input;
+	char	*input_newline;
 
-	ret = ft_calloc(1,1);
-	// input_newline = ft_calloc(1,1);
+	heredoc->temp_file = open("heredoc", O_CREAT | O_RDWR | O_TRUNC, DEFAULT_CHMOD);
+	heredoc->eof = "eof";
 	while (1)
 	{
 		input = readline("heredoc> ");
 		if (!input)
 		{
-			printf("exit\n");
-			exit(0); //add cleanup
+			close(heredoc->temp_file);
+			exit(1); //add cleanup
 		}
 		if (input)
 		{
-			if(ft_strncmp(input,eof,ft_strlen(eof)) == 0)
+			if(ft_strncmp(input,heredoc->eof,ft_strlen(heredoc->eof)) == 0)
 			{
-				printf("heredoc result -> %s",ret);
-				free(ret);
 				free(input);
+				close(heredoc->temp_file);
 				return(0);
 			}
 			else
 			{
-				input_newline = ft_strjoin("\n", input);
-				new_ret = ft_strjoin(ret, input_newline);
-				free(ret);
+				input_newline = ft_strjoin(input, "\n");
+				if(!input_newline)
+					return(free(input), 1);
+				ft_putstr_fd(input_newline, heredoc->temp_file);
 				free(input_newline);
-				ret = new_ret;
 			}
 			free(input);
 		}
 	}
-	return(1);
+	return(0);
 }

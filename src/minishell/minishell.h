@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/02 15:55:48 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/07 09:35:55 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,13 @@ typedef struct s_exec_cmd
 	//arg_start and arg_end NULL terminated
 }	t_exec_cmd;
 
+typedef struct s_heredoc
+{
+	bool	is_true;
+	int		temp_file;
+	char	*eof;
+}	t_heredoc;
+
 typedef struct s_redir_cmd
 {
 	t_cmd_enum	type;
@@ -106,6 +113,6 @@ char *get_path(char *cmd, char **paths);
 int exec_cmd(t_cmd *cmd, char **envp);
 void	minishell_run(t_minishell *m);
 //heredoc
-int ft_heredoc(char *eof, char **envp);
+int ft_heredoc(t_heredoc *heredoc, char **envp);
 
 #endif

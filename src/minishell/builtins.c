@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:31:10 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/05/25 13:23:44 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/07 09:14:57 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,17 @@ void	ft_env(char **envp)
 		printf("%s\n", envp[i]);
 		i++;
 	}
+}
+
+int	ft_echo(char *input, bool no_newline)
+{
+	if(no_newline)
+	{
+		printf("%s", input);
+		return (0);
+	}
+	printf("%s\n", input);
+	return(0);
 }
 
 // void	ft_export(char *var_name, char *var_value, char **envp)
