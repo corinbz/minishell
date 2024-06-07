@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/07 09:35:55 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:44:04 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ typedef enum s_cmd_enum
 	REDIR = 2,
 	PIPE  = 3
 }	t_cmd_enum;
+
+typedef struct s_my_envp
+{
+	char *param;
+	struct s_my_envp *next;
+}	t_my_envp;
 
 typedef struct s_cmd
 {
@@ -104,9 +110,10 @@ t_cmd	*parse_redirections(t_cmd *cmd, char **input);
 void	null_terminate_cmd(t_cmd *cmd);
 
 //builtins
-void	ft_pwd();
-void	ft_env(char **envp);
-
+t_my_envp	*create_my_envp(char **envp);
+void		ft_pwd();
+void		ft_env(t_my_envp *head);
+void		free_envp(t_my_envp **envp);
 //executor
 char **get_possible_paths(char **envp);
 char *get_path(char *cmd, char **paths);

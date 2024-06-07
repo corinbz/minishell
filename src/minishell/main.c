@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/07 09:38:41 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:42:31 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,15 @@ int main(int argc, char **argv, char **envp)
 	// char	input[100] = "<";
 	// t_cmd 	*output = parse_cmd(input);
 	// exec_cmd(output, envp);
-	char *eof = "eof";
-	t_heredoc	*heredoc;
-	heredoc = ft_calloc(1, sizeof(*heredoc));
-	ft_heredoc(heredoc, envp);
+	// char *eof = "eof";
+	// t_heredoc	*heredoc;
+	// heredoc = ft_calloc(1, sizeof(*heredoc));
+	// int status = ft_heredoc(heredoc, envp);
+	// printf("%d\n", status);
+	// free(heredoc);
+	t_my_envp *my_envp = create_my_envp(envp);
+	ft_env(my_envp);
+	free_envp(&my_envp);
 	return (EXIT_SUCCESS);
 }
 
