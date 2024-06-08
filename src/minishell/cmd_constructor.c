@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 10:09:33 by corin             #+#    #+#             */
-/*   Updated: 2024/06/01 15:01:46 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:59:59 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_cmd	*create_exec_cmd(void)
 	return (t_cmd*)cmd;
 }
 
-t_cmd	*create_redir_cmd(t_cmd *sub_cmd, char *file, char *efile, int mode, int fd, bool heredoc)
+t_cmd *create_redir_cmd(t_cmd *sub_cmd, char *file, char *efile, int mode, int fd)
 {
 	t_redir_cmd	*cmd;
 	
@@ -38,10 +38,6 @@ t_cmd	*create_redir_cmd(t_cmd *sub_cmd, char *file, char *efile, int mode, int f
 	cmd->token_end_pos = efile;
 	cmd->mode = mode;
 	cmd->fd = fd;
-	if (heredoc)
-		cmd->heredoc = true;
-	else
-		cmd->heredoc = false;
 	return (t_cmd*)cmd;
 }
 
@@ -57,4 +53,19 @@ t_cmd	*create_pipe_cmd(t_cmd *left, t_cmd *right)
 	cmd->left = left;
 	cmd->right = right;
 	return ((t_cmd*)cmd);
+}
+
+t_cmd	*create_heredoc_cmd(t_cmd *sub_cmd, char *eof_start, char *eof_end)
+{
+	t_heredoc_cmd	*cmd;
+
+	cmd = malloc(sizeof(*cmd));
+	if (!cmd)
+		return (NULL);
+	ft_memset(cmd, 0, sizeof(*cmd));
+	cmd->type = HEREDOC;
+	cmd->sub_cmd = sub_cmd;
+	cmd->eof_start = eof_start;
+	cmd->eof_end = eof_end;
+	return ((t_cmd *)cmd);
 }

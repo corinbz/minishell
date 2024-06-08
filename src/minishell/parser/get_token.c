@@ -6,13 +6,13 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 08:17:49 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/01 16:06:10 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/06/08 18:02:29 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	token_switch(char **input, char **token_start_pos, char **token_end_pos)
+static char	token_switch(char **input)
 {
 	char	token;
 
@@ -54,11 +54,11 @@ char	get_token(char **input, char **token_start_pos, char **token_end_pos)
 	if (token_start_pos)
 		*token_start_pos = *input;
 	if (**input)
-		token = token_switch(input, token_start_pos, token_end_pos);
+		token = token_switch(input);
 	else
 		token = '\0';
 	if (token_end_pos)
-		*token_end_pos = *input; //todo check if we need to do -1 for executor convenience
+		*token_end_pos = *input;
 	skip_whitespaces(input);
 	return (token);
 }
