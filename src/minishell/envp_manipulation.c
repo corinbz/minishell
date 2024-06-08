@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-int	ft_unset(char *param, t_my_envp **head)
+int	ft_unset(char *param, t_link_list **head)
 {
-	t_my_envp	*curr;
-	t_my_envp	*prev;
-	t_my_envp	*temp;
+	t_link_list	*curr;
+	t_link_list	*prev;
+	t_link_list	*temp;
 
 	curr = *head;
 	prev = NULL;
@@ -40,10 +40,10 @@ int	ft_unset(char *param, t_my_envp **head)
 	}
 	return(0);
 }
-void	free_envp(t_my_envp **envp)
+void	free_envp(t_link_list **envp)
 {
-	t_my_envp	*tmp;
-	t_my_envp	*current;
+	t_link_list	*tmp;
+	t_link_list	*current;
 
 	if (envp == NULL)
 		return ;
@@ -56,11 +56,11 @@ void	free_envp(t_my_envp **envp)
 	}
 	*envp = NULL;
 }
-t_my_envp	*create_my_envp(char **envp)
+t_link_list	*create_my_envp(char **envp)
 {
-	t_my_envp *head;
-	t_my_envp *current;
-	t_my_envp *new_node;
+	t_link_list *head;
+	t_link_list *current;
+	t_link_list *new_node;
 
 	int i = 0;
 	head = NULL;
@@ -87,7 +87,7 @@ t_my_envp	*create_my_envp(char **envp)
 	}
 	return head;
 }
-t_my_envp	*get_last_value(t_my_envp *head)
+t_link_list	*get_last_value(t_link_list *head)
 {
 	while(head->next)
 		head = head->next;

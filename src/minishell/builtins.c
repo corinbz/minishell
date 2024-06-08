@@ -40,9 +40,9 @@ void	ft_pwd()
 	}
 }
 
-void	ft_env(t_my_envp *head)
+void	ft_env(t_link_list *head)
 {
-	// t_my_envp	*curr;
+	// t_link_list	*curr;
 	
 	// curr = head;
 	while(head)
@@ -64,10 +64,10 @@ int	ft_echo(char *input, bool no_newline)
 }
 
 
-int	ft_export(char *new_param, t_my_envp *head)
+int	ft_export(char *new_param, t_link_list *head)
 {
-	t_my_envp	*temp;
-	t_my_envp	*last;
+	t_link_list	*temp;
+	t_link_list	*last;
 	
 	if(!new_param)
 		{
@@ -79,10 +79,15 @@ int	ft_export(char *new_param, t_my_envp *head)
 			}
 			return(0);
 		}
-	temp = (t_my_envp*)ft_calloc(1, sizeof(*temp));
+	temp = (t_link_list*)ft_calloc(1, sizeof(*temp));
 	if (temp == NULL)
 		return (1);
 	temp->param = new_param;
+	if(!head->param)
+	{
+		head->param = new_param;
+		return(0);
+	}
 	last = get_last_value(head);
 	last->next = temp;
 	return(0);

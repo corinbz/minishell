@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:51:21 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/06/07 09:36:07 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/08 16:33:01 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	exec_exec(t_cmd *cmd, char **envp)
 	char		**paths;
 	char		*cmd_path;
 	t_exec_cmd	*type_exec_cmd;
+	
 	int i = 0;
-
 	paths = get_possible_paths(envp);
 	type_exec_cmd = (t_exec_cmd*)cmd;
 	cmd_path = get_path(type_exec_cmd->arg_start[0], paths);

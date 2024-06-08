@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/08 15:41:01 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/08 16:43:41 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ typedef enum s_cmd_enum
 	PIPE  = 3
 }	t_cmd_enum;
 
-typedef struct s_my_envp
+typedef struct s_link_list
 {
 	char *param;
-	struct s_my_envp *next;
-}	t_my_envp;
+	struct s_link_list *next;
+}	t_link_list;
 
 typedef struct s_cmd
 {
@@ -97,6 +97,7 @@ t_cmd	*create_pipe_cmd(t_cmd *left, t_cmd *right);
 
 //utils
 pid_t	ft_fork(void);
+t_link_list	*create_builtin_lst();
 
 //parser functions
 t_cmd	*parse_cmd(char *input);
@@ -110,15 +111,15 @@ t_cmd	*parse_redirections(t_cmd *cmd, char **input);
 void	null_terminate_cmd(t_cmd *cmd);
 
 //builtins
-t_my_envp	*create_my_envp(char **envp);
+t_link_list	*create_my_envp(char **envp);
 void		ft_pwd();
-void		ft_env(t_my_envp *head);
-int			ft_export(char *new_param, t_my_envp *head);
-int			ft_unset(char *param, t_my_envp **head);
+void		ft_env(t_link_list *head);
+int			ft_export(char *new_param, t_link_list *head);
+int			ft_unset(char *param, t_link_list **head);
 
 //envp
-void		free_envp(t_my_envp **envp);
-t_my_envp	*get_last_value(t_my_envp *head);
+void		free_envp(t_link_list **envp);
+t_link_list	*get_last_value(t_link_list *head);
 
 //executor
 char **get_possible_paths(char **envp);
