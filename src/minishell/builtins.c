@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:31:10 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/06/07 11:48:31 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/08 14:00:51 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,13 @@ void	ft_pwd()
 
 void	ft_env(t_my_envp *head)
 {
-	t_my_envp	*curr;
+	// t_my_envp	*curr;
 	
-	curr = NULL;
-	curr = head;
-	while(curr)
+	// curr = head;
+	while(head->next)
 	{
-		printf("%s\n", curr->param);
-		curr = curr->next;
+		printf("%s\n", head->param);
+		head = head->next;
 	}
 }
 
@@ -65,7 +64,15 @@ int	ft_echo(char *input, bool no_newline)
 }
 
 
-void	ft_export(char *var_name, char *var_value, char **envp)
+int	ft_export(char *new_param, t_my_envp *head)
 {
+	t_my_envp	*temp;
 	
+	temp = ft_calloc(1, sizeof(*temp));
+	if (temp == NULL)
+		return (NULL);
+	temp->param = new_param;
+	head = get_last_value(head);
+	head->next = temp;
+	return(0);
 }

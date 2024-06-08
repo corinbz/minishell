@@ -59,3 +59,11 @@ t_my_envp	*create_my_envp(char **envp)
 	}
 	return head;
 }
+t_my_envp	*get_last_value(t_my_envp *head)
+{
+	while(head->next)
+	{
+		head = head->next;
+	}
+	return(head);
+}
