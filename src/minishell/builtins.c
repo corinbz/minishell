@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:31:10 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/06/08 14:00:51 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/08 16:19:49by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_env(t_my_envp *head)
 	// t_my_envp	*curr;
 	
 	// curr = head;
-	while(head->next)
+	while(head)
 	{
 		printf("%s\n", head->param);
 		head = head->next;
@@ -67,12 +67,23 @@ int	ft_echo(char *input, bool no_newline)
 int	ft_export(char *new_param, t_my_envp *head)
 {
 	t_my_envp	*temp;
+	t_my_envp	*last;
 	
-	temp = ft_calloc(1, sizeof(*temp));
+	if(!new_param)
+		{
+			while(head)
+			{
+				printf("declare -x ");
+				printf("%s\n", head->param);
+				head = head->next;
+			}
+			return(0);
+		}
+	temp = (t_my_envp*)ft_calloc(1, sizeof(*temp));
 	if (temp == NULL)
-		return (NULL);
+		return (1);
 	temp->param = new_param;
-	head = get_last_value(head);
-	head->next = temp;
+	last = get_last_value(head);
+	last->next = temp;
 	return(0);
 }

@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/08 14:08:51 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:41:01 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ t_my_envp	*create_my_envp(char **envp);
 void		ft_pwd();
 void		ft_env(t_my_envp *head);
 int			ft_export(char *new_param, t_my_envp *head);
+int			ft_unset(char *param, t_my_envp **head);
 
 //envp
 void		free_envp(t_my_envp **envp);
