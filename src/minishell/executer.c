@@ -6,19 +6,42 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:51:21 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/06/08 16:33:01 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:12:03 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+// int	run_cmd(char *cmd, t_link_list *envp)
+// {
+// 	if(ft_strncmp(cmd, "cd", 2) == 0)
+// 		ft_cd();
+// 	if(ft_strncmp(cmd, "exit", 4) == 0)
+// 		ft_exit();
+// 	if(ft_strncmp(cmd, "env", 3) == 0)
+// 		ft_env(envp);
+// 	if(ft_strncmp(cmd, "pwd", 3) == 0)
+// 		ft_pwd();
+// 	if(ft_strncmp(cmd, "echo", 4) == 0)
+// 		ft_echo(,false);
+// 	if(ft_strncmp(cmd, "export", 6) == 0)
+// 		ft_export(cmd);
+// }
 int	exec_exec(t_cmd *cmd, char **envp)
 {
 	char		**paths;
 	char		*cmd_path;
 	t_exec_cmd	*type_exec_cmd;
+	t_link_list	*builtins;
 	
 	int i = 0;
+	builtins = create_builtin_lst();
+	while(builtins)
+	{
+		if(strncmp(cmd, builtins->param, ft_strlen(cmd)) == 0)
+			{
+				
+			}
+	}
 	paths = get_possible_paths(envp);
 	type_exec_cmd = (t_exec_cmd*)cmd;
 	cmd_path = get_path(type_exec_cmd->arg_start[0], paths);

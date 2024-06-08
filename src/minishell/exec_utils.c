@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 10:31:39 by corin             #+#    #+#             */
-/*   Updated: 2024/06/08 16:45:00 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:06:51 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,6 @@ t_link_list	*create_builtin_lst()
 		ft_export(split[i], builtins);
 		i++;
 	}
-	ft_env(builtins);
+	ft_free_2d(split);
 	return(builtins);
 }
