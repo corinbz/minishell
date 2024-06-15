@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/15 14:21:39 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/15 17:24:14 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,17 @@
 // }
 int main(int argc, char **argv, char **envp)
 {
+	t_link_list	*my_envp;
+
 	if (argc != 1 || argv[1])
 	{
 		ft_panic("This program does not accept arguments\n");
 		exit(0);
 	}
-	char	input[100] = "ls";
+	char	input[100] = "env | grep PWD";
 	t_cmd 	*output = parse_cmd(input);
-	exec_cmd(output, envp);
+	my_envp = create_my_envp(envp);
+	exec_cmd(output, envp, my_envp);
 	// char *eof = "eof";
 	// t_heredoc	*heredoc;
 	// heredoc = ft_calloc(1, sizeof(*heredoc));

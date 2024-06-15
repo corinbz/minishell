@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/15 14:24:14 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/15 15:58:15 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,9 +134,9 @@ void		free_envp(t_link_list **envp);
 t_link_list	*get_last_value(t_link_list *head);
 
 //executor
-char **get_possible_paths(char **envp);
-char *get_path(char *cmd, char **paths);
-int exec_cmd(t_cmd *cmd, char **envp);
+char	**get_possible_paths(char **envp);
+char	*get_path(char *cmd, char **paths);
+int		exec_cmd(t_cmd *cmd, char **envp, t_link_list *my_envp);
 void	minishell_run(t_minishell *m);
 //heredoc
 int ft_heredoc(t_heredoc *heredoc, char **envp);
