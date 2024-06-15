@@ -42,9 +42,6 @@ void	ft_pwd()
 
 void	ft_env(t_link_list *head)
 {
-	// t_link_list	*curr;
-	
-	// curr = head;
 	while(head)
 	{
 		printf("%s\n", head->param);
@@ -52,14 +49,14 @@ void	ft_env(t_link_list *head)
 	}
 }
 
-int	ft_echo(char *input, bool no_newline)
+int	ft_echo(char *newline, char *input)
 {
-	if(no_newline)
+	if(ft_strncmp(newline, "-n", 2) == 0)
 	{
 		printf("%s", input);
 		return (0);
 	}
-	printf("%s\n", input);
+	printf("%s\n", newline);
 	return(0);
 }
 

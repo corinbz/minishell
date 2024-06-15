@@ -6,44 +6,54 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:51:21 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/06/08 17:12:03 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/15 14:38:56 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-// int	run_cmd(char *cmd, t_link_list *envp)
-// {
-// 	if(ft_strncmp(cmd, "cd", 2) == 0)
-// 		ft_cd();
-// 	if(ft_strncmp(cmd, "exit", 4) == 0)
-// 		ft_exit();
-// 	if(ft_strncmp(cmd, "env", 3) == 0)
-// 		ft_env(envp);
-// 	if(ft_strncmp(cmd, "pwd", 3) == 0)
-// 		ft_pwd();
-// 	if(ft_strncmp(cmd, "echo", 4) == 0)
-// 		ft_echo(,false);
-// 	if(ft_strncmp(cmd, "export", 6) == 0)
-// 		ft_export(cmd);
-// }
+
+int	run_cmd(t_exec_cmd *cmd, t_link_list *envp)
+{
+	if(ft_strncmp(cmd->arg_start[0], "cd", 2) == 0)
+		return(2);// ft_cd();//todo
+	if(ft_strncmp(cmd->arg_start[0], "exit", 4) == 0)
+		return(2);// ft_exit();//todo
+	if(ft_strncmp(cmd->arg_start[0], "env", 3) == 0)
+		return(ft_env(envp), 0);
+	if(ft_strncmp(cmd->arg_start[0], "pwd", 3) == 0)
+		return(ft_pwd(), 0);
+	if(ft_strncmp(cmd->arg_start[0], "echo", 4) == 0)
+		return(ft_echo(cmd->arg_start[1], cmd->arg_start[2]), 0);
+	if(ft_strncmp(cmd->arg_start[0], "export", 6) == 0)
+		return(ft_export(cmd->arg_start[1], envp), 0);
+	if(ft_strncmp(cmd->arg_start[0], "unset", 5) == 0)
+		return(ft_unset(cmd->arg_start[1], &envp));
+	return(1);
+}
 int	exec_exec(t_cmd *cmd, char **envp)
 {
 	char		**paths;
 	char		*cmd_path;
 	t_exec_cmd	*type_exec_cmd;
-	t_link_list	*builtins;
+	// t_link_list	*builtins;
+	t_link_list	*my_envp;
 	
-	int i = 0;
-	builtins = create_builtin_lst();
-	while(builtins)
+	my_envp = create_my_envp(envp);
+	type_exec_cmd = (t_exec_cmd*)cmd;
+	char **new_envp = link_list_to_array(&my_envp);
+	// for(int i = 0; new_envp[i]; i++)
+	// {
+	// 	printf("%s\n", new_envp[i]);
+	// }
+	// builtins = create_builtin_lst();
+	// ft_free_2d(new_envp);
+	if(run_cmd(type_exec_cmd, my_envp) == 0)
 	{
-		if(strncmp(cmd, builtins->param, ft_strlen(cmd)) == 0)
-			{
-				
-			}
+		free_envp(&my_envp);
+		free(cmd);
+		exit(0);
 	}
 	paths = get_possible_paths(envp);
-	type_exec_cmd = (t_exec_cmd*)cmd;
 	cmd_path = get_path(type_exec_cmd->arg_start[0], paths);
 	if(execve(cmd_path, type_exec_cmd->arg_start, envp) == -1)
 		{

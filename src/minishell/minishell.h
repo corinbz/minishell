@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/15 11:37:33 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/15 14:24:14 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,9 @@ t_cmd	*create_pipe_cmd(t_cmd *left, t_cmd *right);
 t_cmd	*create_heredoc_cmd(t_cmd *sub_cmd, char *eof_start, char *eof_end);
 
 //utils
-pid_t	ft_fork(void);
+pid_t		ft_fork(void);
 t_link_list	*create_builtin_lst();
+char		**link_list_to_array(t_link_list **head);
 
 //parser functions
 t_cmd	*parse_cmd(char *input);
@@ -126,6 +127,7 @@ void		ft_pwd();
 void		ft_env(t_link_list *head);
 int			ft_export(char *new_param, t_link_list *head);
 int			ft_unset(char *param, t_link_list **head);
+int			ft_echo(char *newline, char *input);
 
 //envp
 void		free_envp(t_link_list **envp);

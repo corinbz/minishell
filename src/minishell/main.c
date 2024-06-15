@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/08 16:48:09 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/15 14:21:39 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,19 @@ int main(int argc, char **argv, char **envp)
 		ft_panic("This program does not accept arguments\n");
 		exit(0);
 	}
-	// char	input[100] = "<";
-	// t_cmd 	*output = parse_cmd(input);
-	// exec_cmd(output, envp);
+	char	input[100] = "ls";
+	t_cmd 	*output = parse_cmd(input);
+	exec_cmd(output, envp);
 	// char *eof = "eof";
 	// t_heredoc	*heredoc;
 	// heredoc = ft_calloc(1, sizeof(*heredoc));
 	// int status = ft_heredoc(heredoc, envp);
 	// printf("%d\n", status);
 	// free(heredoc);
-	t_link_list *my_envp = create_my_envp(envp);
+	// t_link_list *my_envp = create_my_envp(envp);
 	// ft_export(NULL, my_envp);
 	// ft_unset("PWD", &my_envp);
-	ft_env(my_envp);
+	// ft_env(my_envp);
 	// free_envp(&my_envp);
 	// create_builtin_lst();
 	return (EXIT_SUCCESS);

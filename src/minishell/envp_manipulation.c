@@ -65,6 +65,7 @@ t_link_list	*create_my_envp(char **envp)
 	int i = 0;
 	head = NULL;
 	current = NULL;
+	new_node = NULL;
 	while (envp[i])
 	{
 		new_node = ft_calloc(1, sizeof(*new_node));
