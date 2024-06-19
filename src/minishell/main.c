@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/02 14:38:30 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/06/19 09:26:28 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,10 @@ int main(int argc, char **argv, char **envp)
 		ft_panic("This program does not accept arguments\n");
 		exit(0);
 	}
-	char	input[100] = "ls -la | grep student | wc -l >> output.txt";
-	t_cmd 	*output = parse_cmd(input);
-	exec_cmd(output, envp);
+	t_link_list *my_envp = create_my_envp(envp); //	ft_env(my_envp);
+	char *input = readline("minishell: ");
+	expand_env_vars_and_quotes(&input, my_envp);
+
+	t_cmd	*output = parse_cmd(input);
 	return (EXIT_SUCCESS);
 }
-
-/* m as variable name because later we would like to work with nested structs like m->some->struct->another
- * m is static so we don't have to set fields as NULL
- *
- * minishell_run is a program loop that will interact with user
- *
- * also we have to implement cleanup (free etc) before we exit from main
- */
