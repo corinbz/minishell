@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:31:10 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/05/25 13:23:44 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/08 16:19:49by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,52 @@ void	ft_pwd()
 	}
 }
 
-void	ft_env(char **envp)
+void	ft_env(t_link_list *head)
 {
-	int	i;
-
-	i = 0;
-	while(envp && envp[i])
+	while(head)
 	{
-		printf("%s\n", envp[i]);
-		i++;
+		printf("%s\n", head->param);
+		head = head->next;
 	}
 }
 
-// void	ft_export(char *var_name, char *var_value, char **envp)
-// {
+int	ft_echo(char *newline, char *input)
+{
+	if(ft_strncmp(newline, "-n", 2) == 0)
+	{
+		printf("%s", input);
+		return (0);
+	}
+	printf("%s\n", newline);
+	return(0);
+}
+
+
+int	ft_export(char *new_param, t_link_list *head)
+{
+	t_link_list	*temp;
+	t_link_list	*last;
 	
-// }
+	if(!new_param)
+		{
+			while(head)
+			{
+				printf("declare -x ");
+				printf("%s\n", head->param);
+				head = head->next;
+			}
+			return(0);
+		}
+	temp = (t_link_list*)ft_calloc(1, sizeof(*temp));
+	if (temp == NULL)
+		return (1);
+	temp->param = new_param;
+	if(!head->param)
+	{
+		head->param = new_param;
+		return(0);
+	}
+	last = get_last_value(head);
+	last->next = temp;
+	return(0);
+}

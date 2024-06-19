@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/08 18:00:26 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/06/15 14:24:14 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ typedef enum s_cmd_enum
 	PIPE  = 3,
 	HEREDOC = 4
 }	t_cmd_enum;
+
+typedef struct s_link_list
+{
+	char *param;
+	struct s_link_list *next;
+}	t_link_list;
 
 typedef struct s_cmd
 {
@@ -93,7 +99,9 @@ t_cmd	*create_pipe_cmd(t_cmd *left, t_cmd *right);
 t_cmd	*create_heredoc_cmd(t_cmd *sub_cmd, char *eof_start, char *eof_end);
 
 //utils
-pid_t	ft_fork(void);
+pid_t		ft_fork(void);
+t_link_list	*create_builtin_lst();
+char		**link_list_to_array(t_link_list **head);
 
 //parser functions
 t_cmd	*parse_cmd(char *input);
@@ -107,8 +115,16 @@ t_cmd	*parse_redirections(t_cmd *cmd, char **input);
 void	null_terminate_cmd(t_cmd *cmd);
 
 //builtins
-void	ft_pwd();
-void	ft_env(char **envp);
+t_link_list	*create_my_envp(char **envp);
+void		ft_pwd();
+void		ft_env(t_link_list *head);
+int			ft_export(char *new_param, t_link_list *head);
+int			ft_unset(char *param, t_link_list **head);
+int			ft_echo(char *newline, char *input);
+
+//envp
+void		free_envp(t_link_list **envp);
+t_link_list	*get_last_value(t_link_list *head);
 
 //executor
 char **get_possible_paths(char **envp);
