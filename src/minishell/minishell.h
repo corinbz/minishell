@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/21 18:23:33 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/21 19:24:49 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,6 @@ typedef struct s_minishell
 {
 	t_list	*input_history;
 }	t_minishell;
-
-//Corin added from here
-/*
-Example for execcmd struct
-..._ls_-l_-a_...
-...xooxooxoox...
-o --> arg_start
-x --> arg_end
-*/
 
 #define MAX_ARGUMENTS 10
 #define DEFAULT_CHMOD 0644

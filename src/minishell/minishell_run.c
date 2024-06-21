@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:10:09 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/21 14:56:23 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/21 19:26:49 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	minishell_run(t_minishell *m,char **envp, t_link_list *my_envp)
 	while (1)
 	{
 		input = readline("minishell: ");
+		rl_on_new_line();
 		if (!input)
 		{
 			printf("exit\n");

@@ -148,3 +148,15 @@ void ft_cd(char *dir, t_link_list *my_envp)
 	if(dir)
 		return(free(dir),free(new_path));
 }
+
+int ft_exit(char **args, int last_status)
+{
+	int exit_status = last_status;
+
+	if (args[1] != NULL) 
+	{
+		exit_status = ft_atoi(args[1]);
+	}
+
+	exit(exit_status);
+}
