@@ -6,17 +6,18 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 08:26:14 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/21 17:00:26 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/06/21 18:41:44 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void replace_var_with_val(char **input, const char *dollar_start, const char *dollar_end, char *val)
+static char *replace_var_with_val(char **input, const char *dollar_start, const char *dollar_end, char *val)
 {
 	char *i;
 	char *result;
 	char *result_i;
+	char *to_ret;
 
 	i = *input;
 	result = malloc(ft_strlen(*input) + ft_strlen(val));
@@ -35,6 +36,7 @@ static void replace_var_with_val(char **input, const char *dollar_start, const c
 		result_i++;
 		val++;
 	}
+	to_ret = result_i;
 	while (*dollar_end)
 	{
 		*result_i = *dollar_end;
@@ -44,6 +46,7 @@ static void replace_var_with_val(char **input, const char *dollar_start, const c
 	*result_i = '\0';
 	free(*input);
 	*input = result;
+	return (to_ret);
 }
 
 static char *try_to_get_val_from_env(char *var, t_link_list *env)
@@ -64,11 +67,12 @@ static char *try_to_get_val_from_env(char *var, t_link_list *env)
 	return (ft_strdup(""));
 }
 
-void expand_dollar_sign(char **input, char *dollar_pos, t_link_list *env)
+char *expand_dollar_sign(char **input, char *dollar_pos, t_link_list *env)
 {
 	char *var;
 	char *val;
 	char *dollar_end;
+	char *to_ret;
 	int i;
 	const char	whitespaces[] = " \t\r\n\v";
 
@@ -85,6 +89,7 @@ void expand_dollar_sign(char **input, char *dollar_pos, t_link_list *env)
 	dollar_end = &dollar_pos[i + 1];
 	val = try_to_get_val_from_env(var, env);
 	free(var);
-	replace_var_with_val(input, dollar_pos, dollar_end, val);
+	to_ret = replace_var_with_val(input, dollar_pos, dollar_end, val);
 	free(val);
+	return (to_ret);
 }
