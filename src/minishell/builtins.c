@@ -49,14 +49,44 @@ void	ft_env(t_link_list *head)
 	}
 }
 
-int	ft_echo(char *newline, char *input)
+int	ft_echo(char *newline, char **input)
 {
+	int i;
+
+	i = 1;
 	if(ft_strncmp(newline, "-n", 2) == 0)
 	{
-		printf("%s", input);
+		while(newline[i] == 'n')
+			{
+				i++;
+				if (newline[i] != 'n' && newline[i] != '\0')
+				{
+					i = 1;
+					printf("%s ",newline);
+					while(input[++i])
+						printf("%s\n",input[i]);
+					return (0);
+				}
+			}
+		i = 2;
+		while(input[i])
+		{
+			printf("%s", input[i]);
+			i++;
+			if(input[i])
+				printf(" ");
+		}
 		return (0);
 	}
-	printf("%s\n", newline);
+	// i = 1;
+	while(input[i])
+	{
+		printf("%s", input[i]);
+		i++;
+		if(input[i])
+			printf(" ");
+	}
+	printf("\n");
 	return(0);
 }
 
@@ -88,4 +118,33 @@ int	ft_export(char *new_param, t_link_list *head)
 	last = get_last_value(head);
 	last->next = temp;
 	return(0);
+}
+void ft_cd(char *dir, t_link_list *my_envp)
+{
+	char		cwd[PATH_MAX];
+	char		*new_path;
+	char		*home;
+
+	getcwd(cwd,sizeof(cwd));
+	while(my_envp)
+		{
+			if(ft_strncmp(my_envp->param, "HOME=", 5) == 0)
+				home = my_envp->param + 5;
+			my_envp= my_envp->next;
+		}
+	if(!dir)
+		new_path = home;
+	if(dir)
+	{
+		dir = ft_strjoin("/", dir);//protect
+		if(!dir)
+			return(perror("strjoin error\n"));
+		new_path = ft_strjoin(cwd,dir);
+		if(!new_path)
+			return(free(dir));
+	}
+	if (chdir(new_path) == -1)
+		return(perror("cd"));
+	if(dir)
+		return(free(dir),free(new_path));
 }

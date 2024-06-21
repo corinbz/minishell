@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/15 15:58:15 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/21 18:23:33 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include <stdbool.h>
 #include <fcntl.h>
 #include <sys/wait.h>
+#include <dirent.h>
+#include <linux/limits.h>
 
 
 typedef struct s_minishell
@@ -127,7 +129,8 @@ void		ft_pwd();
 void		ft_env(t_link_list *head);
 int			ft_export(char *new_param, t_link_list *head);
 int			ft_unset(char *param, t_link_list **head);
-int			ft_echo(char *newline, char *input);
+int			ft_echo(char *newline, char **input);
+void		ft_cd(char *dir, t_link_list *my_envp);
 
 //envp
 void		free_envp(t_link_list **envp);
@@ -136,8 +139,8 @@ t_link_list	*get_last_value(t_link_list *head);
 //executor
 char	**get_possible_paths(char **envp);
 char	*get_path(char *cmd, char **paths);
-int		exec_cmd(t_cmd *cmd, char **envp, t_link_list *my_envp);
-void	minishell_run(t_minishell *m);
+int		exec_cmd(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child);
+void	minishell_run(t_minishell *m,char **envp, t_link_list *my_envp);
 //heredoc
 int ft_heredoc(t_heredoc *heredoc, char **envp);
 
