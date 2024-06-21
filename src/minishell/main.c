@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/15 17:24:14 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/21 12:32:38 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int main(int argc, char **argv, char **envp)
 		ft_panic("This program does not accept arguments\n");
 		exit(0);
 	}
-	char	input[100] = "env | grep PWD";
+	char	input[100] = "export hello=world | env";
 	t_cmd 	*output = parse_cmd(input);
 	my_envp = create_my_envp(envp);
 	exec_cmd(output, envp, my_envp);

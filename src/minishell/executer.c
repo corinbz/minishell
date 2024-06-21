@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:51:21 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/06/15 17:26:16 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/21 12:31:35 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,33 +30,12 @@ int	run_cmd(t_exec_cmd *cmd, t_link_list *my_envp)
 		return(ft_unset(cmd->arg_start[1], &my_envp));
 	return(1);
 }
-int	run_cmd_pipe(t_exec_cmd *cmd, t_link_list *my_envp, int end[2])
-{
-	// close(end[0]);
-	dup2(end[1], STDOUT_FILENO);
-	// close(end[1]);
-	if(ft_strncmp(cmd->arg_start[0], "cd", 2) == 0)
-		return(2);// ft_cd();//todo
-	if(ft_strncmp(cmd->arg_start[0], "exit", 4) == 0)
-		return(2);// ft_exit();//todo
-	if(ft_strncmp(cmd->arg_start[0], "env", 3) == 0)
-		return(ft_env(my_envp), 0);
-	if(ft_strncmp(cmd->arg_start[0], "pwd", 3) == 0)
-		return(ft_pwd(), 0);
-	if(ft_strncmp(cmd->arg_start[0], "echo", 4) == 0)
-		return(ft_echo(cmd->arg_start[1], cmd->arg_start[2]), 0);
-	if(ft_strncmp(cmd->arg_start[0], "export", 6) == 0)
-		return(ft_export(cmd->arg_start[1], my_envp), 0);
-	if(ft_strncmp(cmd->arg_start[0], "unset", 5) == 0)
-		return(ft_unset(cmd->arg_start[1], &my_envp));
-	return(1);
-}
 int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp)
 {
 	char		**paths;
 	char		*cmd_path;
 	t_exec_cmd	*type_exec_cmd;
-	// t_link_list	*builtins;
+	t_link_list	*builtins;
 	
 	type_exec_cmd = (t_exec_cmd*)cmd;
 	// builtins = create_builtin_lst();
@@ -110,30 +89,22 @@ int exec_redir(t_cmd *cmd, char **envp, t_link_list *my_envp)
 
 int exec_pipe(t_cmd *cmd, char **envp, t_link_list *my_envp)
 {
-	t_pipe_cmd	*type_pipe_cmd;
-	t_exec_cmd	*type_exec_cmd1;
 	int			end[2];
 	pid_t		left;
 	pid_t		right;
-	int			status;
-	int			status2;
+	t_pipe_cmd	*type_pipe_cmd;
 
-	type_pipe_cmd = (t_pipe_cmd*)cmd;
+	type_pipe_cmd = (t_pipe_cmd *) cmd;
 	if(pipe(end) < 0)
 		ft_panic("pipe");
-	type_exec_cmd1 = (t_exec_cmd*)type_pipe_cmd->left;
-	if(run_cmd_pipe(type_exec_cmd1, my_envp, end) != 0)
+	left = ft_fork();
+	if(left == 0)
 	{
-		left = ft_fork();
-		if(left == 0)
-		{
-			close(end[0]);
-			dup2(end[1], STDOUT_FILENO);
-			close(end[1]);
-			exec_cmd(type_pipe_cmd->left, envp, my_envp);
-		}
+		close(end[0]);
+		dup2(end[1], STDOUT_FILENO);
+		close(end[1]);
+		exec_cmd(type_pipe_cmd->left, envp, my_envp);
 	}
-	dup2(STDOUT_FILENO, end[1]);
 	right = ft_fork();
 	if(right == 0)
 	{
@@ -144,7 +115,8 @@ int exec_pipe(t_cmd *cmd, char **envp, t_link_list *my_envp)
 	}
 	close(end[0]);
 	close(end[1]);
-	wait(0);
+	waitpid(left, NULL, 0);
+	waitpid(right, NULL, 0);
 	return(0);
 }
 int exec_cmd(t_cmd *cmd, char **envp, t_link_list *my_envp)
