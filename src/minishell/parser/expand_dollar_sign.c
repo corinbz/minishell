@@ -6,7 +6,7 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 08:26:14 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/19 09:26:09 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/06/21 17:00:26 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,24 +48,20 @@ static void replace_var_with_val(char **input, const char *dollar_start, const c
 
 static char *try_to_get_val_from_env(char *var, t_link_list *env)
 {
-	char **splitted_env;
+	char *to_ret;
 
 	while (env)
 	{
-		if (ft_strncmp(env->param, var, ft_strlen(var)) == 0)
-			break ;
+		if (ft_strncmp(env->param, var, ft_strlen(var)) == 0 && env->param[ft_strlen(var)] == '=')
+		{
+			to_ret = ft_strdup(env->param + ft_strlen(var) + 1);
+			if (!to_ret)
+				ft_panic("minishell: ft_strdup failed\n");
+			return (to_ret);
+		}
 		env = env->next;
 	}
-	if (env)
-	{
-		splitted_env = ft_split(env->param, '=');
-		if (!splitted_env)
-			ft_panic("minishell: ft_split failed\n");
-		free(splitted_env[0]);
-		return (splitted_env[1]);
-	}
-	else
-		return (ft_strdup(""));
+	return (ft_strdup(""));
 }
 
 void expand_dollar_sign(char **input, char *dollar_pos, t_link_list *env)
@@ -92,5 +88,3 @@ void expand_dollar_sign(char **input, char *dollar_pos, t_link_list *env)
 	replace_var_with_val(input, dollar_pos, dollar_end, val);
 	free(val);
 }
-
-//todo works with USER, test with COLORTERM etc, simplify
