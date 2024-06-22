@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/21 18:33:29 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/06/22 20:21:08 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ t_cmd	*parse_redirections(t_cmd *cmd, char **input);
 void	null_terminate_cmd(t_cmd *cmd);
 void	expand_env_vars_and_quotes(char **input, t_link_list *env);
 char	*expand_dollar_sign(char **input, char *dollar_pos, t_link_list *env);
+char	*expand_single_quote(char *quote_start);
 
 //builtins
 t_link_list	*create_my_envp(char **envp);
