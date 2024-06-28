@@ -6,46 +6,37 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 08:26:14 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/21 18:41:44 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/06/28 18:10:15 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char *replace_var_with_val(char **input, const char *dollar_start, const char *dollar_end, char *val)
+static char *replace_var_with_val(char *dollar_start, char *dollar_end, char *val)
 {
+	char *temp;
 	char *i;
-	char *result;
-	char *result_i;
 	char *to_ret;
 
-	i = *input;
-	result = malloc(ft_strlen(*input) + ft_strlen(val));
-	if (!result)
+	temp = ft_strdup(dollar_end); // +1 ?
+	if (!temp)
 		ft_panic("minishell: malloc failed\n");
-	result_i = result;
-	while (i < dollar_start)
-	{
-		*result_i = *i;
-		result_i++;
-		i++;
-	}
 	while (*val)
 	{
-		*result_i = *val;
-		result_i++;
+		*dollar_start = *val;
+		dollar_start++;
 		val++;
 	}
-	to_ret = result_i;
-	while (*dollar_end)
+	i = temp;
+	to_ret = dollar_start;
+	while (*i)
 	{
-		*result_i = *dollar_end;
-		result_i++;
-		dollar_end++;
+		*dollar_start = *i;
+		dollar_start++;
+		i++;
 	}
-	*result_i = '\0';
-	free(*input);
-	*input = result;
+	*dollar_start = '\0';
+	free(temp);
 	return (to_ret);
 }
 
@@ -67,20 +58,20 @@ static char *try_to_get_val_from_env(char *var, t_link_list *env)
 	return (ft_strdup(""));
 }
 
-char *expand_dollar_sign(char **input, char *dollar_pos, t_link_list *env)
+char *expand_dollar_sign(char *dollar_pos, t_link_list *env)
 {
 	char *var;
 	char *val;
 	char *dollar_end;
 	char *to_ret;
 	int i;
-	const char	whitespaces[] = " \t\r\n\v";
+	const char	stop_chars[] = " \t\r\n\v\'\"$";
 
-	var = malloc(ft_strlen(*input));
+	var = malloc(ft_strlen(dollar_pos) * 10);
 	if (!var)
 		ft_panic("minishell: malloc failed\n");
 	i = 0;
-	while (dollar_pos[i + 1] && !ft_strchr(whitespaces, dollar_pos[i + 1]))
+	while (dollar_pos[i + 1] && !ft_strchr(stop_chars, dollar_pos[i + 1]))
 	{
 		var[i] = dollar_pos[i + 1];
 		i++;
@@ -89,7 +80,7 @@ char *expand_dollar_sign(char **input, char *dollar_pos, t_link_list *env)
 	dollar_end = &dollar_pos[i + 1];
 	val = try_to_get_val_from_env(var, env);
 	free(var);
-	to_ret = replace_var_with_val(input, dollar_pos, dollar_end, val);
+	to_ret = replace_var_with_val(dollar_pos, dollar_end, val);
 	free(val);
 	return (to_ret);
 }
