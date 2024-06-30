@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/30 16:33:45 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/30 16:39:45 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,6 @@ typedef enum s_cmd_enum
 	PIPE  = 3,
 	HEREDOC = 4
 }	t_cmd_enum;
-
-typedef struct s_link_list
-{
-	char *param;
-	struct s_link_list *next;
-}	t_link_list;
 
 typedef struct s_link_list
 {
