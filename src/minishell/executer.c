@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:51:21 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/06/30 14:54:41 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/30 15:27:41 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,16 @@ int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 	type_exec_cmd = (t_exec_cmd*)cmd;
 	if(builtin_type(type_exec_cmd) == 1)
 	{
-		printf("gothere\n");
+		// printf("gothere\n");
 		exitcode = run_builtin_parent(type_exec_cmd, my_envp);
+		free(cmd);
+		if(is_child)
+			exit(exitcode);
+		return(exitcode);
+	}
+	if(builtin_type(type_exec_cmd) == 2)
+	{
+		exitcode = run_builtin_child(type_exec_cmd, my_envp);
 		free(cmd);
 		if(is_child)
 			exit(exitcode);
@@ -118,6 +126,6 @@ int exec_cmd(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 		exitcode = exec_redir(cmd, envp, my_envp);
 	if(cmd->type == PIPE)
 		exitcode = exec_pipe(cmd, envp, my_envp);
-	// printf("exitcode %d\n", exitcode);
+	// printf("%d\n", exitcode);
 	return(exitcode);
 }
