@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/30 14:38:35 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/30 16:29:54 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct s_cmd
 typedef struct s_exec_cmd
 {
 	t_cmd_enum	type;//EXEC || REDIR || PIPE
-	int			can_be_child;
 	char		*arg_start[MAX_ARGUMENTS];//points to program name + flags (token_start)
 	char 		*arg_end[MAX_ARGUMENTS];//points to the null terminator after each arg_start string (token_end)
 	//arg_start and arg_end NULL terminated
