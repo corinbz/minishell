@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/30 16:29:54 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/30 16:33:45 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ typedef enum s_cmd_enum
 	PIPE  = 3,
 	HEREDOC = 4
 }	t_cmd_enum;
+
+typedef struct s_link_list
+{
+	char *param;
+	struct s_link_list *next;
+}	t_link_list;
 
 typedef struct s_link_list
 {
@@ -113,6 +119,10 @@ void	ft_panic(const char *s);
 t_cmd	*parse_exec(char **input);
 t_cmd	*parse_redirections(t_cmd *cmd, char **input);
 void	null_terminate_cmd(t_cmd *cmd);
+void	expand_env_vars_and_quotes(char **input, t_link_list *env);
+char	*expand_dollar_sign(char *dollar_pos, t_link_list *env);
+char	*expand_single_quote(char *quote_start, t_link_list *env);
+char	*expand_multiple_single_quotes(char *quote_start, t_link_list *env, int quotes_amount);
 
 //builtins
 t_link_list	*create_my_envp(char **envp);
