@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/21 19:24:49 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/30 14:38:35 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #include <sys/wait.h>
 #include <dirent.h>
 #include <linux/limits.h>
-
+#include <signal.h>
 
 typedef struct s_minishell
 {
@@ -54,6 +54,7 @@ typedef struct s_cmd
 typedef struct s_exec_cmd
 {
 	t_cmd_enum	type;//EXEC || REDIR || PIPE
+	int			can_be_child;
 	char		*arg_start[MAX_ARGUMENTS];//points to program name + flags (token_start)
 	char 		*arg_end[MAX_ARGUMENTS];//points to the null terminator after each arg_start string (token_end)
 	//arg_start and arg_end NULL terminated
@@ -116,12 +117,16 @@ void	null_terminate_cmd(t_cmd *cmd);
 
 //builtins
 t_link_list	*create_my_envp(char **envp);
-void		ft_pwd();
-void		ft_env(t_link_list *head);
+int			ft_pwd();
+int			ft_env(t_link_list *head);
 int			ft_export(char *new_param, t_link_list *head);
 int			ft_unset(char *param, t_link_list **head);
 int			ft_echo(char *newline, char **input);
-void		ft_cd(char *dir, t_link_list *my_envp);
+int			ft_cd(char *dir, t_link_list *my_envp);
+
+int			builtin_type(t_exec_cmd *cmd);
+int			run_builtin_parent(t_exec_cmd *cmd, t_link_list *my_envp);
+int			run_builtin_child(t_exec_cmd *cmd, t_link_list *my_envp);
 
 //envp
 void		free_envp(t_link_list **envp);

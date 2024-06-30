@@ -24,7 +24,7 @@ unset with no options
 exit with no options
 */
 
-void	ft_pwd()
+int	ft_pwd()
 {
 	char *buff;
 	
@@ -37,16 +37,19 @@ void	ft_pwd()
 	else
 	{
 		printf("getcwd error\n");
+		return(1);
 	}
+	return(0);
 }
 
-void	ft_env(t_link_list *head)
+int	ft_env(t_link_list *head)
 {
 	while(head)
 	{
 		printf("%s\n", head->param);
 		head = head->next;
 	}
+	return(0);
 }
 
 int	ft_echo(char *newline, char **input)
@@ -90,7 +93,9 @@ int	ft_echo(char *newline, char **input)
 	return(0);
 }
 
-
+/*
+returns 0 on succes, 1 on failure
+*/
 int	ft_export(char *new_param, t_link_list *head)
 {
 	t_link_list	*temp;
@@ -119,7 +124,7 @@ int	ft_export(char *new_param, t_link_list *head)
 	last->next = temp;
 	return(0);
 }
-void ft_cd(char *dir, t_link_list *my_envp)
+int ft_cd(char *dir, t_link_list *my_envp)
 {
 	char		cwd[PATH_MAX];
 	char		*new_path;
@@ -138,15 +143,16 @@ void ft_cd(char *dir, t_link_list *my_envp)
 	{
 		dir = ft_strjoin("/", dir);//protect
 		if(!dir)
-			return(perror("strjoin error\n"));
+			return(perror("strjoin error\n"), 1);
 		new_path = ft_strjoin(cwd,dir);
 		if(!new_path)
-			return(free(dir));
+			return(free(dir), 1);
 	}
 	if (chdir(new_path) == -1)
-		return(perror("cd"));
+		return(perror("cd"), 1);
 	if(dir)
-		return(free(dir),free(new_path));
+		return(free(dir),free(new_path), 1);
+	return (0);
 }
 
 int ft_exit(char **args, int last_status)
