@@ -1,44 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/06/30 16:49:55 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/30 17:41:21 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_cd(char *dir, t_link_list *my_envp)
+int	ft_unset(char *param, t_link_list **head)
 {
-	char		cwd[PATH_MAX];
-	char		*new_path;
-	char		*home;
+	t_link_list	*curr;
+	t_link_list	*prev;
+	t_link_list	*temp;
 
-	getcwd(cwd,sizeof(cwd));
-	while(my_envp)
-		{
-			if(ft_strncmp(my_envp->param, "HOME=", 5) == 0)
-				home = my_envp->param + 5;
-			my_envp= my_envp->next;
-		}
-	if(!dir)
-		new_path = home;
-	if(dir)
+	curr = *head;
+	prev = NULL;
+	while(curr)
 	{
-		dir = ft_strjoin("/", dir);
-		if(!dir)
-			return(perror("strjoin error\n"), 1);
-		new_path = ft_strjoin(cwd,dir);
-		if(!new_path)
-			return(free(dir), 1);
+		if(ft_strncmp(param, curr->param, ft_strlen(param)) == 0)
+		{
+			temp = curr;
+			prev->next = curr->next;
+			curr = prev->next;
+			// free(temp);
+			return(0);
+		}
+		if(curr->next)
+		{
+			prev = curr;
+			curr = curr->next;
+		}
+		else
+			return(0);
 	}
-	if (chdir(new_path) == -1)
-		return(perror("cd"), 1);
-	if(dir)
-		return(free(dir),free(new_path), 1);
-	return (0);
+	return(0);
 }
