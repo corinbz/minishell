@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/01 13:28:12 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/01 14:17:57 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ int ft_cd(char *dir, t_link_list *my_envp)
 				home = curr->param + 5;
 			curr= curr->next;
 		}
-	if(!dir)
+	if(!dir || ft_strncmp(dir,"~", 1) == 0)
 		new_path = home;
-	if(dir)
+	if(dir && ft_strncmp(dir,"~", 1) != 0)
 	{
 		dir = ft_strjoin("/", dir);
 		if(!dir)
@@ -67,7 +67,7 @@ int ft_cd(char *dir, t_link_list *my_envp)
 		return(perror("cd"), 1);
 	getcwd(cwd,sizeof(cwd));
 	update_pwd(cwd, my_envp);
-	if(dir)
+	if(dir && ft_strncmp(dir,"~", 1) != 0)
 		return(free(dir),free(new_path), 1);
 	return (0);
 }

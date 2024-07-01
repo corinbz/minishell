@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 14:14:26 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/01 12:01:28 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/01 15:19:54 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,11 @@ int	builtin_type(t_exec_cmd *cmd)
 int	run_builtin_parent(t_exec_cmd *cmd, t_link_list *my_envp)
 {	
 	if(ft_strncmp(cmd->arg_start[0], "cd", 2) == 0)
-		return(ft_cd(cmd->arg_start[1], my_envp));
+	{
+		if(!cmd->arg_start[2])
+			return(ft_cd(cmd->arg_start[1], my_envp));
+		return(printf("cd: string not in pwd: %s\n", cmd->arg_start[1]),1);
+	}
 	if(ft_strncmp(cmd->arg_start[0], "export", 6) == 0)
 		return(ft_export(cmd->arg_start[1], my_envp));
 	if(ft_strncmp(cmd->arg_start[0], "unset", 5) == 0)

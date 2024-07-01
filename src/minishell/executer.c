@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:51:21 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/06/30 16:34:41 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/01 14:09:25 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 			exit(exitcode);
 		return(exitcode);
 	}
+	envp = link_list_to_array(&my_envp);
 	paths = get_possible_paths(envp);
 	cmd_path = get_path(type_exec_cmd->arg_start[0], paths);
 	if(!is_child)
@@ -46,18 +47,18 @@ int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 		int pid = ft_fork();
 		if (pid == 0)
 		{
-		if(execve(cmd_path, type_exec_cmd->arg_start, envp) == -1)
-			{
-			printf("execve failed on %s\n", type_exec_cmd->arg_start[0]);
-			return(1);
-			}
+			if(execve(cmd_path, type_exec_cmd->arg_start, envp) == -1)
+				{
+				printf("%s: no executable found\n", type_exec_cmd->arg_start[0]);
+				return(ft_free_2d(envp),1);
+				}
 		}
 		waitpid(pid, &exitcode, 0);;
-		return(exitcode);
+		return(ft_free_2d(envp),exitcode);
 	}
 	if(execve(cmd_path, type_exec_cmd->arg_start, envp) == -1)
 		{
-		printf("execve failed on %s\n", type_exec_cmd->arg_start[0]);
+		printf("%s: no executable found\n", type_exec_cmd->arg_start[0]);
 		return(1);
 		}
 	return(0);
