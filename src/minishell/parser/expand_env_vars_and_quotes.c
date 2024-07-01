@@ -6,7 +6,7 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 07:17:39 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/28 17:24:02 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/01 06:56:55 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void expand_env_vars_and_quotes(char **input, t_link_list *env)
 	{
 		if (*i == '$')
 			i = expand_dollar_sign(i, env);
-		if (*i == '\'')
+		else if (*i == '\'')
 			i = expand_single_quote(i, env); //todo wip
-		if (*i)
+		else if (*i)
 			i++;
 //		if (*i == '"')
 //			expand_double_quote(input, i);

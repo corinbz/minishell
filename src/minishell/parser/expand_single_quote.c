@@ -6,7 +6,7 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:59:54 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/28 16:42:31 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/01 07:03:19 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,3 @@ char	*expand_single_quote(char *quote_start, t_link_list *env)
 		return (expand_multiple_single_quotes(quote_start, env, single_quotes_amount));
 	return (ft_panic("minishell: unknown error\n"), NULL);
 }
-
-
-
-//todo if there is a quote inside a quote don't expand
