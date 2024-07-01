@@ -43,7 +43,7 @@ t_link_list	*create_my_envp(char **envp)
 		new_node = ft_calloc(1, sizeof(*new_node));
 		if (!new_node)
 			return(perror("calloc failed") ,NULL);
-		new_node->param = envp[i];//free previously allocate new_node.param
+		new_node->param = ft_strdup(envp[i]);
 		if (!new_node->param)
 			return (perror("strdup failed"), free(new_node), NULL);
 		if (!head)

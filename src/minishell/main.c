@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/30 16:34:59 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/01 13:32:44 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,7 @@ int main(int argc, char **argv, char **envp)
 		exit(0);
 	}
 	my_envp = create_my_envp(envp);
-	// char	input[100] = "env | wc -l";
 	input = ft_calloc(1, sizeof(t_minishell*));
-	// t_cmd 	*output = parse_cmd(input);
 	minishell_run(input,envp,my_envp);
-	// exec_cmd(output, envp, my_envp);
-	// free(output);
 	return (EXIT_SUCCESS);
 }
