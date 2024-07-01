@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/30 16:37:44 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/01 15:34:16 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include <linux/limits.h>
 #include <signal.h>
 
+int sig_ret_value;
 typedef struct s_minishell
 {
 	t_list	*input_history;

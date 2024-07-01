@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/01 13:38:33 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/01 15:31:51 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int main(int argc, char **argv, char **envp)
 	if (argc != 1 || argv[1])
 	{
 		ft_panic("This program does not accept arguments\n");
-		exit(0);
 	}
 	my_envp = create_my_envp(envp);
 	input = ft_calloc(1, sizeof(t_minishell*));
