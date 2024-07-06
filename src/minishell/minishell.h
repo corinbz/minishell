@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/03 08:22:18 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/03 10:29:15 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <stdbool.h>
 #include <fcntl.h>
 #include <sys/wait.h>
-
+#include <stdnoreturn.h>
 
 typedef struct s_minishell
 {
@@ -46,6 +46,11 @@ typedef enum s_cmd_enum
 	PIPE  = 3,
 	HEREDOC = 4
 }	t_cmd_enum;
+
+typedef enum s_quotes_enum {
+	SINGLE_QUOTE = 1,
+	DOUBLE_QUOTE = 2
+}	t_quotes_enum;
 
 typedef struct s_link_list
 {
@@ -109,14 +114,16 @@ t_cmd	*parse_pipe(char **input);
 bool	is_token_ahead(char **input, char *tokens);
 void	skip_whitespaces(char **input);
 char	get_token(char **input, char **token_start_pos, char **token_end_pos);
-[[noreturn]] void	ft_panic(const char *s);
+noreturn void	ft_panic(const char *s);
 t_cmd	*parse_exec(char **input);
 t_cmd	*parse_redirections(t_cmd *cmd, char **input);
 void	null_terminate_cmd(t_cmd *cmd);
 void	expand_env_vars_and_quotes(char **input, t_link_list *env);
-char	*expand_dollar_sign(char *dollar_pos, t_link_list *env);
-char	*expand_single_quote(char *quote_start, t_link_list *env);
-char	*expand_multiple_single_quotes(char *quote_start, t_link_list *env, int quotes_amount);
+void	expand_dollar_signs(char *i, t_link_list *env);
+void	expand_double_quotes(char *i);
+void	expand_single_quotes(char *i);
+char	*expand_quote(char *quote_start, t_link_list *env, t_quotes_enum quote);
+char	*expand_multiple_quotes(char *quote_start, t_link_list *env, t_quotes_enum quote_type, int quotes_amount);
 
 //builtins
 t_link_list	*create_my_envp(char **envp);

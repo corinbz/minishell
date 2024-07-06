@@ -6,17 +6,16 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 08:26:14 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/28 18:10:15 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/06 09:22:25 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char *replace_var_with_val(char *dollar_start, char *dollar_end, char *val)
+static void replace_var_with_val(char *dollar_start, char *dollar_end, char *val)
 {
 	char *temp;
 	char *i;
-	char *to_ret;
 
 	temp = ft_strdup(dollar_end); // +1 ?
 	if (!temp)
@@ -28,7 +27,6 @@ static char *replace_var_with_val(char *dollar_start, char *dollar_end, char *va
 		val++;
 	}
 	i = temp;
-	to_ret = dollar_start;
 	while (*i)
 	{
 		*dollar_start = *i;
@@ -37,7 +35,6 @@ static char *replace_var_with_val(char *dollar_start, char *dollar_end, char *va
 	}
 	*dollar_start = '\0';
 	free(temp);
-	return (to_ret);
 }
 
 static char *try_to_get_val_from_env(char *var, t_link_list *env)
@@ -58,16 +55,15 @@ static char *try_to_get_val_from_env(char *var, t_link_list *env)
 	return (ft_strdup(""));
 }
 
-char *expand_dollar_sign(char *dollar_pos, t_link_list *env)
+static void expand_dollar_sign(char *dollar_pos, t_link_list *env)
 {
 	char *var;
 	char *val;
 	char *dollar_end;
-	char *to_ret;
 	int i;
 	const char	stop_chars[] = " \t\r\n\v\'\"$";
 
-	var = malloc(ft_strlen(dollar_pos) * 10);
+	var = malloc(32768); //todo allocate fixed size buffer on stack?
 	if (!var)
 		ft_panic("minishell: malloc failed\n");
 	i = 0;
@@ -80,7 +76,28 @@ char *expand_dollar_sign(char *dollar_pos, t_link_list *env)
 	dollar_end = &dollar_pos[i + 1];
 	val = try_to_get_val_from_env(var, env);
 	free(var);
-	to_ret = replace_var_with_val(dollar_pos, dollar_end, val);
+	replace_var_with_val(dollar_pos, dollar_end, val);
 	free(val);
-	return (to_ret);
+}
+
+void	expand_dollar_signs(char *str, t_link_list *env)
+{
+	bool	inside_single_quotes;
+	char	*str_start;
+
+	inside_single_quotes = false;
+	str_start = str;
+	while (*str)
+	{
+		if (*str == '\'')
+			inside_single_quotes = !inside_single_quotes;
+		if (*str == '$' && !inside_single_quotes)
+		{
+			expand_dollar_sign(str, env);
+			str = str_start;
+			inside_single_quotes = false;
+		}
+		else
+			str++;
+	}
 }
