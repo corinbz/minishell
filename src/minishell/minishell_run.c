@@ -6,24 +6,31 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:10:09 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/01 15:30:53 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/06 15:43:03 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
 
 void	minishell_run(t_minishell *m,char **envp, t_link_list *my_envp)
 {
 	char	*input;
 	t_cmd	*cmd;
 
+	// run_signals(2);
 	while (1)
 	{
 		input = readline("minishell: ");
 		rl_on_new_line();
+		// rl_redisplay();
 		if (!input)
 		{
 			// printf("exit\n");
+			// rl_replace_line("", 0);
+			// rl_redisplay();
+			// run_signals(3);
 			exit(0); //add cleanup
 		}
 		if (*input)
@@ -32,6 +39,8 @@ void	minishell_run(t_minishell *m,char **envp, t_link_list *my_envp)
 			ft_lstadd_back(&m->input_history, ft_lstnew(input));
 			cmd = parse_cmd(input);
 			exec_cmd(cmd,envp,my_envp, false);
+			free(input);
+			// free(cmd);
 			//parse & process input functions
 		}
 	}

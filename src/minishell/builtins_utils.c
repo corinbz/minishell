@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 14:14:26 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/01 15:19:54 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/06 11:14:07 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	run_builtin_parent(t_exec_cmd *cmd, t_link_list *my_envp)
 int	run_builtin_child(t_exec_cmd *cmd, t_link_list *my_envp)
 {
 	if(ft_strncmp(cmd->arg_start[0], "exit", 4) == 0)
-		return(0);// ft_exit();//todo
+		return(ft_exit(cmd->arg_start[1],sig_ret_value));// ft_exit();//todo
 	if(ft_strncmp(cmd->arg_start[0], "env", 3) == 0)
 		return(ft_env(my_envp));
 	if(ft_strncmp(cmd->arg_start[0], "pwd", 3) == 0)

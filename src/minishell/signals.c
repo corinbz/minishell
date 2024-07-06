@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:35:17 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/01 15:37:24 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/06 15:10:41 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	run_signals(int sig)
 	}
 	if (sig == 3)
 	{
-		printf("exit\n");
+		// printf("exit\n");
 		exit(0);
 	}
 }

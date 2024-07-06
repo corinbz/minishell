@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/01 15:31:51 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/06 12:10:28 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 // 		ft_free_2d(cmde->arg_start);
 // 	}
 // }
+int sig_ret_value = 0;
 int main(int argc, char **argv, char **envp)
 {
 	t_link_list	*my_envp;

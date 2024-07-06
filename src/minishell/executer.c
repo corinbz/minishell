@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:51:21 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/01 14:09:25 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/06 15:49:17 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,10 @@ int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 	type_exec_cmd = (t_exec_cmd*)cmd;
 	if(builtin_type(type_exec_cmd) == 1)
 	{
-		// printf("gothere\n");
 		exitcode = run_builtin_parent(type_exec_cmd, my_envp);
 		free(cmd);
 		if(is_child)
-			exit(exitcode);
+			ft_exit(NULL,exitcode);
 		return(exitcode);
 	}
 	if(builtin_type(type_exec_cmd) == 2)
@@ -45,12 +44,13 @@ int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 	if(!is_child)
 	{
 		int pid = ft_fork();
+		// run_signals(1);
 		if (pid == 0)
 		{
 			if(execve(cmd_path, type_exec_cmd->arg_start, envp) == -1)
 				{
 				printf("%s: no executable found\n", type_exec_cmd->arg_start[0]);
-				return(ft_free_2d(envp),1);
+				return(ft_free_2d(envp),127);
 				}
 		}
 		waitpid(pid, &exitcode, 0);;
@@ -59,9 +59,10 @@ int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 	if(execve(cmd_path, type_exec_cmd->arg_start, envp) == -1)
 		{
 		printf("%s: no executable found\n", type_exec_cmd->arg_start[0]);
-		return(1);
+		ft_free_2d(envp);
+		exit(127);
 		}
-	return(0);
+	exit(0);
 }
 
 int exec_redir(t_cmd *cmd, char **envp, t_link_list *my_envp)
@@ -108,6 +109,12 @@ int exec_pipe(t_cmd *cmd, char **envp, t_link_list *my_envp)
 		dup2(end[1], STDOUT_FILENO);
 		exec_cmd(type_pipe_cmd->left, envp, my_envp, true);
 		close(end[1]);
+	}
+	if(status != 0)
+	{
+		status = WEXITSTATUS(status);
+		printf("status %d\n", status);
+		exit(status);
 	}
 	right = ft_fork();
 	if(right == 0)
