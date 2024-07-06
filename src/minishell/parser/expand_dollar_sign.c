@@ -6,7 +6,7 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 08:26:14 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/06 09:22:25 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/06 11:09:52 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,24 +80,43 @@ static void expand_dollar_sign(char *dollar_pos, t_link_list *env)
 	free(val);
 }
 
-void	expand_dollar_signs(char *str, t_link_list *env)
+static bool	try_to_expand_dollar_sign(char *str, t_link_list *env)
 {
 	bool	inside_single_quotes;
-	char	*str_start;
+	bool	double_inside_single;
+	bool	inside_double_quotes;
+	bool	single_inside_double;
 
 	inside_single_quotes = false;
-	str_start = str;
+	double_inside_single = false;
+	inside_double_quotes = false;
+	single_inside_double = false;
 	while (*str)
 	{
 		if (*str == '\'')
+		{
 			inside_single_quotes = !inside_single_quotes;
-		if (*str == '$' && !inside_single_quotes)
+			if (inside_double_quotes)
+				single_inside_double = !single_inside_double;
+		}
+		if (*str == '"')
+		{
+			inside_double_quotes = !inside_double_quotes;
+			if (inside_single_quotes)
+				double_inside_single = !double_inside_single;
+		}
+		if (*str == '$' && ((!inside_single_quotes && !inside_double_quotes) || single_inside_double || (inside_double_quotes && !double_inside_single)))
 		{
 			expand_dollar_sign(str, env);
-			str = str_start;
-			inside_single_quotes = false;
+			return (true);
 		}
 		else
 			str++;
 	}
+	return (false);
+}
+
+void	expand_dollar_signs(char *str, t_link_list *env)
+{
+	while (try_to_expand_dollar_sign(str, env));
 }
