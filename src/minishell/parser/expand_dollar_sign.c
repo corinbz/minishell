@@ -6,7 +6,7 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 08:26:14 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/06 11:09:52 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/06 11:13:45 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void replace_var_with_val(char *dollar_start, char *dollar_end, char *val
 	char *temp;
 	char *i;
 
-	temp = ft_strdup(dollar_end); // +1 ?
+	temp = ft_strdup(dollar_end);
 	if (!temp)
 		ft_panic("minishell: malloc failed\n");
 	while (*val)
@@ -63,7 +63,7 @@ static void expand_dollar_sign(char *dollar_pos, t_link_list *env)
 	int i;
 	const char	stop_chars[] = " \t\r\n\v\'\"$";
 
-	var = malloc(32768); //todo allocate fixed size buffer on stack?
+	var = malloc(32768);
 	if (!var)
 		ft_panic("minishell: malloc failed\n");
 	i = 0;
