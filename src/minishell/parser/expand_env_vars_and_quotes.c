@@ -6,7 +6,7 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 07:17:39 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/06 12:11:44 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:33:15 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,8 @@ void expand_env_vars_and_quotes(char **input, t_link_list *env)
 	{
 		i = realloc_input(input);
 		expand_dollar_signs(i, env);
-	} //todo finish double_single
-//	if (contains_character(i, '"'))
-//		expand_double_quotes(i);
-//	if (contains_character(i, '\''))
-//		expand_single_quotes(i);
+	}
+	if (contains_character(i, '"') || contains_character(i, '\''))
+		expand_quotes(i);
 }
 
