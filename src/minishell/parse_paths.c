@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:09:11 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/06/02 14:51:56 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/01 14:07:11 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char **get_possible_paths(char **envp)
 			i++;
 		}
 	}
-	return (printf("no valid paths\n"), NULL);
+	return (NULL);
 }
 char *get_path(char *cmd, char **paths)
 {
@@ -49,6 +49,8 @@ char *get_path(char *cmd, char **paths)
 	cmd = ft_strjoin("/", cmd);
 	if (!cmd)
 		return (printf("cmd alloc fail\n"), NULL);
+	if(!paths)
+		return(cmd);
 	while(paths[i])
 	{
 		full_path = ft_strjoin(paths[i], cmd);

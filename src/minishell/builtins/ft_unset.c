@@ -1,43 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/07 13:23:50 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/01 13:32:06 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	get_set_return_val(int val)
+int	ft_unset(char *param, t_link_list **head)
 {
-	static int ret;
+	t_link_list	*curr;
+	t_link_list	*prev;
 
-	if(val == INT_MIN)
+	curr = *head;
+	prev = NULL;
+	while(curr)
 	{
-		printf("ret is %d\n", ret);
-		return(ret);
+		if(ft_strncmp(param, curr->param, ft_strlen(param)) == 0)
+		{
+			if(prev)
+				prev->next = curr->next;
+			else
+				*head = curr->next;
+			free(curr);
+			return(0);
+		}
+			prev = curr;
+			curr = curr->next;
 	}
-	ret = val;
-	return(ret);
-	
-}
-
-int ft_exit(char *my_status, int last_status)
-{
-	int exit_status;
-	
-	exit_status = last_status % 255;
-	if(!my_status)
-	{
-		printf("exited with exitcode %d\n", exit_status);
-		exit(exit_status);
-	}
-	exit_status = ft_atoi(my_status) % 255;
-	printf("exited with code %d\n", exit_status);
-	// printf("exited with exitcode %d\n", exit_status);
-	exit(exit_status);
+	return(0);
 }

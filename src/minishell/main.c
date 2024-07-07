@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/03 12:00:35 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:34:04 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,19 @@
 
 int main(int argc, char **argv, char **envp)
 {
+	t_link_list	*my_envp;
+	t_minishell	*input;
+	t_exit_status	*exit_sts;
+
 	if (argc != 1 || argv[1])
 	{
 		ft_panic("This program does not accept arguments\n");
 	}
-	t_link_list *my_envp = create_my_envp(envp); //	ft_env(my_envp);
-	char *input = readline("minishell: ");
-	expand_env_vars_and_quotes(&input, my_envp);
-
-	t_cmd	*output = parse_cmd(input);
+	exit_sts = ft_calloc(1, sizeof(*exit_sts));
+	if (!exit_sts)
+		return (1);
+	my_envp = create_my_envp(envp);
+	input = ft_calloc(1, sizeof(t_minishell*));
+	minishell_run(input,envp,my_envp);
 	return (EXIT_SUCCESS);
 }
