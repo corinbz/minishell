@@ -6,55 +6,55 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:51:21 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/06/15 14:38:56 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/06/30 16:34:41 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	run_cmd(t_exec_cmd *cmd, t_link_list *envp)
-{
-	if(ft_strncmp(cmd->arg_start[0], "cd", 2) == 0)
-		return(2);// ft_cd();//todo
-	if(ft_strncmp(cmd->arg_start[0], "exit", 4) == 0)
-		return(2);// ft_exit();//todo
-	if(ft_strncmp(cmd->arg_start[0], "env", 3) == 0)
-		return(ft_env(envp), 0);
-	if(ft_strncmp(cmd->arg_start[0], "pwd", 3) == 0)
-		return(ft_pwd(), 0);
-	if(ft_strncmp(cmd->arg_start[0], "echo", 4) == 0)
-		return(ft_echo(cmd->arg_start[1], cmd->arg_start[2]), 0);
-	if(ft_strncmp(cmd->arg_start[0], "export", 6) == 0)
-		return(ft_export(cmd->arg_start[1], envp), 0);
-	if(ft_strncmp(cmd->arg_start[0], "unset", 5) == 0)
-		return(ft_unset(cmd->arg_start[1], &envp));
-	return(1);
-}
-int	exec_exec(t_cmd *cmd, char **envp)
+
+int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 {
 	char		**paths;
 	char		*cmd_path;
 	t_exec_cmd	*type_exec_cmd;
-	// t_link_list	*builtins;
-	t_link_list	*my_envp;
+	t_link_list	*builtins;
+	int			exitcode;
 	
-	my_envp = create_my_envp(envp);
 	type_exec_cmd = (t_exec_cmd*)cmd;
-	char **new_envp = link_list_to_array(&my_envp);
-	// for(int i = 0; new_envp[i]; i++)
-	// {
-	// 	printf("%s\n", new_envp[i]);
-	// }
-	// builtins = create_builtin_lst();
-	// ft_free_2d(new_envp);
-	if(run_cmd(type_exec_cmd, my_envp) == 0)
+	if(builtin_type(type_exec_cmd) == 1)
 	{
-		free_envp(&my_envp);
+		// printf("gothere\n");
+		exitcode = run_builtin_parent(type_exec_cmd, my_envp);
 		free(cmd);
-		exit(0);
+		if(is_child)
+			exit(exitcode);
+		return(exitcode);
+	}
+	if(builtin_type(type_exec_cmd) == 2)
+	{
+		exitcode = run_builtin_child(type_exec_cmd, my_envp);
+		free(cmd);
+		if(is_child)
+			exit(exitcode);
+		return(exitcode);
 	}
 	paths = get_possible_paths(envp);
 	cmd_path = get_path(type_exec_cmd->arg_start[0], paths);
+	if(!is_child)
+	{
+		int pid = ft_fork();
+		if (pid == 0)
+		{
+		if(execve(cmd_path, type_exec_cmd->arg_start, envp) == -1)
+			{
+			printf("execve failed on %s\n", type_exec_cmd->arg_start[0]);
+			return(1);
+			}
+		}
+		waitpid(pid, &exitcode, 0);;
+		return(exitcode);
+	}
 	if(execve(cmd_path, type_exec_cmd->arg_start, envp) == -1)
 		{
 		printf("execve failed on %s\n", type_exec_cmd->arg_start[0]);
@@ -63,7 +63,7 @@ int	exec_exec(t_cmd *cmd, char **envp)
 	return(0);
 }
 
-int exec_redir(t_cmd *cmd, char **envp)
+int exec_redir(t_cmd *cmd, char **envp, t_link_list *my_envp)
 {
 	t_redir_cmd	*type_redir_cmd;
 	int			new_fd;
@@ -83,21 +83,21 @@ int exec_redir(t_cmd *cmd, char **envp)
 		ft_putstr_fd(error,2);
 		return(1);
 	}
-	exec_cmd(type_redir_cmd->sub_cmd, envp);
+	exec_cmd(type_redir_cmd->sub_cmd, envp, my_envp, false);
 	close(new_fd);
+	new_fd = open("/dev/tty", O_WRONLY);
 	return (0);
 }
 
-int exec_pipe(t_cmd *cmd, char **envp)
+int exec_pipe(t_cmd *cmd, char **envp, t_link_list *my_envp)
 {
-	t_pipe_cmd	*type_pipe_cmd;
 	int			end[2];
+	int			status;
 	pid_t		left;
 	pid_t		right;
-	int			status;
-	int			status2;
+	t_pipe_cmd	*type_pipe_cmd;
 
-	type_pipe_cmd = (t_pipe_cmd*)cmd;
+	type_pipe_cmd = (t_pipe_cmd *) cmd;
 	if(pipe(end) < 0)
 		ft_panic("pipe");
 	left = ft_fork();
@@ -105,8 +105,8 @@ int exec_pipe(t_cmd *cmd, char **envp)
 	{
 		close(end[0]);
 		dup2(end[1], STDOUT_FILENO);
+		exec_cmd(type_pipe_cmd->left, envp, my_envp, true);
 		close(end[1]);
-		exec_cmd(type_pipe_cmd->left, envp);
 	}
 	right = ft_fork();
 	if(right == 0)
@@ -114,22 +114,23 @@ int exec_pipe(t_cmd *cmd, char **envp)
 		close(end[1]);
 		dup2(end[0], STDIN_FILENO);
 		close(end[0]);
-		exec_cmd(type_pipe_cmd->right, envp);
+		exec_cmd(type_pipe_cmd->right, envp, my_envp, true);
 	}
 	close(end[0]);
 	close(end[1]);
 	waitpid(left, &status, 0);
-	waitpid(right, &status2, 0);
-	return(0);
+	waitpid(right, &status, 0);
+	return(status);
 }
-int exec_cmd(t_cmd *cmd, char **envp)
+int exec_cmd(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 {
-
+	int	exitcode;
 	if (cmd->type == EXEC)
-		exec_exec(cmd, envp);
+		exitcode = exec_exec(cmd, envp, my_envp, is_child);
 	if(cmd->type == REDIR)
-		exec_redir(cmd, envp);
+		exitcode = exec_redir(cmd, envp, my_envp);
 	if(cmd->type == PIPE)
-		exec_pipe(cmd, envp);
-	return(0);
+		exitcode = exec_pipe(cmd, envp, my_envp);
+	// printf("%d\n", exitcode);
+	return(exitcode);
 }

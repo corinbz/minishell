@@ -1,71 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/25 11:31:10 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/06/08 16:19:49by ccraciun         ###   ########.fr       */
+/*   Created: 2024/06/30 15:34:05 by ccraciun          #+#    #+#             */
+/*   Updated: 2024/06/30 16:00:50 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-/*
-done:
-pwd with no options
-env with no options or arguments
+#include "../minishell.h"
 
-todo:
-echo with option -n
-cd with only a relative or absolute path
-export with no options
-unset with no options
-exit with no options
-*/
-
-void	ft_pwd()
+static int change_if_exists(char *new_param, t_link_list *head)
 {
-	char *buff;
-	
-	buff = getcwd(NULL, 0);
-	if (buff)
-	{
-		printf("%s\n", buff);
-		free(buff);
-	}
-	else
-	{
-		printf("getcwd error\n");
-	}
-}
+	int param_len;
+	int i;
+	t_link_list *curr;
 
-void	ft_env(t_link_list *head)
-{
-	while(head)
+	curr = head;
+	param_len = 0;
+	i = 0;
+	while(new_param[i] != '=')
 	{
-		printf("%s\n", head->param);
-		head = head->next;
+		param_len++;
+		i++;
 	}
-}
-
-int	ft_echo(char *newline, char *input)
-{
-	if(ft_strncmp(newline, "-n", 2) == 0)
+	while(curr)
 	{
-		printf("%s", input);
-		return (0);
+		if(ft_strncmp(curr->param,new_param,5) == 0)
+		{
+			curr->param = new_param;
+			return(1);
+		}
+		curr = curr->next;
 	}
-	printf("%s\n", newline);
 	return(0);
 }
 
-
+/*
+returns 0 on succes, 1 on failure
+*/
 int	ft_export(char *new_param, t_link_list *head)
 {
 	t_link_list	*temp;
 	t_link_list	*last;
+	t_link_list	*curr;
 	
+	curr = head;
 	if(!new_param)
 		{
 			while(head)
@@ -76,6 +58,8 @@ int	ft_export(char *new_param, t_link_list *head)
 			}
 			return(0);
 		}
+	if (change_if_exists(new_param, head))
+		return(0);
 	temp = (t_link_list*)ft_calloc(1, sizeof(*temp));
 	if (temp == NULL)
 		return (1);

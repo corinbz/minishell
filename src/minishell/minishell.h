@@ -21,20 +21,14 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <stdnoreturn.h>
+#include <dirent.h>
+#include <linux/limits.h>
+#include <signal.h>
 
 typedef struct s_minishell
 {
 	t_list	*input_history;
 }	t_minishell;
-
-//Corin added from here
-/*
-Example for execcmd struct
-..._ls_-l_-a_...
-...xooxooxoox...
-o --> arg_start
-x --> arg_end
-*/
 
 #define MAX_ARGUMENTS 10
 #define DEFAULT_CHMOD 0644
@@ -70,6 +64,13 @@ typedef struct s_exec_cmd
 	char 		*arg_end[MAX_ARGUMENTS];//points to the null terminator after each arg_start string (token_end)
 	//arg_start and arg_end NULL terminated
 }	t_exec_cmd;
+
+typedef struct s_heredoc
+{
+	bool	is_true;
+	int		temp_file;
+	char	*eof;
+}	t_heredoc;
 
 typedef struct s_redir_cmd
 {
@@ -127,19 +128,27 @@ char	*expand_multiple_quotes(char *quote_start, t_link_list *env, t_quotes_enum 
 
 //builtins
 t_link_list	*create_my_envp(char **envp);
-void		ft_pwd();
-void		ft_env(t_link_list *head);
+int			ft_pwd();
+int			ft_env(t_link_list *head);
 int			ft_export(char *new_param, t_link_list *head);
 int			ft_unset(char *param, t_link_list **head);
-int			ft_echo(char *newline, char *input);
+int			ft_echo(char *newline, char **input);
+int			ft_cd(char *dir, t_link_list *my_envp);
+
+int			builtin_type(t_exec_cmd *cmd);
+int			run_builtin_parent(t_exec_cmd *cmd, t_link_list *my_envp);
+int			run_builtin_child(t_exec_cmd *cmd, t_link_list *my_envp);
 
 //envp
 void		free_envp(t_link_list **envp);
 t_link_list	*get_last_value(t_link_list *head);
 
 //executor
-char **get_possible_paths(char **envp);
-char *get_path(char *cmd, char **paths);
-int exec_cmd(t_cmd *cmd, char **envp);
+char	**get_possible_paths(char **envp);
+char	*get_path(char *cmd, char **paths);
+int		exec_cmd(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child);
+void	minishell_run(t_minishell *m,char **envp, t_link_list *my_envp);
+//heredoc
+int ft_heredoc(t_heredoc *heredoc, char **envp);
 
 #endif
