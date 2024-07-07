@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/06 12:39:19 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:26:05 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,16 @@
 #define MAX_ARGUMENTS 10
 #define DEFAULT_CHMOD 0644
 
-extern int sig_ret_value; 
+extern int g_signal; 
 typedef struct s_minishell
 {
 	t_list	*input_history;
 }	t_minishell;
 
-
+typedef struct s_exit_status
+{
+	int	exit_status;
+}	t_exit_status;
 typedef enum s_cmd_enum
 {
 	EXEC =  1,

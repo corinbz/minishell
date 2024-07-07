@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:51:21 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/06 15:49:17 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:20:00 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 	int			exitcode;
 	
 	type_exec_cmd = (t_exec_cmd*)cmd;
+	// printf("executing %s\n",type_exec_cmd->arg_start[0]);
 	if(builtin_type(type_exec_cmd) == 1)
 	{
 		exitcode = run_builtin_parent(type_exec_cmd, my_envp);
@@ -32,10 +33,12 @@ int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 	}
 	if(builtin_type(type_exec_cmd) == 2)
 	{
+		// if(ft_strncmp(type_exec_cmd->arg_start[0], "echo", 4) == 0)
+		// 	return(ft_echo(type_exec_cmd->arg_start[1], type_exec_cmd->arg_start));
 		exitcode = run_builtin_child(type_exec_cmd, my_envp);
-		free(cmd);
 		if(is_child)
 			exit(exitcode);
+		free(cmd);
 		return(exitcode);
 	}
 	envp = link_list_to_array(&my_envp);
@@ -50,7 +53,8 @@ int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 			if(execve(cmd_path, type_exec_cmd->arg_start, envp) == -1)
 				{
 				printf("%s: no executable found\n", type_exec_cmd->arg_start[0]);
-				return(ft_free_2d(envp),127);
+				ft_free_2d(envp);
+				ft_exit("127",g_signal);
 				}
 		}
 		waitpid(pid, &exitcode, 0);;
@@ -60,7 +64,7 @@ int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 		{
 		printf("%s: no executable found\n", type_exec_cmd->arg_start[0]);
 		ft_free_2d(envp);
-		exit(127);
+		ft_exit("127", g_signal);
 		}
 	exit(0);
 }
@@ -105,25 +109,31 @@ int exec_pipe(t_cmd *cmd, char **envp, t_link_list *my_envp)
 	left = ft_fork();
 	if(left == 0)
 	{
+		// printf("left fork pid %d\n", left);
 		close(end[0]);
 		dup2(end[1], STDOUT_FILENO);
 		exec_cmd(type_pipe_cmd->left, envp, my_envp, true);
 		close(end[1]);
 	}
-	if(status != 0)
-	{
-		status = WEXITSTATUS(status);
-		printf("status %d\n", status);
-		exit(status);
-	}
+	// printf("parent pid left -> %d\n", left);
+	// if(status != 0)
+	// {
+	// 	status = WEXITSTATUS(status);
+	// 	printf("status %d\n", status);
+	// 	exit(status);
+	// }
 	right = ft_fork();
 	if(right == 0)
 	{
+		// printf("right fork pid %d\n", right);
 		close(end[1]);
 		dup2(end[0], STDIN_FILENO);
 		close(end[0]);
 		exec_cmd(type_pipe_cmd->right, envp, my_envp, true);
 	}
+	// printf("parent pid right -> %d\n", right);
+	if(right == 0)
+		exit(status);
 	close(end[0]);
 	close(end[1]);
 	waitpid(left, &status, 0);

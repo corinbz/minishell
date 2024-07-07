@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/06 15:21:15 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:23:50 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ int ft_exit(char *my_status, int last_status)
 	int exit_status;
 	
 	exit_status = last_status % 255;
-	printf("exited\n");
 	if(!my_status)
 	{
-		// printf("exited with exitcode %d\n", exit_status);
+		printf("exited with exitcode %d\n", exit_status);
 		exit(exit_status);
 	}
 	exit_status = ft_atoi(my_status) % 255;
+	printf("exited with code %d\n", exit_status);
 	// printf("exited with exitcode %d\n", exit_status);
 	exit(exit_status);
 }

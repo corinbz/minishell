@@ -6,12 +6,48 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:10:09 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/06 15:43:03 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:02:56 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// void	minishell_run(t_minishell *m,char **envp, t_link_list *my_envp)
+// {
+// 	char	*input;
+// 	t_cmd	*cmd;
+
+// 	// run_signals(2);
+// 	while (1)
+// 	{
+// 		input = readline("minishell: ");
+// 		// input = ft_strdup("echo hell | cat | cat ");
+// 		printf("input is %s\n", input);
+// 		// sleep(1);
+// 		// rl_on_new_line();
+// 		// rl_redisplay();
+// 		cmd = parse_cmd(input);
+// 		exec_cmd(cmd,envp,my_envp, false);
+// 		if (!input)
+// 		{
+// 			// printf("exit\n");
+// 			// rl_replace_line("", 0);
+// 			// rl_redisplay();
+// 			// run_signals(3);
+// 			exit(0); //add cleanup
+// 		}
+// 		free(input);
+// 		// break;
+// 		// if (*input)
+// 		// {
+// 		// 	add_history(input);
+// 		// 	ft_lstadd_back(&m->input_history, ft_lstnew(input));
+
+// 		// 	// free(cmd);
+// 		// 	//parse & process input functions
+// 		// }
+// 	}
+// }
 
 
 void	minishell_run(t_minishell *m,char **envp, t_link_list *my_envp)

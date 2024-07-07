@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:35:17 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/06 15:10:41 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:19:05 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	run_signals(int sig)
 
 void	restore_prompt(int sig)
 {
-	sig_ret_value = 130;
+	g_signal = 130;
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
@@ -43,14 +43,14 @@ void	restore_prompt(int sig)
 
 void	ctrl_c(int sig)
 {
-	sig_ret_value = 130;
+	g_signal = 130;
 	write(1, "\n", 1);
 	(void)sig;
 }
 
 void	back_slash(int sig)
 {
-	sig_ret_value = 131;
+	g_signal = 131;
 	printf("Quit (core dumped)\n");
 	(void)sig;
 }
