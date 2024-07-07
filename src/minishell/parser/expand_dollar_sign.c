@@ -6,19 +6,18 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 08:26:14 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/28 18:10:15 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:38:48 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char *replace_var_with_val(char *dollar_start, char *dollar_end, char *val)
+static void replace_var_with_val(char *dollar_start, char *dollar_end, char *val)
 {
 	char *temp;
 	char *i;
-	char *to_ret;
 
-	temp = ft_strdup(dollar_end); // +1 ?
+	temp = ft_strdup(dollar_end);
 	if (!temp)
 		ft_panic("minishell: malloc failed\n");
 	while (*val)
@@ -28,7 +27,6 @@ static char *replace_var_with_val(char *dollar_start, char *dollar_end, char *va
 		val++;
 	}
 	i = temp;
-	to_ret = dollar_start;
 	while (*i)
 	{
 		*dollar_start = *i;
@@ -37,7 +35,6 @@ static char *replace_var_with_val(char *dollar_start, char *dollar_end, char *va
 	}
 	*dollar_start = '\0';
 	free(temp);
-	return (to_ret);
 }
 
 static char *try_to_get_val_from_env(char *var, t_link_list *env)
@@ -58,16 +55,15 @@ static char *try_to_get_val_from_env(char *var, t_link_list *env)
 	return (ft_strdup(""));
 }
 
-char *expand_dollar_sign(char *dollar_pos, t_link_list *env)
+static void expand_dollar_sign(char *dollar_pos, t_link_list *env)
 {
 	char *var;
 	char *val;
 	char *dollar_end;
-	char *to_ret;
 	int i;
 	const char	stop_chars[] = " \t\r\n\v\'\"$";
 
-	var = malloc(ft_strlen(dollar_pos) * 10);
+	var = malloc(32768);
 	if (!var)
 		ft_panic("minishell: malloc failed\n");
 	i = 0;
@@ -80,7 +76,44 @@ char *expand_dollar_sign(char *dollar_pos, t_link_list *env)
 	dollar_end = &dollar_pos[i + 1];
 	val = try_to_get_val_from_env(var, env);
 	free(var);
-	to_ret = replace_var_with_val(dollar_pos, dollar_end, val);
+	replace_var_with_val(dollar_pos, dollar_end, val);
 	free(val);
-	return (to_ret);
+}
+
+static bool	try_to_expand_dollar_sign(char *str, t_link_list *env)
+{
+	t_parser_quotes_state state;
+
+	state.inside_single_quotes = false;
+	state.double_inside_single = false;
+	state.inside_double_quotes = false;
+	state.single_inside_double = false;
+	while (*str)
+	{
+		if (*str == '\'')
+		{
+			state.inside_single_quotes = !state.inside_single_quotes;
+			if (state.inside_double_quotes)
+				state.single_inside_double = !state.single_inside_double;
+		}
+		if (*str == '"')
+		{
+			state.inside_double_quotes = !state.inside_double_quotes;
+			if (state.inside_single_quotes)
+				state.double_inside_single = !state.double_inside_single;
+		}
+		if (*str == '$' && ((!state.inside_single_quotes && !state.inside_double_quotes) || state.single_inside_double || (state.inside_double_quotes && !state.double_inside_single)))
+		{
+			expand_dollar_sign(str, env);
+			return (true);
+		}
+		else
+			str++;
+	}
+	return (false);
+}
+
+void	expand_dollar_signs(char *str, t_link_list *env)
+{
+	while (try_to_expand_dollar_sign(str, env));
 }
