@@ -6,11 +6,13 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/07 13:34:04 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:36:25 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int g_signal = 0;
 
 int main(int argc, char **argv, char **envp)
 {
