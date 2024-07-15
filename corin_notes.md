@@ -5,8 +5,6 @@ redirection with out a file is exiting the program
 multiple redirection out write in the first file 
 
 
-multiple empty Cat 
-
 outside quotes need to be removed 
 
 un closing quotes shouldn't work
