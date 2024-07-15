@@ -1,19 +1,17 @@
+echo $ (with something that doesn't exist) --> segfault 
+				should give back a empty line and a new prompt
+redirection with out a file is exiting the program
 
-### execve(char *program_path, char **program_name + args, envp);
+multiple redirection out write in the first file 
 
-1. check if executable is inside path
-2. execute
 
-test cases:
+multiple empty Cat 
 
-### exec_cmd(t_cmd *cmd)
+outside quotes need to be removed 
 
-1. check type of cmd
-    1. if type is EXEC: just execute
-	2. if type is REDIR
-		1. close fd that we wanna redirect to
-		2. create new file with aproapiate mode
-		3. exec_cmd
-	3. if type is PIPE
-		1. fork left and exec_cmd left cmd;
-		2. fork right and exec_cmd left cmd;
+un closing quotes shouldn't work
+
+first and last char '|' should give an error message
+export -> export=
+
+pipe inside quotes should be ignored

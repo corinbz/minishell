@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:51:21 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/07 13:20:00 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:28:05 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 	
 	type_exec_cmd = (t_exec_cmd*)cmd;
 	// printf("executing %s\n",type_exec_cmd->arg_start[0]);
+	// printf("builtin type is %d\n",builtin_type(type_exec_cmd));
 	if(builtin_type(type_exec_cmd) == 1)
 	{
 		exitcode = run_builtin_parent(type_exec_cmd, my_envp);
@@ -37,7 +38,10 @@ int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 		// 	return(ft_echo(type_exec_cmd->arg_start[1], type_exec_cmd->arg_start));
 		exitcode = run_builtin_child(type_exec_cmd, my_envp);
 		if(is_child)
+		{
+			// printf("got here\n");
 			exit(exitcode);
+		}
 		free(cmd);
 		return(exitcode);
 	}
@@ -57,8 +61,9 @@ int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 				ft_exit("127",g_signal);
 				}
 		}
-		waitpid(pid, &exitcode, 0);;
-		return(ft_free_2d(envp),exitcode);
+		waitpid(pid, &exitcode, 0);
+		// ft_free_2d(envp);
+		return(exitcode);
 	}
 	if(execve(cmd_path, type_exec_cmd->arg_start, envp) == -1)
 		{
@@ -73,10 +78,11 @@ int exec_redir(t_cmd *cmd, char **envp, t_link_list *my_envp)
 {
 	t_redir_cmd	*type_redir_cmd;
 	int			new_fd;
+	int			original_fd;
 	char		*error;
 
 	type_redir_cmd = (t_redir_cmd*)cmd;
-	close(type_redir_cmd->fd);
+	// close(type_redir_cmd->fd);
 	// if(type_redir_cmd->heredoc)
 	// {
 	// 	char *eof = "eof";
@@ -89,9 +95,18 @@ int exec_redir(t_cmd *cmd, char **envp, t_link_list *my_envp)
 		ft_putstr_fd(error,2);
 		return(1);
 	}
-	exec_cmd(type_redir_cmd->sub_cmd, envp, my_envp, false);
+	if (dup2(new_fd, type_redir_cmd->fd) == -1)
+	{
+		error = "dup2 failed\n";
+		ft_putstr_fd(error, 2);
+		close(new_fd);
+		return(1);
+	}
 	close(new_fd);
-	new_fd = open("/dev/tty", O_WRONLY);
+	exec_cmd(type_redir_cmd->sub_cmd, envp, my_envp, false);
+	original_fd = open("/dev/tty", O_WRONLY);
+	dup2(original_fd, type_redir_cmd->fd);
+	close(original_fd);
 	return (0);
 }
 
@@ -109,29 +124,23 @@ int exec_pipe(t_cmd *cmd, char **envp, t_link_list *my_envp)
 	left = ft_fork();
 	if(left == 0)
 	{
-		// printf("left fork pid %d\n", left);
 		close(end[0]);
-		dup2(end[1], STDOUT_FILENO);
-		exec_cmd(type_pipe_cmd->left, envp, my_envp, true);
+		if (dup2(end[1], STDOUT_FILENO) == -1)
+			ft_panic("dup2 left");
 		close(end[1]);
+		exec_cmd(type_pipe_cmd->left, envp, my_envp, true);
+		exit(1);
 	}
-	// printf("parent pid left -> %d\n", left);
-	// if(status != 0)
-	// {
-	// 	status = WEXITSTATUS(status);
-	// 	printf("status %d\n", status);
-	// 	exit(status);
-	// }
 	right = ft_fork();
 	if(right == 0)
 	{
-		// printf("right fork pid %d\n", right);
 		close(end[1]);
-		dup2(end[0], STDIN_FILENO);
+		if (dup2(end[0], STDIN_FILENO) == -1)
+			ft_panic("dup2 right");
 		close(end[0]);
 		exec_cmd(type_pipe_cmd->right, envp, my_envp, true);
+		exit(1);
 	}
-	// printf("parent pid right -> %d\n", right);
 	if(right == 0)
 		exit(status);
 	close(end[0]);
