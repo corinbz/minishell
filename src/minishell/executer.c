@@ -5,169 +5,129 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/01 16:51:21 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/17 21:08:35 by corin            ###   ########.fr       */
+/*   Created: 2024/07/20 10:40:44 by corin             #+#    #+#             */
+/*   Updated: 2024/07/20 10:41:14 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
+// Utility function to execute a command in a child process
+void exec_child_process(char *cmd_path, char **args, char **envp)
 {
-	char		**paths;
-	char		*cmd_path;
-	t_exec_cmd	*type_exec_cmd;
-	t_link_list	*builtins;
-	int			exitcode;
-	
-	type_exec_cmd = (t_exec_cmd*)cmd;
-	if(builtin_type(type_exec_cmd) == 1)
+	if (execve(cmd_path, args, envp) == -1)
 	{
-		exitcode = run_builtin_parent(type_exec_cmd, my_envp);
-		free(cmd);
-		if(is_child)
-			ft_exit(NULL,exitcode);
-		return(exitcode);
-	}
-	if(builtin_type(type_exec_cmd) == 2)
-	{
-		exitcode = run_builtin_child(type_exec_cmd, my_envp);
-		if(is_child)
-		{
-			exit(exitcode);
-		}
-		free(cmd);
-		return(exitcode);
-	}
-	envp = link_list_to_array(&my_envp);
-	paths = get_possible_paths(envp);
-	cmd_path = get_path(type_exec_cmd->arg_start[0], paths);
-	if(!is_child)
-	{
-		int pid = ft_fork();
-		// run_signals(1);
-		if (pid == 0)
-		{
-			if(execve(cmd_path, type_exec_cmd->arg_start, envp) == -1)
-				{
-				printf("%s: no executable found\n", type_exec_cmd->arg_start[0]);
-				ft_free_2d(envp);
-				ft_exit("127",g_signal);
-				}
-		}
-		waitpid(pid, &exitcode, 0);
-		return(exitcode);
-	}
-	if(execve(cmd_path, type_exec_cmd->arg_start, envp) == -1)
-		{
-		printf("%s: no executable found\n", type_exec_cmd->arg_start[0]);
+		printf("%s: no executable found\n", args[0]);
 		ft_free_2d(envp);
 		ft_exit("127", g_signal);
-		}
-	exit(0);
+	}
 }
 
-int exec_redir(t_cmd *cmd, char **envp, t_link_list *my_envp)
+// Function to handle built-in commands
+int handle_builtin(t_exec_cmd *type_exec_cmd, t_link_list *my_envp, bool is_child)
 {
-	t_redir_cmd	*type_redir_cmd;
-	int			new_fd;
-	int			original_fd;
-	char		*error;
+	int exitcode;
 
-	type_redir_cmd = (t_redir_cmd*)cmd;
-	// close(type_redir_cmd->fd);
-	// if(type_redir_cmd->heredoc)
-	// {
-	// 	char *eof = "eof";
-	// 	ft_heredoc(eof, envp);
-	// }
-	new_fd = open(type_redir_cmd->token_start_pos, type_redir_cmd->mode, DEFAULT_CHMOD);
-	if(new_fd < 0)
+	if (builtin_type(type_exec_cmd) == 1)
 	{
-		error = "failed to create file\n";
-		ft_putstr_fd(error,2);
-		return(1);
+		exitcode = run_builtin_parent(type_exec_cmd, my_envp);
+		if (is_child)
+			ft_exit(NULL, exitcode);
+		return exitcode;
 	}
-	if (dup2(new_fd, type_redir_cmd->fd) == -1)
+	else if (builtin_type(type_exec_cmd) == 2)
 	{
-		error = "dup2 failed\n";
-		ft_putstr_fd(error, 2);
-		close(new_fd);
-		return(1);
+		exitcode = run_builtin_child(type_exec_cmd, my_envp);
+		if (is_child)
+			exit(exitcode);
+		return exitcode;
 	}
-	close(new_fd);
-	while(type_redir_cmd->sub_cmd->type == REDIR)
-	{
-		type_redir_cmd = (t_redir_cmd*)type_redir_cmd->sub_cmd;
-		if(type_redir_cmd->mode == O_WRONLY | O_CREAT | O_TRUNC)
-		{
-			new_fd = open(type_redir_cmd->token_start_pos, type_redir_cmd->mode, DEFAULT_CHMOD);
-			write(new_fd, "", 0);
-			close(new_fd);
-			continue;
-		}
-		exec_cmd(type_redir_cmd->sub_cmd, envp, my_envp, false);
-		original_fd = open("/dev/tty", O_WRONLY);
-		dup2(original_fd, type_redir_cmd->fd);
-		close(original_fd);
-		return (0);
-	}
-	exec_cmd(type_redir_cmd->sub_cmd, envp, my_envp, false);
-	original_fd = open("/dev/tty", O_WRONLY);
-	dup2(original_fd, type_redir_cmd->fd);
-	close(original_fd);
-	return (1);
+	return -1;
 }
+
+// Function to execute external commands
+int exec_external(t_exec_cmd *type_exec_cmd, char **envp, t_link_list *my_envp, bool is_child)
+{
+	char **paths = get_possible_paths(envp);
+	char *cmd_path = get_path(type_exec_cmd->arg_start[0], paths);
+
+	if (!is_child)
+	{
+		int pid = ft_fork();
+		if (pid == 0)
+		{
+			exec_child_process(cmd_path, type_exec_cmd->arg_start, envp);
+		}
+		int exitcode;
+		waitpid(pid, &exitcode, 0);
+		return exitcode;
+	}
+
+	exec_child_process(cmd_path, type_exec_cmd->arg_start, envp);
+	return 0; // This line is never reached due to execve() or exit()
+}
+
+int exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
+{
+	t_exec_cmd *type_exec_cmd = (t_exec_cmd *)cmd;
+	int exitcode;
+
+	exitcode = handle_builtin(type_exec_cmd, my_envp, is_child);
+	if (exitcode != -1)
+		return exitcode;
+
+	envp = link_list_to_array(&my_envp);
+	exitcode = exec_external(type_exec_cmd, envp, my_envp, is_child);
+	ft_free_2d(envp);
+	return exitcode;
+}
+
 
 int exec_pipe(t_cmd *cmd, char **envp, t_link_list *my_envp)
 {
-	int			end[2];
-	int			status;
-	pid_t		left;
-	pid_t		right;
-	t_pipe_cmd	*type_pipe_cmd;
-
-	type_pipe_cmd = (t_pipe_cmd *) cmd;
-	if(pipe(end) < 0)
+	int end[2];
+	if (pipe(end) < 0)
 		ft_panic("pipe");
-	left = ft_fork();
-	if(left == 0)
+
+	pid_t left = ft_fork();
+	if (left == 0)
 	{
 		close(end[0]);
 		if (dup2(end[1], STDOUT_FILENO) == -1)
 			ft_panic("dup2 left");
 		close(end[1]);
-		exec_cmd(type_pipe_cmd->left, envp, my_envp, true);
+		exec_cmd(((t_pipe_cmd *)cmd)->left, envp, my_envp, true);
 		exit(1);
 	}
-	right = ft_fork();
-	if(right == 0)
+
+	pid_t right = ft_fork();
+	if (right == 0)
 	{
 		close(end[1]);
 		if (dup2(end[0], STDIN_FILENO) == -1)
 			ft_panic("dup2 right");
 		close(end[0]);
-		exec_cmd(type_pipe_cmd->right, envp, my_envp, true);
+		exec_cmd(((t_pipe_cmd *)cmd)->right, envp, my_envp, true);
 		exit(1);
 	}
-	if(right == 0)
-		exit(status);
+
 	close(end[0]);
 	close(end[1]);
+	int status;
 	waitpid(left, &status, 0);
 	waitpid(right, &status, 0);
-	return(status);
+	return status;
 }
+
 int exec_cmd(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 {
-	int	exitcode;
+	int exitcode;
 	if (cmd->type == EXEC)
 		exitcode = exec_exec(cmd, envp, my_envp, is_child);
-	if(cmd->type == REDIR)
+	else if (cmd->type == REDIR)
 		exitcode = exec_redir(cmd, envp, my_envp);
-	if(cmd->type == PIPE)
+	else if (cmd->type == PIPE)
 		exitcode = exec_pipe(cmd, envp, my_envp);
-	// printf("%d\n", exitcode);
-	return(exitcode);
+	return exitcode;
 }

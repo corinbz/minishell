@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/16 19:55:13 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/20 10:42:47 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 
 #define MAX_ARGUMENTS 10
 #define DEFAULT_CHMOD 0644
+#define EXEC_NOT_FOUND 127
 
 extern int g_signal; 
 typedef struct s_minishell
@@ -153,6 +154,9 @@ void		free_envp(t_link_list **envp);
 t_link_list	*get_last_value(t_link_list *head);
 
 //executor
+
+//redirection
+int exec_redir(t_cmd *cmd, char **envp, t_link_list *my_envp);
 char	**get_possible_paths(char **envp);
 char	*get_path(char *cmd, char **paths);
 int		exec_cmd(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child);
