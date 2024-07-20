@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/20 10:42:47 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/20 12:36:52 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,12 @@ typedef struct s_cmd
 
 typedef struct s_exec_cmd
 {
-	t_cmd_enum	type;//EXEC || REDIR || PIPE
+	t_cmd_enum	type;//EXEC || REDIR || PIPE || HEREDOC
 	char		*arg_start[MAX_ARGUMENTS];//points to program name + flags (token_start)
 	char 		*arg_end[MAX_ARGUMENTS];//points to the null terminator after each arg_start string (token_end)
 	//arg_start and arg_end NULL terminated
 }	t_exec_cmd;
 
-typedef struct s_heredoc
-{
-	bool	is_true;
-	int		temp_file;
-	char	*eof;
-}	t_heredoc;
 
 typedef struct s_redir_cmd
 {
@@ -155,14 +149,16 @@ t_link_list	*get_last_value(t_link_list *head);
 
 //executor
 
+//pipes
+int		exec_pipe(t_cmd *cmd, char **envp, t_link_list *my_envp);
 //redirection
-int exec_redir(t_cmd *cmd, char **envp, t_link_list *my_envp);
+int		exec_redir(t_cmd *cmd, char **envp, t_link_list *my_envp);
 char	**get_possible_paths(char **envp);
 char	*get_path(char *cmd, char **paths);
 int		exec_cmd(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child);
 void	minishell_run(t_minishell *m,char **envp, t_link_list *my_envp);
 //heredoc
-int ft_heredoc(t_heredoc *heredoc, char **envp);
+int exec_heredoc(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child);
 
 //signals
 void	run_signals(int sig);

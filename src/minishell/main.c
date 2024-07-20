@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/07 13:36:25 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/20 11:24:33 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ int main(int argc, char **argv, char **envp)
 	my_envp = create_my_envp(envp);
 	input = ft_calloc(1, sizeof(t_minishell*));
 	minishell_run(input,envp,my_envp);
+	free_envp(&my_envp);
 	return (EXIT_SUCCESS);
 }

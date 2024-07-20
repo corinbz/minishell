@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:10:09 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/16 19:55:46 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/20 13:45:39 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	minishell_run(t_minishell *m,char **envp, t_link_list *my_envp)
 		// rl_redisplay();
 		if (!input)
 		{
-			// printf("exit\n");
+			printf("no input found.. exiting\n");
 			// rl_replace_line("", 0);
 			// rl_redisplay();
 			// run_signals(3);

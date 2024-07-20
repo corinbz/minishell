@@ -6,11 +6,11 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 10:40:44 by corin             #+#    #+#             */
-/*   Updated: 2024/07/20 10:41:14 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/20 12:33:53 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 
 // Utility function to execute a command in a child process
@@ -49,75 +49,41 @@ int handle_builtin(t_exec_cmd *type_exec_cmd, t_link_list *my_envp, bool is_chil
 // Function to execute external commands
 int exec_external(t_exec_cmd *type_exec_cmd, char **envp, t_link_list *my_envp, bool is_child)
 {
-	char **paths = get_possible_paths(envp);
-	char *cmd_path = get_path(type_exec_cmd->arg_start[0], paths);
-
+	char	**paths;
+	char	*cmd_path;
+	int		pid;
+	int		exitcode;
+	
+	paths = get_possible_paths(envp);
+	cmd_path = get_path(type_exec_cmd->arg_start[0], paths);
 	if (!is_child)
 	{
-		int pid = ft_fork();
+		pid = ft_fork();
 		if (pid == 0)
 		{
 			exec_child_process(cmd_path, type_exec_cmd->arg_start, envp);
 		}
-		int exitcode;
 		waitpid(pid, &exitcode, 0);
-		return exitcode;
+		return (exitcode);
 	}
 
 	exec_child_process(cmd_path, type_exec_cmd->arg_start, envp);
-	return 0; // This line is never reached due to execve() or exit()
+	return (0);
 }
 
 int exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 {
-	t_exec_cmd *type_exec_cmd = (t_exec_cmd *)cmd;
+	t_exec_cmd *type_exec_cmd;
 	int exitcode;
 
+	type_exec_cmd = (t_exec_cmd *)cmd;
 	exitcode = handle_builtin(type_exec_cmd, my_envp, is_child);
 	if (exitcode != -1)
-		return exitcode;
-
+		return (exitcode);
 	envp = link_list_to_array(&my_envp);
 	exitcode = exec_external(type_exec_cmd, envp, my_envp, is_child);
 	ft_free_2d(envp);
 	return exitcode;
-}
-
-
-int exec_pipe(t_cmd *cmd, char **envp, t_link_list *my_envp)
-{
-	int end[2];
-	if (pipe(end) < 0)
-		ft_panic("pipe");
-
-	pid_t left = ft_fork();
-	if (left == 0)
-	{
-		close(end[0]);
-		if (dup2(end[1], STDOUT_FILENO) == -1)
-			ft_panic("dup2 left");
-		close(end[1]);
-		exec_cmd(((t_pipe_cmd *)cmd)->left, envp, my_envp, true);
-		exit(1);
-	}
-
-	pid_t right = ft_fork();
-	if (right == 0)
-	{
-		close(end[1]);
-		if (dup2(end[0], STDIN_FILENO) == -1)
-			ft_panic("dup2 right");
-		close(end[0]);
-		exec_cmd(((t_pipe_cmd *)cmd)->right, envp, my_envp, true);
-		exit(1);
-	}
-
-	close(end[0]);
-	close(end[1]);
-	int status;
-	waitpid(left, &status, 0);
-	waitpid(right, &status, 0);
-	return status;
 }
 
 int exec_cmd(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
@@ -129,5 +95,7 @@ int exec_cmd(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 		exitcode = exec_redir(cmd, envp, my_envp);
 	else if (cmd->type == PIPE)
 		exitcode = exec_pipe(cmd, envp, my_envp);
+	else if (cmd->type == HEREDOC)
+		exitcode = exec_heredoc(cmd, envp, my_envp, is_child);
 	return exitcode;
 }

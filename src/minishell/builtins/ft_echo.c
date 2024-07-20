@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/06/30 16:48:47 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/20 11:55:41 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	ft_echo(char *newline, char **input)
 	int i;
 
 	i = 1;
+	if(!input || !newline)
+		return(printf("\n"),0);
 	if(ft_strncmp(newline, "-n", 2) == 0)
 	{
 		return(echo_no_newline(newline, input));
