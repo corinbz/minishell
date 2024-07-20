@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:51:21 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/15 13:28:05 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/17 21:08:35 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 	int			exitcode;
 	
 	type_exec_cmd = (t_exec_cmd*)cmd;
-	// printf("executing %s\n",type_exec_cmd->arg_start[0]);
-	// printf("builtin type is %d\n",builtin_type(type_exec_cmd));
 	if(builtin_type(type_exec_cmd) == 1)
 	{
 		exitcode = run_builtin_parent(type_exec_cmd, my_envp);
@@ -34,12 +32,9 @@ int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 	}
 	if(builtin_type(type_exec_cmd) == 2)
 	{
-		// if(ft_strncmp(type_exec_cmd->arg_start[0], "echo", 4) == 0)
-		// 	return(ft_echo(type_exec_cmd->arg_start[1], type_exec_cmd->arg_start));
 		exitcode = run_builtin_child(type_exec_cmd, my_envp);
 		if(is_child)
 		{
-			// printf("got here\n");
 			exit(exitcode);
 		}
 		free(cmd);
@@ -62,7 +57,6 @@ int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 				}
 		}
 		waitpid(pid, &exitcode, 0);
-		// ft_free_2d(envp);
 		return(exitcode);
 	}
 	if(execve(cmd_path, type_exec_cmd->arg_start, envp) == -1)
@@ -103,11 +97,27 @@ int exec_redir(t_cmd *cmd, char **envp, t_link_list *my_envp)
 		return(1);
 	}
 	close(new_fd);
+	while(type_redir_cmd->sub_cmd->type == REDIR)
+	{
+		type_redir_cmd = (t_redir_cmd*)type_redir_cmd->sub_cmd;
+		if(type_redir_cmd->mode == O_WRONLY | O_CREAT | O_TRUNC)
+		{
+			new_fd = open(type_redir_cmd->token_start_pos, type_redir_cmd->mode, DEFAULT_CHMOD);
+			write(new_fd, "", 0);
+			close(new_fd);
+			continue;
+		}
+		exec_cmd(type_redir_cmd->sub_cmd, envp, my_envp, false);
+		original_fd = open("/dev/tty", O_WRONLY);
+		dup2(original_fd, type_redir_cmd->fd);
+		close(original_fd);
+		return (0);
+	}
 	exec_cmd(type_redir_cmd->sub_cmd, envp, my_envp, false);
 	original_fd = open("/dev/tty", O_WRONLY);
 	dup2(original_fd, type_redir_cmd->fd);
 	close(original_fd);
-	return (0);
+	return (1);
 }
 
 int exec_pipe(t_cmd *cmd, char **envp, t_link_list *my_envp)

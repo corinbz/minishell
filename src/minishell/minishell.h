@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/07 13:34:28 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:55:13 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,4 +165,7 @@ void	run_signals(int sig);
 void	restore_prompt(int sig);
 void	ctrl_c(int sig);
 void	back_slash(int sig);
+
+//todelete
+void print_cmd_structure(t_cmd *cmd, int indent);
 #endif

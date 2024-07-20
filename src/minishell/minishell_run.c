@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_run.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:10:09 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/07 15:52:46 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:55:46 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	minishell_run(t_minishell *m,char **envp, t_link_list *my_envp)
 			ft_lstadd_back(&m->input_history, ft_lstnew(input));
 			expand_dollar_signs(input,my_envp);
 			cmd = parse_cmd(input);
+			print_cmd_structure(cmd, 0);
 			exec_cmd(cmd,envp,my_envp, false);
 			free(input);
 			// free(cmd);

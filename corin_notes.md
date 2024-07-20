@@ -1,15 +1,10 @@
-echo $ (with something that doesn't exist) --> segfault 
-				should give back a empty line and a new prompt
-redirection with out a file is exiting the program
+Things to fix:
 
-multiple redirection out write in the first file 
-
-
-outside quotes need to be removed 
-
-un closing quotes shouldn't work
-
-first and last char '|' should give an error message
+1. echo $ (with something that doesn't exist) --> segfault 
+	should give back a empty line and a new prompt (echo $dkf)
+2. redirection without a file is exiting the program
+3. multiple redirection out write in the first file 
+4. un closing quotes shouldn't work (echo "hello')
+5. first and last char '|' should give an error message
 export -> export=
-
-pipe inside quotes should be ignored
+6. pipe inside quotes should be ignored
