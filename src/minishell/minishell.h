@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/21 10:52:45 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/21 11:03:41 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,21 @@
 #include <errno.h>
 #include <termios.h>
 
-// Constants
+/******************************************************************************
+*								CONSTANTS									  *
+******************************************************************************/
 #define MAX_ARGUMENTS 10
 #define DEFAULT_CHMOD 0644
 #define EXEC_NOT_FOUND 127
 
-// Global Variables
+/******************************************************************************
+*								GLOBAL VARIABLES							  *
+******************************************************************************/
 extern int	g_signal;
 
-// Enums
+/******************************************************************************
+*								ENUMS										  *
+******************************************************************************/
 typedef enum s_cmd_enum
 {
 	EXEC = 1,
@@ -45,7 +51,9 @@ typedef enum s_cmd_enum
 	HEREDOC = 4
 }	t_cmd_enum;
 
-// Structs
+/******************************************************************************
+*								STRUCTS										  *
+******************************************************************************/
 typedef struct s_minishell
 {
 	t_list	*input_history;
@@ -108,16 +116,19 @@ typedef struct s_heredoc_cmd
 	int			temp_fd;
 }	t_heredoc_cmd;
 
-// Function Declarations
+/******************************************************************************
+*								FUNCTIONS									  *
+******************************************************************************/
 
-// Constructor Functions
+/* ------------------------ CONSTRUCTOR FUNCTIONS ----------------------------*/
+
 t_cmd		*create_exec_cmd(void);
 t_cmd		*create_redir_cmd(t_cmd *sub_cmd, char *file,
 				char *efile, int mode, int fd);
 t_cmd		*create_pipe_cmd(t_cmd *left, t_cmd *right);
 t_cmd		*create_heredoc_cmd(t_cmd *sub_cmd, char *eof_start, char *eof_end);
 
-// Utility Functions
+/* ---------------------------- UTILITY --------------------------------------*/
 pid_t		ft_fork(void);
 t_link_list	*create_builtin_lst();
 char		**link_list_to_array(t_link_list **head);
@@ -125,7 +136,7 @@ int			get_set_return_val(int val);
 void		free_envp(t_link_list **envp);
 t_link_list	*get_last_value(t_link_list *head);
 
-// Parser Functions
+/* ---------------------------- PARSER ---------------------------------------*/
 t_cmd		*parse_cmd(char *input);
 t_cmd		*parse_pipe(char **input);
 bool		is_token_ahead(char **input, char *tokens);
@@ -140,7 +151,7 @@ void		expand_env_vars_and_quotes(char **input, t_link_list *env);
 void		expand_dollar_signs(char *i, t_link_list *env);
 void		expand_quotes(char *str);
 
-// Builtin Functions
+/* ---------------------------- BUILTIN --------------------------------------*/
 t_link_list	*create_my_envp(char **envp);
 int			ft_pwd();
 int			ft_env(t_link_list *head);
@@ -154,7 +165,7 @@ int			builtin_type(t_exec_cmd *cmd);
 int			run_builtin_parent(t_exec_cmd *cmd, t_link_list *my_envp);
 int			run_builtin_child(t_exec_cmd *cmd, t_link_list *my_envp);
 
-// Executor Functions
+/* ---------------------------- EXECUTOR -------------------------------------*/
 int			exec_pipe(t_cmd *cmd, char **envp, t_link_list *my_envp);
 int			exec_redir(t_cmd *cmd, char **envp, t_link_list *my_envp);
 char		**get_possible_paths(char **envp);
@@ -165,13 +176,13 @@ void		minishell_run(t_minishell *m, char **envp, t_link_list *my_envp);
 int			exec_heredoc(t_cmd *cmd, char **envp,
 				t_link_list *my_envp, bool is_child);
 
-// Signal Handling Functions
+/* ------------------------------ SIGNALS ------------------------------------*/
 void		run_signals(int sig);
 void		restore_prompt(int sig);
 void		ctrl_c(int sig);
 void		back_slash(int sig);
 
-// Debugging Functions
+/* ------------------------ DEBUGGING HELPER ---------------------------------*/
 void		print_cmd_structure(t_cmd *cmd, int indent);
 
 #endif
