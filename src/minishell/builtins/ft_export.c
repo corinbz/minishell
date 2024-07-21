@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:34:05 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/15 14:54:14 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/21 11:15:37 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,7 @@ int	ft_export(char *new_param, t_link_list *head)
 {
 	t_link_list	*temp;
 	t_link_list	*last;
-	t_link_list	*curr;
 	
-	curr = head;
 	if(!new_param)
 		{
 			while(head)

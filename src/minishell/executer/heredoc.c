@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 15:00:23 by corin             #+#    #+#             */
-/*   Updated: 2024/07/20 15:00:56 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/21 11:11:50 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int copy_file_to_fd(const char *src_path, int dest_fd) {
 	return 0;
 }
 
-int exec_heredoc(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child) {
+int exec_heredoc(t_cmd *cmd, char **envp, t_link_list *my_envp) {
 	char *input;
 	char *input_newline;
 	t_heredoc_cmd *heredoc;

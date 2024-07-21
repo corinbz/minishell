@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 10:40:44 by corin             #+#    #+#             */
-/*   Updated: 2024/07/20 12:33:53 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/21 11:43:17 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int exec_external(t_exec_cmd *type_exec_cmd, char **envp, t_link_list *my_envp, 
 			exec_child_process(cmd_path, type_exec_cmd->arg_start, envp);
 		}
 		waitpid(pid, &exitcode, 0);
+		exitcode = WEXITSTATUS(exitcode);
 		return (exitcode);
 	}
 
@@ -96,6 +97,7 @@ int exec_cmd(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 	else if (cmd->type == PIPE)
 		exitcode = exec_pipe(cmd, envp, my_envp);
 	else if (cmd->type == HEREDOC)
-		exitcode = exec_heredoc(cmd, envp, my_envp, is_child);
+		exitcode = exec_heredoc(cmd, envp, my_envp);
+	printf("exitcode: %d\n", exitcode);
 	return exitcode;
 }

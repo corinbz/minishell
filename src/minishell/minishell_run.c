@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:10:09 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/21 10:25:50 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/21 12:01:30 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 
 
-void	minishell_run(t_minishell *m,char **envp, t_link_list *my_envp)
+void	minishell_run(t_minishell *m,char **envp, t_link_list *my_envp,
+						t_exit_status *exit_sts)
 {
 	char	*input;
 	t_cmd	*cmd;
@@ -22,9 +23,6 @@ void	minishell_run(t_minishell *m,char **envp, t_link_list *my_envp)
 	run_signals(1);
 	struct termios saved_termios;
 	struct termios raw_termios;
-
-    // Save current terminal settings
-
 	while (1)
 	{
 		tcgetattr(STDIN_FILENO, &saved_termios);
@@ -45,13 +43,14 @@ void	minishell_run(t_minishell *m,char **envp, t_link_list *my_envp)
 		{
 			add_history(input);
 			ft_lstadd_back(&m->input_history, ft_lstnew(input));
+			input = expand_ret_value(input,exit_sts);
+			printf("input: %s\n", input);
 			expand_dollar_signs(input,my_envp);
 			cmd = parse_cmd(input);
-			print_cmd_structure(cmd, 0);
-			exec_cmd(cmd,envp,my_envp, false);
+			// print_cmd_structure(cmd, 0);
+			exit_sts->exit_status = exec_cmd(cmd,envp,my_envp, false);
 			free(input);
 			// free(cmd);
-			//parse & process input functions
 		}
 		tcsetattr(STDIN_FILENO, TCSANOW, &saved_termios);
 	}
