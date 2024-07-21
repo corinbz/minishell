@@ -1,20 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/20 15:00:23 by corin             #+#    #+#             */
+/*   Updated: 2024/07/20 15:00:56 by corin            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
-
-
 
 int copy_file_to_fd(const char *src_path, int dest_fd) {
 	int src_fd;
 	ssize_t bytes_read, bytes_written;
-	char buffer[BUFSIZ]; // Use a larger buffer for efficiency
+	char buffer[BUFSIZ];
 
-	// Open the source file for reading
 	src_fd = open(src_path, O_RDONLY);
 	if (src_fd < 0) {
 		perror("Error opening source file");
 		return -1;
 	}
 
-	// Read from the source file and write to the destination file descriptor
 	while ((bytes_read = read(src_fd, buffer, sizeof(buffer))) > 0) {
 		bytes_written = write(dest_fd, buffer, bytes_read);
 		if (bytes_written != bytes_read) {
@@ -30,20 +38,20 @@ int copy_file_to_fd(const char *src_path, int dest_fd) {
 		return -1;
 	}
 
-	// Close the source file
 	close(src_fd);
 	return 0;
 }
 
-int exec_heredoc(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
-{
+int exec_heredoc(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child) {
 	char *input;
 	char *input_newline;
 	t_heredoc_cmd *heredoc;
+	char *new_eof;
 	int original_stdin;
 	int exitcode;
 
 	heredoc = (t_heredoc_cmd *)cmd;
+	new_eof = ft_substr(heredoc->eof_start, 0, ft_strlen(heredoc->eof_start) - ft_strlen(heredoc->eof_end));
 	heredoc->temp_fd = open("heredoc", O_CREAT | O_RDWR | O_TRUNC, DEFAULT_CHMOD);
 	original_stdin = dup(STDIN_FILENO);
 	if (heredoc->temp_fd < 0) {
@@ -51,18 +59,14 @@ int exec_heredoc(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 		return 1;
 	}
 
-	while (1)
-	{
+	while (1) {
 		input = readline("heredoc> ");
-		if (!input)
-		{
-			// Clean up
+		if (!input) {
 			close(heredoc->temp_fd);
-			unlink("heredoc"); // Remove the temporary file
-			exit(1); // or return a suitable error code
+			unlink("heredoc");
+			exit(1);
 		}
-		if (ft_strncmp(input, heredoc->eof_start, ft_strlen(heredoc->eof_start)) == 0)
-		{
+		if (ft_strncmp(input, new_eof, ft_strlen(new_eof)) == 0) {
 			free(input);
 			close(heredoc->temp_fd);
 			// Redirect STDIN from the heredoc file
@@ -77,13 +81,13 @@ int exec_heredoc(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 				return 1;
 			}
 			close(new_fd);
-			unlink("heredoc"); // Remove the temporary file
+			unlink("heredoc");
 			exitcode = exec_cmd(heredoc->sub_cmd, envp, my_envp, false);
 			dup2(original_stdin, STDIN_FILENO);
+			close(original_stdin);
+			free(new_eof);
 			return (exitcode);
-		}
-		else
-		{
+		} else {
 			input_newline = ft_strjoin(input, "\n");
 			if (!input_newline) {
 				free(input);

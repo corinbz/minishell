@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:10:09 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/20 13:45:39 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/21 10:25:50 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,18 @@ void	minishell_run(t_minishell *m,char **envp, t_link_list *my_envp)
 {
 	char	*input;
 	t_cmd	*cmd;
+	
+	run_signals(1);
+	struct termios saved_termios;
+	struct termios raw_termios;
 
-	// run_signals(2);
+    // Save current terminal settings
+
 	while (1)
 	{
+		tcgetattr(STDIN_FILENO, &saved_termios);
+		raw_termios = saved_termios;
+		cfmakeraw(&raw_termios);
 		input = readline("minishell: ");
 		rl_on_new_line();
 		// rl_redisplay();
@@ -45,6 +53,7 @@ void	minishell_run(t_minishell *m,char **envp, t_link_list *my_envp)
 			// free(cmd);
 			//parse & process input functions
 		}
+		tcsetattr(STDIN_FILENO, TCSANOW, &saved_termios);
 	}
 }
 
