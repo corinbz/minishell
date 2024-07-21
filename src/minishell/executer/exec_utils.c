@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 10:31:39 by corin             #+#    #+#             */
-/*   Updated: 2024/07/07 13:34:39 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/20 11:02:23 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /*display message to stderror then exit(1)*/
 noreturn void	ft_panic(const char *s)

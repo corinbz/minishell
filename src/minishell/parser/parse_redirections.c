@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:30:09 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/06 12:33:32 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/20 14:05:40 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_cmd	*parse_redirections(t_cmd *cmd, char **input)
 		else if (token == '<')
 			cmd = create_redir_cmd(cmd, token_start_pos, token_end_pos, O_RDONLY, STDIN_FILENO);
 		else if (token == '-') // <<
-			cmd = create_heredoc_cmd(cmd, token_start_pos, token_end_pos); //todo check if we need sub_cmd
+			cmd = create_heredoc_cmd(cmd, token_start_pos, token_end_pos);
 		else
 			ft_panic("minishell: parse redirections error\n");
 	}

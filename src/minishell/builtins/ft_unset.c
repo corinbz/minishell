@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/01 13:32:06 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:16:11 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	ft_unset(char *param, t_link_list **head)
 	{
 		if(ft_strncmp(param, curr->param, ft_strlen(param)) == 0)
 		{
+			printf("%s\n",curr->param);
 			if(prev)
 				prev->next = curr->next;
 			else

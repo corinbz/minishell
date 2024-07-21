@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:34:05 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/01 12:55:06 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/21 11:15:37 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int param_valid(char *param)
+{
+	int	i;
+
+	i = 0;
+	while(param[i] != '=' && param[i])
+	{
+		if(ft_isalpha(param[i]))
+			return(1);
+		i++;
+	}
+	
+	return(0);
+}
 
 static int change_if_exists(char *new_param, t_link_list *head)
 {
@@ -48,9 +63,7 @@ int	ft_export(char *new_param, t_link_list *head)
 {
 	t_link_list	*temp;
 	t_link_list	*last;
-	t_link_list	*curr;
 	
-	curr = head;
 	if(!new_param)
 		{
 			while(head)
@@ -60,6 +73,8 @@ int	ft_export(char *new_param, t_link_list *head)
 			}
 			return(0);
 		}
+	if(!param_valid(new_param))
+		return(printf("export : param %s is invalid\n", new_param), 1);
 	if (change_if_exists(new_param, head))
 		return(0);
 	temp = (t_link_list*)ft_calloc(1, sizeof(*temp));
@@ -80,5 +95,6 @@ int	ft_export(char *new_param, t_link_list *head)
 	}
 	last = get_last_value(head);
 	last->next = temp;
+	temp->next = NULL;
 	return(0);
 }
