@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 08:26:14 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/24 11:40:03 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/24 19:10:00 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char *try_to_get_val_from_env(char *var, t_link_list *env)
 
 	while (env)
 	{
-		if (ft_strncmp(env->param, var, ft_strlen(var)) == 0 && env->param[ft_strlen(var)] == '=')
+		if (ft_strncmp(env->param, var, ft_strlen(var)) == 0 && ((char *)env->param)[ft_strlen(var)] == '=')
 		{
 			to_ret = ft_strdup(env->param + ft_strlen(var) + 1);
 			if (!to_ret)
@@ -67,10 +67,18 @@ static void expand_dollar_sign(char *dollar_pos, t_link_list *env)
 	if (!var)
 		ft_panic("minishell: malloc failed\n");
 	i = 0;
-	while (dollar_pos[i + 1] && !ft_strchr(stop_chars, dollar_pos[i + 1]))
+	if (dollar_pos[i + 1] == '?')
 	{
-		var[i] = dollar_pos[i + 1];
+		var[i] = '?';
 		i++;
+	}
+	else
+	{
+		while (dollar_pos[i + 1] && !ft_strchr(stop_chars, dollar_pos[i + 1]))
+		{
+			var[i] = dollar_pos[i + 1];
+			i++;
+		}
 	}
 	var[i] = '\0';
 	dollar_end = &dollar_pos[i + 1];
@@ -102,7 +110,7 @@ static bool	try_to_expand_dollar_sign(char *str, t_link_list *env)
 			if (state.inside_single_quotes)
 				state.double_inside_single = !state.double_inside_single;
 		}
-		if (*str == '$' && ((!state.inside_single_quotes && !state.inside_double_quotes) || state.single_inside_double || (state.inside_double_quotes && !state.double_inside_single)))
+		if (*str == '$' && *(str + 1) != '\0' && *(str + 1) != '"' && ((!state.inside_single_quotes && !state.inside_double_quotes) || state.single_inside_double || (state.inside_double_quotes && !state.double_inside_single)))
 		{
 			expand_dollar_sign(str, env);
 			return (true);

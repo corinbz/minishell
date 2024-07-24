@@ -6,7 +6,7 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 07:17:39 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/07 09:33:15 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:50:20 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static bool contains_character(char *str, char c)
 	return (false);
 }
 
-void expand_env_vars_and_quotes(char **input, t_link_list *env)
+void expand_env_vars_and_quotes(char **input, t_link_list *env, t_exit_status *exit_sts)
 {
 	char	*i;
 

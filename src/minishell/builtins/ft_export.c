@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:34:05 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/24 11:53:44 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/24 18:31:42 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	ft_export(char *new_param, t_link_list *head)
 		{
 			while(head)
 			{
-				printf("declare -x %s", head->param);
+				printf("declare -x %s", (char *)head->param);
 				head = head->next;
 			}
 			return(0);

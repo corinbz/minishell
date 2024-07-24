@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/21 11:23:34 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/24 18:25:23 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int g_signal = 0;
 int main(int argc, char **argv, char **envp)
 {
 	t_link_list	*my_envp;
-	t_minishell	*input;
 	t_exit_status	*exit_sts;
 
 	if (argc != 1 || argv[1])
@@ -28,8 +27,7 @@ int main(int argc, char **argv, char **envp)
 	if (!exit_sts)
 		return (1);
 	my_envp = create_my_envp(envp);
-	input = ft_calloc(1, sizeof(t_minishell*));
-	minishell_run(input,envp,my_envp, exit_sts);
+	minishell_run(envp,my_envp, exit_sts);
 	free_envp(&my_envp);
 	return (EXIT_SUCCESS);
 }
