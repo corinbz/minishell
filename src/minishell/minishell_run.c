@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:10:09 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/24 11:58:52 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/24 17:10:57 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	minishell_run(t_minishell *m,char **envp, t_link_list *my_envp,
 			add_history(input);
 			ft_lstadd_back(&m->input_history, ft_lstnew(input));
 			input = expand_ret_value(input,exit_sts);
-			expand_dollar_signs(input,my_envp);
+			expand_env_vars_and_quotes(&input, my_envp);
 			cmd = parse_cmd(input);
 			// print_cmd_structure(cmd, 0);
 			exit_sts->exit_status = exec_cmd(cmd,envp,my_envp, false);
