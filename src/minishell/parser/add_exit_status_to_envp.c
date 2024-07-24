@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   add_exit_status_to_envp.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/26 04:07:15 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/24 18:20:34 by erybolov         ###   ########.fr       */
+/*   Created: 2024/07/24 18:08:52 by erybolov          #+#    #+#             */
+/*   Updated: 2024/07/24 18:49:13 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-t_link_list	*ft_lstlast(t_link_list *lst)
+void add_exit_status_to_envp(t_link_list **my_envp, t_exit_status *exit_sts)
 {
-	if (lst == NULL)
-		return (NULL);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
+	t_link_list	*node;
+	char	*value;
+
+	value = ft_strjoin("?=", ft_itoa(exit_sts->exit_status % 255));
+	node = ft_lstnew(value);
+	ft_lstadd_front(my_envp, node);
 }

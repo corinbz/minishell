@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/06/30 16:27:13 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:31:30 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_env(t_link_list *head)
 {
 	while(head)
 	{
-		printf("%s\n", head->param);
+		printf("%s\n", (char *)head->param);
 		head = head->next;
 	}
 	return(0);
