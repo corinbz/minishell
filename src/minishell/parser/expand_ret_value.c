@@ -6,11 +6,11 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:49:11 by corin             #+#    #+#             */
-/*   Updated: 2024/07/21 12:07:54 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/24 12:24:40 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 
 // Helper function to replace the "$?" sequence with the return value
@@ -20,6 +20,7 @@ char *replace_ret_value(const char *input, int ret_value, int pos)
 	char *new_str;
 	char *temp;
 
+	ret_value = ret_value % 255;
 	ret_val_str = ft_itoa(ret_value);
 	if (!ret_val_str)
 		ft_panic("minishell: ft_itoa failed\n");

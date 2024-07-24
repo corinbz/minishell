@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:34:05 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/21 11:15:37 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/24 11:53:44 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static int param_valid(char *param)
 	int	i;
 
 	i = 0;
+	if(ft_strchr(param, '=') == NULL)
+		return(0);
 	while(param[i] != '=' && param[i])
 	{
 		if(ft_isalpha(param[i]))

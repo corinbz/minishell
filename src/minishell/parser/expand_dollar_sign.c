@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 08:26:14 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/21 11:48:13 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/24 11:40:03 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,6 @@ static char *try_to_get_val_from_env(char *var, t_link_list *env)
 		}
 		env = env->next;
 	}
-	// if(ft_strncmp(var, "?", 1) == 0)
-	// {
-	// 	to_ret = ft_itoa(g_signal);
-	// 	if (!to_ret)
-	// 		ft_panic("minishell: ft_itoa failed\n");
-	// 	return (to_ret);
-	// }
 	return (ft_strdup(""));
 }
 

@@ -1,6 +1,8 @@
 /minishell
 .idea/
 .vscode/
+minishell_tester/
+minitester-minishell-tester/
 
 # Prerequisites
 *.d

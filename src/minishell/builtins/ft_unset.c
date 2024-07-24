@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/15 13:16:11 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/24 11:58:11 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@ int	ft_unset(char *param, t_link_list **head)
 	t_link_list	*curr;
 	t_link_list	*prev;
 
+	if(!param)
+		return(0);
 	curr = *head;
 	prev = NULL;
 	while(curr)
 	{
 		if(ft_strncmp(param, curr->param, ft_strlen(param)) == 0)
 		{
-			printf("%s\n",curr->param);
 			if(prev)
 				prev->next = curr->next;
 			else

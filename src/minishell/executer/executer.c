@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 10:40:44 by corin             #+#    #+#             */
-/*   Updated: 2024/07/21 11:43:17 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/24 12:08:53 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void exec_child_process(char *cmd_path, char **args, char **envp)
 	{
 		printf("%s: no executable found\n", args[0]);
 		ft_free_2d(envp);
-		ft_exit("127", g_signal);
+		exit(127);
 	}
 }
 
@@ -98,6 +98,5 @@ int exec_cmd(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 		exitcode = exec_pipe(cmd, envp, my_envp);
 	else if (cmd->type == HEREDOC)
 		exitcode = exec_heredoc(cmd, envp, my_envp);
-	printf("exitcode: %d\n", exitcode);
 	return exitcode;
 }

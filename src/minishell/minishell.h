@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/21 12:05:57 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/24 12:04:02 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_shell_state
 
 typedef struct s_exit_status
 {
-	int	exit_status;
+	int		exit_status;
 }	t_exit_status;
 
 typedef struct s_parser_quotes_state
@@ -166,7 +166,7 @@ int			ft_export(char *new_param, t_link_list *head);
 int			ft_unset(char *param, t_link_list **head);
 int			ft_echo(char *newline, char **input);
 int			ft_cd(char *dir, t_link_list *my_envp);
-int			ft_exit(char *my_status, int last_status);
+int			ft_exit(t_exec_cmd *cmd, int last_status);
 
 int			builtin_type(t_exec_cmd *cmd);
 int			run_builtin_parent(t_exec_cmd *cmd, t_link_list *my_envp);
