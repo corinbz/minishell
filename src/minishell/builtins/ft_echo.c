@@ -3,23 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/06/30 16:27:03 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/20 11:55:41 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_echo(char *newline, char **input)
+static int echo_no_newline(char *newline, char **input)
 {
-	int i;
+	int	i;
 
 	i = 1;
-	if(ft_strncmp(newline, "-n", 2) == 0)
-	{
-		while(newline[i] == 'n')
+	while(newline[i] == 'n')
 			{
 				i++;
 				if (newline[i] != 'n' && newline[i] != '\0')
@@ -40,8 +38,19 @@ int	ft_echo(char *newline, char **input)
 				printf(" ");
 		}
 		return (0);
+}
+
+int	ft_echo(char *newline, char **input)
+{
+	int i;
+
+	i = 1;
+	if(!input || !newline)
+		return(printf("\n"),0);
+	if(ft_strncmp(newline, "-n", 2) == 0)
+	{
+		return(echo_no_newline(newline, input));
 	}
-	// i = 1;
 	while(input[i])
 	{
 		printf("%s", input[i]);

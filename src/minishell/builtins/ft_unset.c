@@ -1,47 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/24 12:16:59 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/24 11:58:11 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	get_set_return_val(int val)
+int	ft_unset(char *param, t_link_list **head)
 {
-	static int ret;
+	t_link_list	*curr;
+	t_link_list	*prev;
 
-	if(val == INT_MIN)
+	if(!param)
+		return(0);
+	curr = *head;
+	prev = NULL;
+	while(curr)
 	{
-		printf("ret is %d\n", ret);
-		return(ret);
+		if(ft_strncmp(param, curr->param, ft_strlen(param)) == 0)
+		{
+			if(prev)
+				prev->next = curr->next;
+			else
+				*head = curr->next;
+			free(curr);
+			return(0);
+		}
+			prev = curr;
+			curr = curr->next;
 	}
-	ret = val;
-	return(ret);
-	
-}
-
-int ft_exit(t_exec_cmd *cmd, int last_status)
-{
-	int exit_status;
-	
-	exit_status = last_status % 255;
-	if(cmd->arg_start[1] && cmd->arg_start[2])
-	{
-		printf("minishell: exit: too many arguments\n");
-		return(1);
-	}
-	if(!cmd->arg_start[1])
-	{
-		// printf("exited with exitcode %d\n", exit_status);
-		exit(exit_status);
-	}
-	exit_status = ft_atoi(cmd->arg_start[1]) % 255;
-	// printf("exited with exitcode %d\n", exit_status);
-	exit(exit_status);
+	return(0);
 }

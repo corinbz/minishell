@@ -1,19 +1,21 @@
+Things to fix:
 
-### execve(char *program_path, char **program_name + args, envp);
+1. echo $ (with something that doesn't exist) --> segfault 
+	should give back a empty line and a new prompt (echo $dkf)
+(fixed)
 
-1. check if executable is inside path
-2. execute
+2. redirection without a file is exiting the program
+(fixed)
 
-test cases:
+3. multiple redirection out write in the first file 
+(fixed)
 
-### exec_cmd(t_cmd *cmd)
+4. un closing quotes shouldn't work (echo "hello')
+5. first and last char '|' should give an error message
+export -> export=
+6. pipe inside quotes should be ignored
 
-1. check type of cmd
-    1. if type is EXEC: just execute
-	2. if type is REDIR
-		1. close fd that we wanna redirect to
-		2. create new file with aproapiate mode
-		3. exec_cmd
-	3. if type is PIPE
-		1. fork left and exec_cmd left cmd;
-		2. fork right and exec_cmd left cmd;
+24-07-24
+
+1. echo $PWD gives segfault
+2.
