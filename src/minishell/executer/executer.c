@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 10:40:44 by corin             #+#    #+#             */
-/*   Updated: 2024/07/24 12:08:53 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/25 10:17:08 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int exec_external(t_exec_cmd *type_exec_cmd, char **envp, t_link_list *my_envp, 
 		pid = ft_fork();
 		if (pid == 0)
 		{
+			if(!cmd_path)
+				exit(0);
 			exec_child_process(cmd_path, type_exec_cmd->arg_start, envp);
 		}
 		waitpid(pid, &exitcode, 0);
@@ -78,6 +80,8 @@ int exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 	int exitcode;
 
 	type_exec_cmd = (t_exec_cmd *)cmd;
+	if(!type_exec_cmd->arg_start[0])
+		return (0);
 	exitcode = handle_builtin(type_exec_cmd, my_envp, is_child);
 	if (exitcode != -1)
 		return (exitcode);

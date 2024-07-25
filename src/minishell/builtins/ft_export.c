@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:34:05 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/24 18:31:42 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/25 10:16:18 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int param_valid(char *param)
 		return(0);
 	while(param[i] != '=' && param[i])
 	{
-		if(ft_isalpha(param[i]))
+		if(ft_isalpha(param[i]) || param[i] == '?')
 			return(1);
 		i++;
 	}
@@ -42,7 +42,7 @@ static int change_if_exists(char *new_param, t_link_list *head)
 	}
 	while(curr)
 	{
-		if(ft_strncmp(curr->param,new_param,5) == 0)
+		if(ft_strncmp(curr->param,new_param,param_len) == 0)
 		{
 			free(curr->param);
 			curr->param = ft_strdup(new_param);

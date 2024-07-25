@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:10:09 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/24 18:50:13 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/25 10:04:35 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	minishell_run(char **envp, t_link_list *my_envp,
 		// rl_redisplay();
 		if (!input)
 		{
-			printf("no input found.. exiting\n");
+			printf("exit\n");
 			// rl_replace_line("", 0);
 			// rl_redisplay();
 			// run_signals(3);
@@ -45,7 +45,7 @@ void	minishell_run(char **envp, t_link_list *my_envp,
 			add_exit_status_to_envp(&my_envp, exit_sts);
 			expand_env_vars_and_quotes(&input, my_envp, exit_sts);
 			cmd = parse_cmd(input);
-			// print_cmd_structure(cmd, 0);
+			print_cmd_structure(cmd, 0);
 			exit_sts->exit_status = exec_cmd(cmd,envp,my_envp, false);
 			free(input);
 			// free(cmd);
