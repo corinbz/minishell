@@ -1,6 +1,6 @@
 NAME = minishell
 
-CFLAGS = -g3 #-Wall -Wextra -Werror
+CFLAGS = -g3 #-fsanitize=address -static-libasan #-Wall -Wextra -Werror
 
 LIBFT = ./libft/libft.a
 LIBFTDIR = ./libft/

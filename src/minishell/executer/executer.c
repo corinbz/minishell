@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 10:40:44 by corin             #+#    #+#             */
-/*   Updated: 2024/07/25 10:17:08 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/25 10:45:50 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void exec_child_process(char *cmd_path, char **args, char **envp)
 	if (execve(cmd_path, args, envp) == -1)
 	{
 		printf("%s: no executable found\n", args[0]);
-		ft_free_2d(envp);
 		exit(127);
 	}
 }
@@ -56,6 +55,7 @@ int exec_external(t_exec_cmd *type_exec_cmd, char **envp, t_link_list *my_envp, 
 	
 	paths = get_possible_paths(envp);
 	cmd_path = get_path(type_exec_cmd->arg_start[0], paths);
+	ft_free_2d(paths);
 	if (!is_child)
 	{
 		pid = ft_fork();
@@ -67,11 +67,11 @@ int exec_external(t_exec_cmd *type_exec_cmd, char **envp, t_link_list *my_envp, 
 		}
 		waitpid(pid, &exitcode, 0);
 		exitcode = WEXITSTATUS(exitcode);
-		return (exitcode);
+		return (free(cmd_path),exitcode);
 	}
 
 	exec_child_process(cmd_path, type_exec_cmd->arg_start, envp);
-	return (0);
+	return (free(cmd_path),0);
 }
 
 int exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
