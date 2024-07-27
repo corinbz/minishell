@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/27 13:33:18 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/27 17:11:01 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ int main(int argc, char **argv, char **envp)
 	t_exit_status	*exit_sts;
 
 	if (argc != 1 || argv[1])
-	{
 		ft_panic("This program does not accept arguments\n");
-	}
 	exit_sts = ft_calloc(1, sizeof(*exit_sts));
 	if (!exit_sts)
 		return (1);

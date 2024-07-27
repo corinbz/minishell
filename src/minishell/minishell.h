@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/27 13:32:58 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/27 17:22:17 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,6 @@ typedef enum s_cmd_enum
 /******************************************************************************
 *								STRUCTS										  *
 ******************************************************************************/
-
-typedef struct s_shell_state
-{
-	int	last_exit_status;
-}	t_shell_state;
 
 typedef struct s_exit_status
 {
@@ -132,6 +127,7 @@ void		free_envp(t_link_list **envp);
 t_link_list	*get_last_value(t_link_list *head);
 void		free_full_cmd(t_cmd *cmd);
 void		free_exit_status(t_exit_status *exit_sts);
+int			get_exit_sts(t_link_list *my_envp);
 
 /* ---------------------------- PARSER ---------------------------------------*/
 t_cmd		*parse_cmd(char *input);
