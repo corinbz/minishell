@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 10:40:44 by corin             #+#    #+#             */
-/*   Updated: 2024/07/25 10:45:50 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/27 14:07:35 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,13 @@ int exec_external(t_exec_cmd *type_exec_cmd, char **envp, t_link_list *my_envp, 
 	int		exitcode;
 	
 	paths = get_possible_paths(envp);
-	cmd_path = get_path(type_exec_cmd->arg_start[0], paths);
+	cmd_path = get_path(type_exec_cmd->arg_start[0], paths);//must free this
 	ft_free_2d(paths);
 	if (!is_child)
 	{
 		pid = ft_fork();
 		if (pid == 0)
-		{
-			if(!cmd_path)
-				exit(0);
 			exec_child_process(cmd_path, type_exec_cmd->arg_start, envp);
-		}
 		waitpid(pid, &exitcode, 0);
 		exitcode = WEXITSTATUS(exitcode);
 		return (free(cmd_path),exitcode);

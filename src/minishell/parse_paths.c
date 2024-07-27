@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_paths.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:09:11 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/25 09:50:56 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/27 14:14:10 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,25 @@ char *get_path(char *cmd, char **paths)
 {
 	int		i;
 	char	*full_path;
+	char	*full_cmd;
 
 	i = 0;
-	cmd = ft_strjoin("/", cmd);
-	if (!cmd)
+	full_cmd = ft_strjoin("/", cmd);
+	if (!full_cmd)
 		return (printf("cmd alloc fail\n"), NULL);
 	if(!paths)
 		return(cmd);
 	while(paths[i])
 	{
-		full_path = ft_strjoin(paths[i], cmd);
+		full_path = ft_strjoin(paths[i], full_cmd);
 		if(!full_path)
-			return(free(cmd), NULL);
+			return(free(full_cmd), NULL);
 		if(executable_exists(full_path))
-			return(free(cmd), full_path);
+			return(free(full_cmd), full_path);
 		free(full_path);
 		i++;
 	}
-	free(cmd);
+	full_path = ft_strdup("no valid path found");
+	free(full_cmd);
 	return (full_path);
 }

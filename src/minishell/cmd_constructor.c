@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_constructor.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 10:09:33 by corin             #+#    #+#             */
-/*   Updated: 2024/07/20 14:16:09 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/27 14:47:58 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ t_cmd	*create_exec_cmd(void)
 {
 	t_exec_cmd	*cmd;
 
-	cmd = malloc(sizeof(*cmd));
+	cmd = ft_calloc(1, sizeof(*cmd));
 	if (!cmd)
 		return (NULL);
-	ft_memset(cmd, 0 , sizeof(*cmd));
+	// ft_memset(cmd, 0 , sizeof(*cmd));
 	cmd->type = EXEC;
 	return (t_cmd*)cmd;
 }

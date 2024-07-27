@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_run.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:10:09 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/25 10:54:18 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/27 15:13:02 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	minishell_run(char **envp, t_link_list *my_envp,
 			add_exit_status_to_envp(&my_envp, exit_sts);
 			expand_env_vars_and_quotes(&input, my_envp, exit_sts);
 			cmd = parse_cmd(input);
-			// print_cmd_structure(cmd, 0);
+			print_cmd_structure(cmd, 0);
 			exit_sts->exit_status = exec_cmd(cmd,envp,my_envp, false);
 			free(input);
 			free_full_cmd(cmd);
