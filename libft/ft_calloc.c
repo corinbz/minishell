@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:46:08 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/04/03 13:33:40 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/27 13:44:43 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,18 @@ void	*ft_calloc(size_t num_elements, size_t element_size)
 {
 	void			*result;
 	unsigned char	*p;
+	size_t			total_size;
 
-	result = malloc(num_elements * element_size);
+	total_size = num_elements * element_size;
+	result = malloc(total_size);
 	if (!result)
 		return (NULL);
 	p = (unsigned char *)result;
-	while (num_elements != 0)
+	while (total_size != 0)
 	{
 		*p = '\0';
 		p++;
-		num_elements--;
+		total_size--;
 	}
 	return (result);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:48:05 by corin             #+#    #+#             */
-/*   Updated: 2024/07/25 10:56:48 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/27 13:39:21 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,9 @@ void free_full_cmd(t_cmd *cmd)
 		ft_free_2d(exec_cmd->arg_end);
 	}
 	free(cmd);
+}
+void free_exit_status(t_exit_status *exit_sts)
+{
+	// free(exit_sts->exit_status);
+	free(exit_sts);
 }
