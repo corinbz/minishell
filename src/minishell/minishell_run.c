@@ -6,13 +6,11 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:10:09 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/25 10:54:18 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/27 15:20:30 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 void	minishell_run(char **envp, t_link_list *my_envp,
 						t_exit_status *exit_sts)
@@ -41,22 +39,17 @@ void	minishell_run(char **envp, t_link_list *my_envp,
 		}
 		if (*input)
 		{
-			add_history(input);
 			add_exit_status_to_envp(&my_envp, exit_sts);
 			expand_env_vars_and_quotes(&input, my_envp, exit_sts);
 			cmd = parse_cmd(input);
-			// print_cmd_structure(cmd, 0);
+			if (!is_heredoc_cmd(cmd))
+				add_history(input);
+			printf("here\n");
+//			 print_cmd_structure(cmd, 0);
 			exit_sts->exit_status = exec_cmd(cmd,envp,my_envp, false);
 			free(input);
-			free_full_cmd(cmd);
+//			free_full_cmd(cmd);
 		}
 		tcsetattr(STDIN_FILENO, TCSANOW, &saved_termios);
 	}
 }
-
-/*
- * main program loop that connects with other modules (input parsing, history etc)
- *
- * we have add_history for readline history
- * and we have linked list because we can't use history_list() from readline
- */
