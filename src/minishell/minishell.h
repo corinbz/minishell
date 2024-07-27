@@ -6,14 +6,14 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/27 13:32:58 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:31:44 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "../../libft/libft.h"
+#include "../libft/libft.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdio.h>
@@ -150,7 +150,7 @@ void		expand_quotes(char *str);
 char		*replace_ret_value(const char *input, int ret_value, int pos);
 //void		expand_ret_value(const char *input, t_exit_status *exit_sts);
 void 		add_exit_status_to_envp(t_link_list **my_envp, t_exit_status *exit_sts);
-
+bool		is_heredoc_cmd(t_cmd *cmd);
 
 /* ---------------------------- BUILTIN --------------------------------------*/
 t_link_list	*create_my_envp(char **envp);
