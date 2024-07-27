@@ -6,14 +6,14 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/27 14:46:46 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:31:44 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "../../libft/libft.h"
+#include "../libft/libft.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdio.h>
