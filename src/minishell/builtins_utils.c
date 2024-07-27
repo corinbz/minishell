@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 14:14:26 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/25 09:37:46 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/27 17:23:50 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,12 @@ int	run_builtin_parent(t_exec_cmd *cmd, t_link_list *my_envp)
 }
 int	run_builtin_child(t_exec_cmd *cmd, t_link_list *my_envp)
 {
+	int	exit_sts;
 	if(ft_strncmp(cmd->arg_start[0], "exit", 5) == 0)
-		return(ft_exit(cmd,g_signal));// ft_exit();//todo
+	{
+		exit_sts = get_exit_sts(my_envp);
+		return(ft_exit(cmd,exit_sts));
+	}
 	if(ft_strncmp(cmd->arg_start[0], "env", 3) == 0)
 		return(ft_env(my_envp));
 	if(ft_strncmp(cmd->arg_start[0], "pwd", 3) == 0)

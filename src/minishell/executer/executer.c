@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 10:40:44 by corin             #+#    #+#             */
-/*   Updated: 2024/07/27 14:07:35 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/27 17:09:22 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int handle_builtin(t_exec_cmd *type_exec_cmd, t_link_list *my_envp, bool is_chil
 	{
 		exitcode = run_builtin_child(type_exec_cmd, my_envp);
 		if (is_child)
-			exit(exitcode);
+			ft_exit(NULL, exitcode);
 		return exitcode;
 	}
 	return -1;
