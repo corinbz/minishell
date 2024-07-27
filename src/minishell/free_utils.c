@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/14 16:46:08 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/27 13:44:43 by ccraciun         ###   ########.fr       */
+/*   Created: 2024/07/25 10:48:05 by corin             #+#    #+#             */
+/*   Updated: 2024/07/27 13:39:21 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "libft.h"
+#include "minishell.h"
 
-void	*ft_calloc(size_t num_elements, size_t element_size)
+//not done yet
+void free_full_cmd(t_cmd *cmd)
 {
-	void			*result;
-	unsigned char	*p;
-	size_t			total_size;
+	t_exec_cmd	*exec_cmd;
+	t_heredoc_cmd	*heredoc_cmd;
+	t_pipe_cmd	*pipe_cmd;
+	t_redir_cmd	*redir_cmd;
 
-	total_size = num_elements * element_size;
-	result = malloc(total_size);
-	if (!result)
-		return (NULL);
-	p = (unsigned char *)result;
-	while (total_size != 0)
+	if (cmd->type == EXEC)
 	{
-		*p = '\0';
-		p++;
-		total_size--;
+		exec_cmd = (t_exec_cmd*)cmd;
+		ft_free_2d(exec_cmd->arg_start);
+		ft_free_2d(exec_cmd->arg_end);
 	}
-	return (result);
+	free(cmd);
+}
+void free_exit_status(t_exit_status *exit_sts)
+{
+	// free(exit_sts->exit_status);
+	free(exit_sts);
 }

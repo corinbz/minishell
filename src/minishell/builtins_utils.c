@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 14:14:26 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/24 12:02:46 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/25 09:37:46 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 */
 int	builtin_type(t_exec_cmd *cmd)
 {
+	if(!cmd->arg_start[0])
+		return(3);
 	if(ft_strncmp(cmd->arg_start[0], "exit", 5) == 0)
 		return(2);// ft_exit();//todo
 	if(ft_strncmp(cmd->arg_start[0], "env", 4) == 0)

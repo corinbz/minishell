@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:10:09 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/24 18:50:13 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/25 10:54:18 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	minishell_run(char **envp, t_link_list *my_envp,
 		// rl_redisplay();
 		if (!input)
 		{
-			printf("no input found.. exiting\n");
+			printf("exit\n");
 			// rl_replace_line("", 0);
 			// rl_redisplay();
 			// run_signals(3);
@@ -48,7 +48,7 @@ void	minishell_run(char **envp, t_link_list *my_envp,
 			// print_cmd_structure(cmd, 0);
 			exit_sts->exit_status = exec_cmd(cmd,envp,my_envp, false);
 			free(input);
-			// free(cmd);
+			free_full_cmd(cmd);
 		}
 		tcsetattr(STDIN_FILENO, TCSANOW, &saved_termios);
 	}

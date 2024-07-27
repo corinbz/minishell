@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/24 18:49:30 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/27 13:32:58 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,8 @@ char		**link_list_to_array(t_link_list **head);
 int			get_set_return_val(int val);
 void		free_envp(t_link_list **envp);
 t_link_list	*get_last_value(t_link_list *head);
+void		free_full_cmd(t_cmd *cmd);
+void		free_exit_status(t_exit_status *exit_sts);
 
 /* ---------------------------- PARSER ---------------------------------------*/
 t_cmd		*parse_cmd(char *input);
