@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 04:07:15 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/24 18:20:47 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:21:29 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_link_list	*ft_lstmap(t_link_list *lst, void *(*f)(void *), void (*del)(void *))
+t_link_list	*ft_lstmap(t_link_list *lst, void *(*f)(void *),
+						void (*del)(void *))
 {
 	t_link_list	*new_lst;
 	t_link_list	*node;
