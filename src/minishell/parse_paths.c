@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_paths.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:09:11 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/27 14:14:10 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/28 12:21:32 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,29 +18,31 @@ static bool	executable_exists(char *path)
 		return (true);
 	return (false);
 }
-char **get_possible_paths(char **envp)
+
+char	**get_possible_paths(char **envp)
 {
 	char	**possible_paths;
 	int		i;
 
 	i = 0;
-	if(envp)
+	if (envp)
 	{
 		while (envp[i])
 		{
-			if(!ft_strncmp("PATH", envp[i], 4))
+			if (!ft_strncmp("PATH", envp[i], 4))
 			{
 				possible_paths = ft_split(envp[i] + 5, ':');
-				if(!possible_paths)
-					return(ft_panic("possible paths malloc failed\n"), NULL);
-				return(possible_paths);
+				if (!possible_paths)
+					return (ft_panic("possible paths malloc failed\n"), NULL);
+				return (possible_paths);
 			}
 			i++;
 		}
 	}
 	return (NULL);
 }
-char *get_path(char *cmd, char **paths)
+
+char	*get_path(char *cmd, char **paths)
 {
 	int		i;
 	char	*full_path;
@@ -50,15 +52,15 @@ char *get_path(char *cmd, char **paths)
 	full_cmd = ft_strjoin("/", cmd);
 	if (!full_cmd)
 		return (printf("cmd alloc fail\n"), NULL);
-	if(!paths)
-		return(cmd);
-	while(paths[i])
+	if (!paths)
+		return (cmd);
+	while (paths[i])
 	{
 		full_path = ft_strjoin(paths[i], full_cmd);
-		if(!full_path)
-			return(free(full_cmd), NULL);
-		if(executable_exists(full_path))
-			return(free(full_cmd), full_path);
+		if (!full_path)
+			return (free(full_cmd), NULL);
+		if (executable_exists(full_path))
+			return (free(full_cmd), full_path);
 		free(full_path);
 		i++;
 	}

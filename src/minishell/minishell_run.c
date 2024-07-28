@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_run.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:10:09 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/27 15:20:30 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/28 12:15:44 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	minishell_run(char **envp, t_link_list *my_envp,
-						t_exit_status *exit_sts)
+			t_exit_status *exit_sts)
 {
-	char	*input;
-	t_cmd	*cmd;
-	
+	char			*input;
+	t_cmd			*cmd;
+	struct termios	saved_termios;
+	struct termios	raw_termios;
+
 	run_signals(1);
-	struct termios saved_termios;
-	struct termios raw_termios;
 	while (1)
 	{
 		tcgetattr(STDIN_FILENO, &saved_termios);
@@ -28,14 +28,10 @@ void	minishell_run(char **envp, t_link_list *my_envp,
 		cfmakeraw(&raw_termios);
 		input = readline("minishell: ");
 		rl_on_new_line();
-		// rl_redisplay();
 		if (!input)
 		{
 			printf("exit\n");
-			// rl_replace_line("", 0);
-			// rl_redisplay();
-			// run_signals(3);
-			exit(0); //add cleanup
+			exit(0);
 		}
 		if (*input)
 		{
@@ -45,10 +41,9 @@ void	minishell_run(char **envp, t_link_list *my_envp,
 			if (!is_heredoc_cmd(cmd))
 				add_history(input);
 			printf("here\n");
-//			 print_cmd_structure(cmd, 0);
 			exit_sts->exit_status = exec_cmd(cmd,envp,my_envp, false);
 			free(input);
-//			free_full_cmd(cmd);
+			free_full_cmd(cmd);
 		}
 		tcsetattr(STDIN_FILENO, TCSANOW, &saved_termios);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_constructor.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 10:09:33 by corin             #+#    #+#             */
-/*   Updated: 2024/07/27 14:47:58 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:30:54 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,14 @@ t_cmd	*create_exec_cmd(void)
 	cmd = ft_calloc(1, sizeof(*cmd));
 	if (!cmd)
 		return (NULL);
-	// ft_memset(cmd, 0 , sizeof(*cmd));
 	cmd->type = EXEC;
-	return (t_cmd*)cmd;
+	return ((t_cmd *)cmd);
 }
 
-t_cmd *create_redir_cmd(t_cmd *sub_cmd, char *file, char *efile, int mode, int fd)
+t_cmd	*create_redir_cmd(t_cmd *sub_cmd, char *file, char *efile, int mode, int fd)
 {
 	t_redir_cmd	*cmd;
-	
+
 	cmd = malloc(sizeof(*cmd));
 	if (!cmd)
 		return (NULL);
@@ -38,12 +37,12 @@ t_cmd *create_redir_cmd(t_cmd *sub_cmd, char *file, char *efile, int mode, int f
 	cmd->token_end_pos = efile;
 	cmd->mode = mode;
 	cmd->fd = fd;
-	return (t_cmd*)cmd;
+	return ((t_cmd *)cmd);
 }
 
 t_cmd	*create_pipe_cmd(t_cmd *left, t_cmd *right)
 {
-	t_pipe_cmd *cmd;
+	t_pipe_cmd	*cmd;
 
 	cmd = malloc(sizeof(*cmd));
 	if (!cmd)
@@ -52,7 +51,7 @@ t_cmd	*create_pipe_cmd(t_cmd *left, t_cmd *right)
 	cmd->type = PIPE;
 	cmd->left = left;
 	cmd->right = right;
-	return ((t_cmd*)cmd);
+	return ((t_cmd *)cmd);
 }
 
 t_cmd	*create_heredoc_cmd(t_cmd *sub_cmd, char *eof_start, char *eof_end)

@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free_utils_two.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/28 12:19:50 by corin            ###   ########.fr       */
+/*   Created: 2024/07/28 12:12:48 by corin             #+#    #+#             */
+/*   Updated: 2024/07/28 12:13:14 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_signal = 0;
-
-int	main(int argc, char **argv, char **envp)
+void	free_envp(t_link_list **envp)
 {
-	t_link_list		*my_envp;
-	t_exit_status	*exit_sts;
+	t_link_list	*tmp;
+	t_link_list	*current;
 
-	if (argc != 1 || argv[1])
-		ft_panic("This program does not accept arguments\n");
-	exit_sts = ft_calloc(1, sizeof(*exit_sts));
-	if (!exit_sts)
-		return (1);
-	my_envp = create_my_envp(envp);
-	minishell_run(envp, my_envp, exit_sts);
-	free_envp(&my_envp);
-	free(exit_sts);
-	return (EXIT_SUCCESS);
+	if (envp == NULL)
+		return ;
+	current = *envp;
+	while (current)
+	{
+		tmp = current->next;
+		free(current);
+		current = tmp;
+	}
+	*envp = NULL;
 }

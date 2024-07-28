@@ -3,32 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:35:17 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/27 17:25:07 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/28 12:22:19 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		get_exit_sts(t_link_list *my_envp)
+int	get_exit_sts(t_link_list *my_envp)
 {
-	int	res;
+	int			res;
 	t_link_list	*curr;
-	
+
 	curr = my_envp;
 	res = 0;
-	while(curr)
+	while (curr)
 	{
-		if(ft_strncmp(curr->param, "?=", 2) == 0)
+		if (ft_strncmp(curr->param, "?=", 2) == 0)
 		{
 			res = ft_atoi(curr->param + 2);
-			break;
+			break ;
 		}
 		curr = curr->next;
 	}
-	return(res);
+	return (res);
 }
 
 void	run_signals(int sig)
@@ -45,7 +45,6 @@ void	run_signals(int sig)
 	}
 	if (sig == 3)
 	{
-		// printf("exit\n");
 		exit(0);
 	}
 }

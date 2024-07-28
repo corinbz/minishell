@@ -3,37 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/27 17:26:49 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/28 12:19:18 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "../libft/libft.h"
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdio.h>
-#include <stdbool.h>
-#include <fcntl.h>
-#include <sys/wait.h>
-#include <stdnoreturn.h>
-#include <dirent.h>
-#include <linux/limits.h>
-#include <signal.h>
-#include <limits.h>
-#include <errno.h>
-#include <termios.h>
+# include "../libft/libft.h"
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <stdio.h>
+# include <stdbool.h>
+# include <fcntl.h>
+# include <sys/wait.h>
+# include <stdnoreturn.h>
+# include <dirent.h>
+# include <linux/limits.h>
+# include <signal.h>
+# include <limits.h>
+# include <errno.h>
+# include <termios.h>
 
 /******************************************************************************
 *								CONSTANTS									  *
 ******************************************************************************/
-#define MAX_ARGUMENTS 10
-#define DEFAULT_CHMOD 0644
-#define EXEC_NOT_FOUND 127
+# define MAX_ARGUMENTS 10
+# define DEFAULT_CHMOD 0644
+# define EXEC_NOT_FOUND 127
 
 /******************************************************************************
 *								GLOBAL VARIABLES							  *
@@ -120,13 +120,12 @@ t_cmd		*create_heredoc_cmd(t_cmd *sub_cmd, char *eof_start, char *eof_end);
 
 /* ---------------------------- UTILITY --------------------------------------*/
 pid_t		ft_fork(void);
-t_link_list	*create_builtin_lst();
+t_link_list	*create_builtin_lst(void);
 char		**link_list_to_array(t_link_list **head);
 int			get_set_return_val(int val);
 void		free_envp(t_link_list **envp);
 t_link_list	*get_last_value(t_link_list *head);
 void		free_full_cmd(t_cmd *cmd);
-void		free_exit_status(t_exit_status *exit_sts);
 int			get_exit_sts(t_link_list *my_envp);
 
 /* ---------------------------- PARSER ---------------------------------------*/
@@ -140,24 +139,24 @@ void		ft_panic(const char *s);
 t_cmd		*parse_exec(char **input);
 t_cmd		*parse_redirections(t_cmd *cmd, char **input);
 void		null_terminate_cmd(t_cmd *cmd);
-void		expand_env_vars_and_quotes(char **input, t_link_list *env, t_exit_status *exit_sts);
+void		expand_env_vars_and_quotes(char **input, t_link_list *env,
+				t_exit_status *exit_sts);
 void		expand_dollar_signs(char *i, t_link_list *env);
 void		expand_quotes(char *str);
-char		*replace_ret_value(const char *input, int ret_value, int pos);
-//void		expand_ret_value(const char *input, t_exit_status *exit_sts);
-void 		add_exit_status_to_envp(t_link_list **my_envp, t_exit_status *exit_sts);
+// char		*replace_ret_value(const char *input, int ret_value, int pos);
+void		add_exit_status_to_envp(t_link_list **my_envp,
+				t_exit_status *exit_sts);
 bool		is_heredoc_cmd(t_cmd *cmd);
 
 /* ---------------------------- BUILTIN --------------------------------------*/
 t_link_list	*create_my_envp(char **envp);
-int			ft_pwd();
+int			ft_pwd(void);
 int			ft_env(t_link_list *head);
 int			ft_export(char *new_param, t_link_list *head);
 int			ft_unset(char *param, t_link_list **head);
 int			ft_echo(char *newline, char **input);
 int			ft_cd(char *dir, t_link_list *my_envp);
 int			ft_exit(t_exec_cmd *cmd, int last_status);
-
 int			builtin_type(t_exec_cmd *cmd);
 int			run_builtin_parent(t_exec_cmd *cmd, t_link_list *my_envp);
 int			run_builtin_child(t_exec_cmd *cmd, t_link_list *my_envp);
