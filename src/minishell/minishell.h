@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/28 12:19:18 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/28 14:32:56 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ void		free_envp(t_link_list **envp);
 t_link_list	*get_last_value(t_link_list *head);
 void		free_full_cmd(t_cmd *cmd);
 int			get_exit_sts(t_link_list *my_envp);
+int			save_original_fds(int *original_stdout_fd, int *original_stdin_fd);
+int			restore_original_fds(int original_stdout_fd, int original_stdin_fd);
 
 /* ---------------------------- PARSER ---------------------------------------*/
 t_cmd		*parse_cmd(char *input);
@@ -172,6 +174,12 @@ void		minishell_run(char **envp, t_link_list *my_envp,
 				t_exit_status *exit_sts);
 int			exec_heredoc(t_cmd *cmd, char **envp, t_link_list *my_envp);
 
+/* ---------------------------- heredoc --------------------------------------*/
+char		*create_new_eof(const char *eof_start, const char *eof_end);
+int			copy_file_to_fd(const char *src_path, int dest_fd);
+int			duplicate_stdin(int *original_stdin);
+int			close_temp_fd_and_unlink(int temp_fd, const char *file);
+int			open_heredoc_file(int *temp_fd);
 /* ------------------------------ SIGNALS ------------------------------------*/
 void		run_signals(int sig);
 void		restore_prompt(int sig);

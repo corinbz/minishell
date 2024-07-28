@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:10:09 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/28 12:15:44 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/28 13:45:03 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	minishell_run(char **envp, t_link_list *my_envp,
 			cmd = parse_cmd(input);
 			if (!is_heredoc_cmd(cmd))
 				add_history(input);
-			printf("here\n");
 			exit_sts->exit_status = exec_cmd(cmd,envp,my_envp, false);
 			free(input);
 			free_full_cmd(cmd);

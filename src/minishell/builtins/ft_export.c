@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:34:05 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/28 11:57:12 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/28 12:29:13 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_link_list	*get_last_value(t_link_list *head)
 {
-	while(head->next)
+	while (head->next)
 		head = head->next;
-	return(head);
+	return (head);
 }
 
 static int param_valid(char *param)
