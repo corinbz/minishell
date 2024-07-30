@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:34:05 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/30 21:56:58 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/31 19:04:28 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	ft_export(char *new_param, t_link_list *head)
 		return (0);
 	}
 	if (!param_valid(new_param))
-		return (printf("export : param %s is invalid\n", new_param), 1);
+		return (0);
 	if (change_if_exists(new_param, head))
 		return (0);
 	return (add_new_param(new_param, head));
