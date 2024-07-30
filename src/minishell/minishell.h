@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/27 17:26:49 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/07/30 11:24:08 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ typedef struct s_exit_status
 
 typedef struct s_parser_quotes_state
 {
-	bool	inside_single_quotes;
-	bool	double_inside_single;
-	bool	inside_double_quotes;
-	bool	single_inside_double;
-}	t_parser_quotes_state;
+	bool	in_single;
+	bool	double_in_single;
+	bool	in_double;
+	bool	single_in_double;
+}	t_state;
 
 typedef struct s_cmd
 {
@@ -142,6 +142,7 @@ t_cmd		*parse_redirections(t_cmd *cmd, char **input);
 void		null_terminate_cmd(t_cmd *cmd);
 void		expand_env_vars_and_quotes(char **input, t_link_list *env, t_exit_status *exit_sts);
 void		expand_dollar_signs(char *i, t_link_list *env);
+bool		try_to_expand_dollar_sign(char *s, t_link_list *env, t_state state);
 void		expand_quotes(char *str);
 char		*replace_ret_value(const char *input, int ret_value, int pos);
 //void		expand_ret_value(const char *input, t_exit_status *exit_sts);
