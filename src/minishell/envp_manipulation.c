@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+t_link_list	*get_last_value(t_link_list *head)
+{
+	while (head->next)
+		head = head->next;
+	return (head);
+}
 
 static t_link_list	*allocate_new_node(void)
 {
