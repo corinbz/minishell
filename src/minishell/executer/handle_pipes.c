@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:03:06 by corin             #+#    #+#             */
-/*   Updated: 2024/07/28 14:28:29 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/30 22:09:51 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	exec_pipe(t_cmd *cmd, char **envp, t_link_list *my_envp)
 	int		end[2];
 	pid_t	left;
 	pid_t	right;
-	int		status;
+	int		exitcode;
 
 	if (pipe(end) < 0)
 		ft_panic("pipe");
@@ -62,7 +62,8 @@ int	exec_pipe(t_cmd *cmd, char **envp, t_link_list *my_envp)
 
 	close(end[0]);
 	close(end[1]);
-	waitpid(left, &status, 0);
-	waitpid(right, &status, 0);
-	return (status);
+	waitpid(left, &exitcode, 0);
+	waitpid(right, &exitcode, 0);
+	exitcode = WEXITSTATUS(exitcode);
+	return (exitcode);
 }

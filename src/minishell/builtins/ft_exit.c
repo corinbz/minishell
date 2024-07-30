@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/30 11:48:58 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/30 22:22:13 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,19 @@ int	get_set_return_val(int val)
 	return (ret);
 }
 
+static bool	digits_exclusive(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (false);
+	}
+	return (true);
+}
+
 int	ft_exit(t_exec_cmd *cmd, int last_status)
 {
 	int	exit_status;
@@ -39,6 +52,8 @@ int	ft_exit(t_exec_cmd *cmd, int last_status)
 	{
 		exit(exit_status);
 	}
+	if (!digits_exclusive(cmd->arg_start[1]))
+		exit(2);
 	exit_status = ft_atoi(cmd->arg_start[1]) % 255;
 	exit(exit_status);
 }
