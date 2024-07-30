@@ -6,13 +6,13 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 08:17:49 by erybolov          #+#    #+#             */
-/*   Updated: 2024/06/08 18:02:29 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/30 11:32:06 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	token_switch(char **input)
+static char	detect_special_token(char **input)
 {
 	char	token;
 
@@ -37,12 +37,27 @@ static char	token_switch(char **input)
 			(*input)++;
 		}
 	}
+	return (token);
+}
+
+static char	process_remaining_characters(char **input)
+{
+	char	token;
+
+	token = 'a';
+	while (**input && !ft_strchr("\t\r\n\v>< |", **input))
+		(*input)++;
+	return (token);
+}
+
+static char	token_switch(char **input)
+{
+	char	token;
+
+	if (**input == '|' || **input == '>' || **input == '<')
+		token = detect_special_token(input);
 	else
-	{
-		token = 'a';
-		while (**input && !ft_strchr("\t\r\n\v>< |", **input))
-			(*input)++;
-	}
+		token = process_remaining_characters(input);
 	return (token);
 }
 

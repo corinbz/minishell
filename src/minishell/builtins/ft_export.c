@@ -6,40 +6,32 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:34:05 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/28 12:29:13 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/30 21:56:58 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_link_list	*get_last_value(t_link_list *head)
-{
-	while (head->next)
-		head = head->next;
-	return (head);
-}
-
-static int param_valid(char *param)
+static int	param_valid(char *param)
 {
 	int	i;
 
 	i = 0;
-	if(ft_strchr(param, '=') == NULL)
-		return(0);
-	while(param[i] != '=' && param[i])
+	if (ft_strchr(param, '=') == NULL)
+		return (0);
+	while (param[i] != '=' && param[i])
 	{
-		if(ft_isalpha(param[i]) || param[i] == '?')
-			return(1);
+		if (ft_isalpha(param[i]) || param[i] == '?')
+			return (1);
 		i++;
 	}
-	
-	return(0);
+	return (0);
 }
 
-static int change_if_exists(char *new_param, t_link_list *head)
+static int	change_if_exists(char *new_param, t_link_list *head)
 {
-	int param_len;
-	t_link_list *curr;
+	int			param_len;
+	t_link_list	*curr;
 
 	curr = head;
 	param_len = 0;
@@ -47,9 +39,9 @@ static int change_if_exists(char *new_param, t_link_list *head)
 	{
 		param_len++;
 	}
-	while(curr)
+	while (curr)
 	{
-		if(ft_strncmp(curr->param,new_param,param_len) == 0)
+		if (ft_strncmp(curr->param, new_param, param_len) == 0)
 		{
 			free(curr->param);
 			curr->param = ft_strdup(new_param);
@@ -58,35 +50,19 @@ static int change_if_exists(char *new_param, t_link_list *head)
 				perror("strdup");
 				exit(1);
 			}
-			return(1);
+			return (1);
 		}
 		curr = curr->next;
 	}
-	return(0);
+	return (0);
 }
 
-/*
-returns 0 on succes, 1 on failure
-*/
-int	ft_export(char *new_param, t_link_list *head)
+static int	add_new_param(char *new_param, t_link_list *head)
 {
 	t_link_list	*temp;
 	t_link_list	*last;
-	
-	if(!new_param)
-		{
-			while(head)
-			{
-				printf("declare -x %s", (char *)head->param);
-				head = head->next;
-			}
-			return(0);
-		}
-	if(!param_valid(new_param))
-		return(printf("export : param %s is invalid\n", new_param), 1);
-	if (change_if_exists(new_param, head))
-		return(0);
-	temp = (t_link_list*)ft_calloc(1, sizeof(*temp));
+
+	temp = ft_calloc(1, sizeof(*temp));
 	if (temp == NULL)
 		return (1);
 	temp->param = ft_strdup(new_param);
@@ -94,16 +70,34 @@ int	ft_export(char *new_param, t_link_list *head)
 	{
 		perror("strdup");
 		free(temp);
-		return 1;
+		return (1);
 	}
-	if(!head->param)
+	if (!head->param)
 	{
 		head->param = temp->param;
 		free(temp);
-		return(0);
+		return (0);
 	}
 	last = get_last_value(head);
 	last->next = temp;
 	temp->next = NULL;
-	return(0);
+	return (0);
+}
+
+int	ft_export(char *new_param, t_link_list *head)
+{
+	if (!new_param)
+	{
+		while (head)
+		{
+			printf("declare -x %s", (char *)head->param);
+			head = head->next;
+		}
+		return (0);
+	}
+	if (!param_valid(new_param))
+		return (printf("export : param %s is invalid\n", new_param), 1);
+	if (change_if_exists(new_param, head))
+		return (0);
+	return (add_new_param(new_param, head));
 }
