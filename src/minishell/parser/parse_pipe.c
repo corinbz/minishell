@@ -6,7 +6,7 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 02:44:50 by erybolov          #+#    #+#             */
-/*   Updated: 2024/05/25 14:03:12 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/30 11:32:53 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,3 @@ t_cmd	*parse_pipe(char **input)
 	}
 	return (cmd);
 }
-
