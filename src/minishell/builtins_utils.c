@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 14:14:26 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/28 11:28:40 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/31 18:48:12 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ int	run_builtin_child(t_exec_cmd *cmd, t_link_list *my_envp)
 
 	if (ft_strncmp(cmd->arg_start[0], "exit", 5) == 0)
 	{
-		exit_sts = get_exit_sts(my_envp);
+		if (g_signal != 0)
+			exit_sts = g_signal;
+		else
+			exit_sts = get_exit_sts(my_envp);
 		return (ft_exit(cmd, exit_sts));
 	}
 	if (ft_strncmp(cmd->arg_start[0], "env", 3) == 0)

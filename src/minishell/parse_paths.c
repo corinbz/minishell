@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:09:11 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/28 12:21:32 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/31 19:18:31 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*get_path(char *cmd, char **paths)
 	if (!full_cmd)
 		return (printf("cmd alloc fail\n"), NULL);
 	if (!paths)
-		return (cmd);
+		return (free(full_cmd), cmd);
 	while (paths[i])
 	{
 		full_path = ft_strjoin(paths[i], full_cmd);
