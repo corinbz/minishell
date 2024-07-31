@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/30 21:54:29 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/31 19:09:56 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,15 @@ int			exec_cmd(t_cmd *cmd, char **envp,
 void		minishell_run(char **envp, t_link_list *my_envp,
 				t_exit_status *exit_sts);
 int			exec_heredoc(t_cmd *cmd, char **envp, t_link_list *my_envp);
-
+/* ------------------------- minishell_run -----------------------------------*/
+void		initialize_terminal(struct termios *saved_termios,
+				struct termios *raw_termios);
+void		reset_terminal(const struct termios *saved_termios);
+void		handle_eof(t_exit_status *exit_sts);
+void		process_and_execute_command(char *input, char **envp,
+				t_link_list *my_envp, t_exit_status *exit_sts);
+void		read_and_process_input(char **envp, t_link_list *my_envp,
+				t_exit_status *exit_sts);
 /* ---------------------------- heredoc --------------------------------------*/
 char		*create_new_eof(const char *eof_start, const char *eof_end);
 int			copy_file_to_fd(const char *src_path, int dest_fd);

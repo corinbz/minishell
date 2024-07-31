@@ -75,10 +75,10 @@ t_link_list	*create_my_envp(char **envp)
 	{
 		new_node = allocate_new_node();
 		if (!new_node)
-			return (NULL);
+			return (free_envp(&head), NULL);
 		new_node->param = duplicate_env_var(envp[i]);
 		if (!new_node->param)
-			return (free(new_node), NULL);
+			return (free(new_node), free_envp(&head), NULL);
 		append_node_to_list(&head, &current, new_node);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:08:52 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/30 11:29:28 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/07/31 18:43:16 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ void	add_exit_status_to_envp(t_link_list **my_envp, t_exit_status *exit_sts)
 	char		*value;
 	char		*exit_status;
 
-	exit_status = ft_itoa(exit_sts->exit_status % 255);
+	if (g_signal != 0)
+		exit_status = ft_itoa(g_signal);
+	else
+		exit_status = ft_itoa(exit_sts->exit_status % 255);
 	value = ft_strjoin("?=", exit_status);
 	if (!value)
 		ft_panic("minishell: malloc failed (add_exit_status_to_envp)\n");
