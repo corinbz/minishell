@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/08/01 19:09:13 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/01 20:54:33 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	find_and_remove_var(char *param, t_link_list **head)
 		if (compare_env_var(param, curr->param))
 		{
 			remove_node(head, prev, curr);
-			return (1);
+			return (0);
 		}
 		prev = curr;
 		curr = curr->next;

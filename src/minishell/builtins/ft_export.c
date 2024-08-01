@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:34:05 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/31 19:04:28 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/08/01 21:11:01 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	change_if_exists(char *new_param, t_link_list *head)
 	{
 		param_len++;
 	}
-	while (curr)
+	while (curr && curr->param)
 	{
 		if (ft_strncmp(curr->param, new_param, param_len) == 0)
 		{
