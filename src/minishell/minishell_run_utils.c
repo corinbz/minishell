@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:06:39 by corin             #+#    #+#             */
-/*   Updated: 2024/07/31 20:46:15 by corin            ###   ########.fr       */
+/*   Updated: 2024/07/31 21:12:37 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ void	read_and_process_input(char **envp, t_link_list *my_envp,
 	if (*input)
 	{
 		process_and_execute_command(input, envp, my_envp, exit_sts);
-		// free(input);
+		free(input);
 	}
 }

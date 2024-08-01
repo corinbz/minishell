@@ -6,47 +6,12 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/31 20:40:18 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/01 19:09:13 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// int	ft_unset(char *param, t_link_list **head)
-// {
-// 	t_link_list	*curr;
-// 	t_link_list	*prev;
-// 	char		*equals_sign;
-// 	size_t		name_length;
-
-// 	if (!param || !head || !*head)
-// 		return (0);
-// 	curr = *head;
-// 	prev = NULL;
-// 	while (curr)
-// 	{
-// 		equals_sign = ft_strchr(curr->param, '=');
-// 		if (equals_sign)
-// 		{
-// 			name_length = equals_sign - (char *)curr->param;
-// 			if (ft_strncmp(param, curr->param, name_length) == 0
-// 				&& param[name_length] == '\0')
-// 			{
-// 				if (prev)
-// 					prev->next = curr->next;
-// 				else
-// 					*head = curr->next;
-// 				free(curr->param);
-// 				free(curr);
-// 				return (0);
-// 			}
-
-// 		}
-// 		prev = curr;
-// 		curr = curr->next;
-// 	}
-// 	return (0);
-// }
 /*
  * Compares an environment variable name with a full environment variable string.
  * @param param The variable name to search for.
@@ -81,7 +46,6 @@ static void	remove_node(t_link_list **head,
 		prev->next = curr->next;
 	else
 		*head = curr->next;
-
 	free(curr->param);
 	free(curr);
 }
@@ -109,7 +73,6 @@ static int	find_and_remove_var(char *param, t_link_list **head)
 		prev = curr;
 		curr = curr->next;
 	}
-
 	return (0);
 }
 
@@ -123,6 +86,5 @@ int	ft_unset(char *param, t_link_list **head)
 {
 	if (!param || !head || !*head)
 		return (0);
-
 	return (find_and_remove_var(param, head));
 }

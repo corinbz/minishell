@@ -1,8 +1,0 @@
-Already logging to pidfile.
-process 62667
-cmdline = '/home/corin/programming/minishell/minishell'
-cwd = '/home/corin/programming/minishell'
-exe = '/home/corin/programming/minishell/minishell'
-Warning: 'set logging off', an alias for the command 'set logging enabled', is deprecated.
-Use 'set logging enabled off'.
-

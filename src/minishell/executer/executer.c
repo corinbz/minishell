@@ -6,17 +6,26 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 10:40:44 by corin             #+#    #+#             */
-/*   Updated: 2024/07/28 12:33:47 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/01 20:34:49 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
 // Utility function to execute a command in a child process
 void	exec_child_process(char *cmd_path, char **args, char **envp)
 {
-	if (execve(cmd_path, args, envp) == -1)
+	if (ft_strncmp((cmd_path), "Permission denied", ft_strlen(cmd_path)) == 0)
+	{
+		printf("%s: Permission denied\n", args[0]);
+		exit(126);
+	}
+	else if (ft_strncmp((cmd_path), "Is a directory", ft_strlen(cmd_path)) == 0)
+	{
+		printf("%s: Is a directory\n", args[0]);
+		exit(126);
+	}
+	else if (execve(cmd_path, args, envp) == -1)
 	{
 		printf("%s: no executable found\n", args[0]);
 		exit(127);
@@ -67,7 +76,6 @@ int	exec_external(t_exec_cmd *type_exec_cmd, char **envp,
 		exitcode = WEXITSTATUS(exitcode);
 		return (free(cmd_path), exitcode);
 	}
-
 	exec_child_process(cmd_path, type_exec_cmd->arg_start, envp);
 	return (free(cmd_path), 0);
 }

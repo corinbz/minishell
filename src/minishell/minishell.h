@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/31 19:09:56 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/01 19:03:00 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,8 +194,5 @@ void		run_signals(int sig);
 void		restore_prompt(int sig);
 void		ctrl_c(int sig);
 void		back_slash(int sig);
-
-/* ------------------------ DEBUGGING HELPER ---------------------------------*/
-void		print_cmd_structure(t_cmd *cmd, int indent);
 
 #endif

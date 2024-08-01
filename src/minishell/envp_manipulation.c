@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   generate_my_envp.c                                 :+:      :+:    :+:   */
+/*   envp_manipulation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/07 11:11:05 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/06/07 11:31:15by ccraciun         ###   ########.fr       */
+/*   Created: 2024/08/01 19:03:56 by corin             #+#    #+#             */
+/*   Updated: 2024/08/01 19:04:34 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ t_link_list	*create_my_envp(char **envp)
 	head = NULL;
 	current = NULL;
 	new_node = NULL;
-
 	while (envp[i])
 	{
 		new_node = allocate_new_node();

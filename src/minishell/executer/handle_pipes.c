@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:03:06 by corin             #+#    #+#             */
-/*   Updated: 2024/07/30 22:09:51 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/01 19:09:05 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	exec_pipe(t_cmd *cmd, char **envp, t_link_list *my_envp)
 		ft_panic("pipe");
 	left = fork_and_exec_left(cmd, end, envp, my_envp);
 	right = fork_and_exec_right(cmd, end, envp, my_envp);
-
 	close(end[0]);
 	close(end[1]);
 	waitpid(left, &exitcode, 0);

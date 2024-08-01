@@ -4,6 +4,8 @@
 minishell_tester/
 minitester-minishell-tester/
 
+*.sh
+
 # Prerequisites
 *.d
 
