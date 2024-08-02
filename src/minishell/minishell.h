@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/08/01 19:03:00 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/02 04:48:24 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,12 @@ typedef struct s_redir_cmd
 	int			fd;
 }	t_redir_cmd;
 
+typedef struct s_tokens_pos
+{
+	char	*token_start;
+	char	*token_end;
+}	t_tokens_pos;
+
 typedef struct s_pipe_cmd
 {
 	t_cmd_enum	type;
@@ -113,10 +119,10 @@ typedef struct s_heredoc_cmd
 /* ------------------------ CONSTRUCTOR FUNCTIONS ----------------------------*/
 
 t_cmd		*create_exec_cmd(void);
-t_cmd		*create_redir_cmd(t_cmd *sub_cmd, char *file,
-				char *efile, int mode, int fd);
+t_cmd		*create_redir_cmd(t_cmd *sub_cmd, t_tokens_pos pos, \
+	int mode, int fd);
 t_cmd		*create_pipe_cmd(t_cmd *left, t_cmd *right);
-t_cmd		*create_heredoc_cmd(t_cmd *sub_cmd, char *eof_start, char *eof_end);
+t_cmd		*create_heredoc_cmd(t_cmd *sub_cmd, t_tokens_pos pos);
 
 /* ---------------------------- UTILITY --------------------------------------*/
 pid_t		ft_fork(void);
