@@ -6,14 +6,14 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 10:40:44 by corin             #+#    #+#             */
-/*   Updated: 2024/08/01 20:34:49 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/02 18:42:32 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 // Utility function to execute a command in a child process
-void	exec_child_process(char *cmd_path, char **args, char **envp)
+static void	exec_child_process(char *cmd_path, char **args, char **envp)
 {
 	if (ft_strncmp((cmd_path), "Permission denied", ft_strlen(cmd_path)) == 0)
 	{
@@ -33,7 +33,7 @@ void	exec_child_process(char *cmd_path, char **args, char **envp)
 }
 
 // Function to handle built-in commands
-int	handle_builtin(t_exec_cmd *type_exec_cmd,
+static int	handle_builtin(t_exec_cmd *type_exec_cmd,
 	t_link_list *my_envp, bool is_child)
 {
 	int	exitcode;
@@ -56,8 +56,7 @@ int	handle_builtin(t_exec_cmd *type_exec_cmd,
 }
 
 // Function to execute external commands
-int	exec_external(t_exec_cmd *type_exec_cmd, char **envp,
-	t_link_list *my_envp, bool is_child)
+static int	exec_external(t_exec_cmd *type_exec_cmd, char **envp, bool is_child)
 {
 	char	**paths;
 	char	*cmd_path;
@@ -92,7 +91,7 @@ int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
 	if (exitcode != -1)
 		return (exitcode);
 	envp = link_list_to_array(&my_envp);
-	exitcode = exec_external(type_exec_cmd, envp, my_envp, is_child);
+	exitcode = exec_external(type_exec_cmd, envp, is_child);
 	ft_free_2d(envp);
 	return (exitcode);
 }

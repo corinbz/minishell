@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 15:00:23 by corin             #+#    #+#             */
-/*   Updated: 2024/07/28 14:33:45 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/02 18:40:42 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	redirect_stdin_to_heredoc(int original_stdin, t_cmd *sub_cmd,
 	exitcode = exec_cmd(sub_cmd, envp, my_envp, false);
 	dup2(original_stdin, STDIN_FILENO);
 	close(original_stdin);
-	return (0);
+	return (exitcode);
 }
 
 // Execute the heredoc command
@@ -71,7 +71,6 @@ int	exec_heredoc(t_cmd *cmd, char **envp, t_link_list *my_envp)
 	t_heredoc_cmd	*heredoc;
 	char			*new_eof;
 	int				original_stdin;
-	int				exitcode;
 
 	heredoc = (t_heredoc_cmd *)cmd;
 	new_eof = create_new_eof(heredoc->eof_start, heredoc->eof_end);
@@ -92,5 +91,5 @@ int	exec_heredoc(t_cmd *cmd, char **envp, t_link_list *my_envp)
 			heredoc->sub_cmd, envp, my_envp) != 0)
 		return (free(new_eof), 1);
 	free(new_eof);
-	return (exitcode);
+	return (0);
 }
