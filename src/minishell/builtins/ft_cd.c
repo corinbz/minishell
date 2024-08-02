@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/30 12:00:07 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/08/02 19:59:43 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int	ft_cd(char *dir, t_link_list *my_envp)
 	update_oldpwd(cwd, my_envp);
 	if (ft_get_home(&home, my_envp))
 		return (perror("HOME not set\n"), 1);
-	if (!dir || ft_strncmp(dir, "~", 1) == 0)
-		new_path = home;
+	else if (!dir || ft_strncmp(dir, "~", 1) == 0)
+		new_path = ft_strdup(home);
 	else if (ft_strncmp(dir, "/", 1) == 0)
 		new_path = ft_strdup(dir);
 	else
