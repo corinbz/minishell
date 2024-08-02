@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 10:39:50 by corin             #+#    #+#             */
-/*   Updated: 2024/07/28 12:59:30 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/02 21:05:09 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int	exec_redir(t_cmd *cmd, char **envp, t_link_list *my_envp)
 		return (1);
 	if (process_redirections(type_redir_cmd) != 0)
 		return (close(original_stdin_fd), close(original_stdout_fd), 1);
+	while (type_redir_cmd->sub_cmd->type == REDIR)
+		type_redir_cmd = (t_redir_cmd *)type_redir_cmd->sub_cmd;
 	if (handle_redirection(end_destination) == -1)
 		return (close(original_stdin_fd), close(original_stdout_fd), 1);
 	exitcode = exec_cmd(type_redir_cmd->sub_cmd, envp, my_envp, false);
