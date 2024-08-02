@@ -1,6 +1,6 @@
 NAME = minishell
 
-CFLAGS = -g3 #-fsanitize=address -static-libasan #-Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address -static-libasan
 
 OBJDIR = ./obj/
 INCLUDES = -I/usr/include/readline

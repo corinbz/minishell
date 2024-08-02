@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:09:11 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/08/01 20:38:39 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/02 04:56:33 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,10 @@ char	**get_possible_paths(char **envp)
 
 char	*get_path(char *cmd, char **paths)
 {
-	int		i;
 	char	*result;
 	char	*full_cmd;
 	int		exists;
 
-	i = 0;
 	if (ft_strchr(cmd, '/') != 0)
 	{
 		exists = executable_exists(cmd);

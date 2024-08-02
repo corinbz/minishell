@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:08:52 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/31 18:43:16 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/02 04:56:07 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	add_exit_status_to_envp(t_link_list **my_envp, t_exit_status *exit_sts)
 {
-	t_link_list	*node;
 	char		*value;
 	char		*exit_status;
 

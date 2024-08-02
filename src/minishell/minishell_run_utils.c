@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:06:39 by corin             #+#    #+#             */
-/*   Updated: 2024/08/01 21:05:36 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/02 04:57:33 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	process_and_execute_command(char *input, char **envp,
 	t_cmd	*cmd;
 
 	add_exit_status_to_envp(&my_envp, exit_sts);
-	expand_env_vars_and_quotes(&input, my_envp, exit_sts);
+	expand_env_vars_and_quotes(&input, my_envp);
 	cmd = parse_cmd(input);
 	if (!is_heredoc_cmd(cmd))
 		add_history(input);

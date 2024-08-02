@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/08/02 04:48:24 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/08/02 04:56:54 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,8 +147,7 @@ void		ft_panic(const char *s);
 t_cmd		*parse_exec(char **input);
 t_cmd		*parse_redirections(t_cmd *cmd, char **input);
 void		null_terminate_cmd(t_cmd *cmd);
-void		expand_env_vars_and_quotes(char **input, t_link_list *env,
-				t_exit_status *exit_sts);
+void		expand_env_vars_and_quotes(char **input, t_link_list *env);
 void		expand_dollar_signs(char *i, t_link_list *env);
 bool		try_to_expand_dollar_sign(char *s, t_link_list *env, t_state state);
 void		expand_quotes(char *str);
