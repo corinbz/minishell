@@ -6,13 +6,13 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 15:00:23 by corin             #+#    #+#             */
-/*   Updated: 2024/08/02 18:40:42 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/06 20:24:34 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	handle_heredoc_input(t_heredoc_cmd *heredoc, const char *new_eof,
+static int	handle_heredoc_input(t_heredoc_cmd *heredoc, const char *new_eof,
 	t_link_list *my_envp)
 {
 	char	*input;
@@ -33,7 +33,7 @@ int	handle_heredoc_input(t_heredoc_cmd *heredoc, const char *new_eof,
 			input_newline = ft_strjoin(input, "\n");
 			if (!input_newline)
 				return (free(input), 1);
-			expand_dollar_signs(input_newline, my_envp);
+			expand_dollar_signs(input_newline, &my_envp);
 			ft_putstr_fd(input_newline, heredoc->temp_fd);
 			free(input_newline);
 		}
@@ -42,7 +42,7 @@ int	handle_heredoc_input(t_heredoc_cmd *heredoc, const char *new_eof,
 }
 
 // Redirect STDIN to heredoc file
-int	redirect_stdin_to_heredoc(int original_stdin, t_cmd *sub_cmd,
+static int	redirect_stdin_to_heredoc(int original_stdin, t_cmd *sub_cmd,
 	char **envp, t_link_list *my_envp)
 {
 	int	new_fd;
@@ -59,7 +59,7 @@ int	redirect_stdin_to_heredoc(int original_stdin, t_cmd *sub_cmd,
 	}
 	close(new_fd);
 	unlink("heredoc");
-	exitcode = exec_cmd(sub_cmd, envp, my_envp, false);
+	exitcode = exec_cmd(sub_cmd, envp, &my_envp, false);
 	dup2(original_stdin, STDIN_FILENO);
 	close(original_stdin);
 	return (exitcode);

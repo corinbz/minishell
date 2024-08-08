@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_manipulation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 19:03:56 by corin             #+#    #+#             */
-/*   Updated: 2024/08/01 19:04:34 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/04 12:33:52 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ t_link_list	*create_my_envp(char **envp)
 	head = NULL;
 	current = NULL;
 	new_node = NULL;
+	if (!envp)
+		return (write(2, "envp is empty\n", 15), NULL);
 	while (envp[i])
 	{
 		new_node = allocate_new_node();

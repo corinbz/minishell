@@ -6,14 +6,14 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 10:39:50 by corin             #+#    #+#             */
-/*   Updated: 2024/08/02 21:05:09 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/06 19:41:06 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 // depending on the mode, we clean the file or append to it
-void	handle_redirection_mode(t_redir_cmd *type_redir_cmd)
+static void	handle_redirection_mode(t_redir_cmd *type_redir_cmd)
 {
 	int	new_fd;
 
@@ -38,7 +38,7 @@ void	handle_redirection_mode(t_redir_cmd *type_redir_cmd)
 }
 
 // open the file and redirect the file descriptor
-int	handle_redirection(t_redir_cmd *type_redir_cmd)
+static int	handle_redirection(t_redir_cmd *type_redir_cmd)
 {
 	int	new_fd;
 
@@ -46,7 +46,7 @@ int	handle_redirection(t_redir_cmd *type_redir_cmd)
 			type_redir_cmd->mode, DEFAULT_CHMOD);
 	if (new_fd < 0)
 	{
-		ft_putstr_fd("failed to create file\n", 2);
+		ft_putstr_fd("failed to acces file\n", 2);
 		return (-1);
 	}
 	if (dup2(new_fd, type_redir_cmd->fd) == -1)
@@ -59,7 +59,7 @@ int	handle_redirection(t_redir_cmd *type_redir_cmd)
 	return (0);
 }
 
-int	process_redirections(t_redir_cmd *type_redir_cmd)
+static int	process_redirections(t_redir_cmd *type_redir_cmd)
 {
 	while (type_redir_cmd->sub_cmd->type == REDIR)
 	{
@@ -89,7 +89,7 @@ int	exec_redir(t_cmd *cmd, char **envp, t_link_list *my_envp)
 		type_redir_cmd = (t_redir_cmd *)type_redir_cmd->sub_cmd;
 	if (handle_redirection(end_destination) == -1)
 		return (close(original_stdin_fd), close(original_stdout_fd), 1);
-	exitcode = exec_cmd(type_redir_cmd->sub_cmd, envp, my_envp, false);
+	exitcode = exec_cmd(type_redir_cmd->sub_cmd, envp, &my_envp, false);
 	if (restore_original_fds(original_stdout_fd, original_stdin_fd) != 0)
 		return (1);
 	return (exitcode);

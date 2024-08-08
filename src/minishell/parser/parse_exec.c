@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 02:50:26 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/30 10:59:54 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/08/04 14:42:24 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static void	parse_token(t_cmd **c, t_exec_cmd *c_exec, char **i, int *args)
 		token = get_token(i, &token_start_pos, &token_end_pos);
 		if (token == '\0')
 			break ;
-		if (token != 'a')
-			ft_panic("minishell: syntax error\n");
+		if (token != 'a' && token != '<' && token != '>')
+			ft_putstr_fd("minishell: syntax error\n", 2);
 		c_exec->arg_start[*args] = token_start_pos;
 		c_exec->arg_end[*args] = token_end_pos;
 		*token_end_pos = '\0';

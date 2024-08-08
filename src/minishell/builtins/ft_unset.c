@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/08/01 20:54:33 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/06 19:26:00 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ static void	remove_node(t_link_list **head,
 	else
 		*head = curr->next;
 	free(curr->param);
+	curr->param = NULL;
 	free(curr);
+	curr = NULL;
 }
 
 /*
@@ -68,7 +70,7 @@ static int	find_and_remove_var(char *param, t_link_list **head)
 		if (compare_env_var(param, curr->param))
 		{
 			remove_node(head, prev, curr);
-			return (0);
+			return (1);
 		}
 		prev = curr;
 		curr = curr->next;
@@ -84,7 +86,11 @@ static int	find_and_remove_var(char *param, t_link_list **head)
  */
 int	ft_unset(char *param, t_link_list **head)
 {
+	int	res;
+
+	res = 0;
 	if (!param || !head || !*head)
-		return (0);
-	return (find_and_remove_var(param, head));
+		return (res);
+	res = find_and_remove_var(param, head);
+	return (res);
 }

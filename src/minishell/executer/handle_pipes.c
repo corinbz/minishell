@@ -6,13 +6,13 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:03:06 by corin             #+#    #+#             */
-/*   Updated: 2024/08/01 19:09:05 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/06 19:41:28 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-pid_t	fork_and_exec_left(t_cmd *cmd, int end[2],
+static pid_t	fork_and_exec_left(t_cmd *cmd, int end[2],
 	char **envp, t_link_list *my_envp)
 {
 	pid_t	left;
@@ -24,13 +24,13 @@ pid_t	fork_and_exec_left(t_cmd *cmd, int end[2],
 		if (dup2(end[1], STDOUT_FILENO) == -1)
 			printf("dup2 left");
 		close(end[1]);
-		exec_cmd(((t_pipe_cmd *)cmd)->left, envp, my_envp, true);
+		exec_cmd(((t_pipe_cmd *)cmd)->left, envp, &my_envp, true);
 		exit(1);
 	}
 	return (left);
 }
 
-pid_t	fork_and_exec_right(t_cmd *cmd, int end[2],
+static pid_t	fork_and_exec_right(t_cmd *cmd, int end[2],
 	char **envp, t_link_list *my_envp)
 {
 	pid_t	right;
@@ -42,7 +42,7 @@ pid_t	fork_and_exec_right(t_cmd *cmd, int end[2],
 		if (dup2(end[0], STDIN_FILENO) == -1)
 			printf("dup2 right");
 		close(end[0]);
-		exec_cmd(((t_pipe_cmd *)cmd)->right, envp, my_envp, true);
+		exec_cmd(((t_pipe_cmd *)cmd)->right, envp, &my_envp, true);
 		exit(1);
 	}
 	return (right);

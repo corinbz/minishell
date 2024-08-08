@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/08/02 19:59:43 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/04 14:57:51 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ int	ft_cd(char *dir, t_link_list *my_envp)
 	getcwd(cwd, sizeof(cwd));
 	update_oldpwd(cwd, my_envp);
 	if (ft_get_home(&home, my_envp))
-		return (perror("HOME not set\n"), 1);
+		write(2, "HOME not set\n", 14);
+	if (dir && ft_strncmp(dir, "/", 1) == 0)
+		new_path = ft_strdup(dir);
 	else if (!dir || ft_strncmp(dir, "~", 1) == 0)
 		new_path = ft_strdup(home);
-	else if (ft_strncmp(dir, "/", 1) == 0)
-		new_path = ft_strdup(dir);
 	else
 	{
 		dir = ft_strjoin("/", dir);
@@ -78,5 +78,6 @@ int	ft_cd(char *dir, t_link_list *my_envp)
 	}
 	if (chdir(new_path) == -1)
 		return (free(dir), free(new_path), perror("cd"), 1);
+	free(dir);
 	return (update_pwd(cwd, my_envp), free(new_path), 0);
 }

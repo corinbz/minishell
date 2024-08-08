@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:35:00 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/31 20:03:00 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/06 19:08:02 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **envp)
 		printf("Failed to create environment list\n");
 		return (1);
 	}
-	minishell_run(envp, my_envp, exit_sts);
+	minishell_run(envp, &my_envp, exit_sts);
 	free_envp(&my_envp);
 	free(exit_sts);
 	return (EXIT_SUCCESS);

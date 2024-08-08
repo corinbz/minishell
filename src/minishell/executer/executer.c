@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 10:40:44 by corin             #+#    #+#             */
-/*   Updated: 2024/08/02 18:42:32 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/08 14:06:30 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	exec_child_process(char *cmd_path, char **args, char **envp)
 
 // Function to handle built-in commands
 static int	handle_builtin(t_exec_cmd *type_exec_cmd,
-	t_link_list *my_envp, bool is_child)
+	t_link_list **my_envp, bool is_child)
 {
 	int	exitcode;
 
@@ -47,7 +47,7 @@ static int	handle_builtin(t_exec_cmd *type_exec_cmd,
 	}
 	else if (builtin_type(type_exec_cmd) == 2)
 	{
-		exitcode = run_builtin_child(type_exec_cmd, my_envp);
+		exitcode = run_builtin_child(type_exec_cmd, *my_envp);
 		if (is_child)
 			ft_exit(NULL, exitcode);
 		return (exitcode);
@@ -79,34 +79,39 @@ static int	exec_external(t_exec_cmd *type_exec_cmd, char **envp, bool is_child)
 	return (free(cmd_path), 0);
 }
 
-int	exec_exec(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
+static int	exec_exec(t_cmd *cmd, char **envp,
+	t_link_list **my_envp, bool is_child)
 {
 	t_exec_cmd	*type_exec_cmd;
 	int			exitcode;
 
 	type_exec_cmd = (t_exec_cmd *)cmd;
+	run_signals(2);
 	if (!type_exec_cmd->arg_start[0])
 		return (0);
+	if (ft_strncmp(type_exec_cmd->arg_start[0], "<", 1) == 0)
+		type_exec_cmd->arg_start[0] = "less";
 	exitcode = handle_builtin(type_exec_cmd, my_envp, is_child);
 	if (exitcode != -1)
 		return (exitcode);
-	envp = link_list_to_array(&my_envp);
+	envp = link_list_to_array(my_envp);
 	exitcode = exec_external(type_exec_cmd, envp, is_child);
 	ft_free_2d(envp);
 	return (exitcode);
 }
 
-int	exec_cmd(t_cmd *cmd, char **envp, t_link_list *my_envp, bool is_child)
+int	exec_cmd(t_cmd *cmd, char **envp, t_link_list **my_envp, bool is_child)
 {
 	int	exitcode;
 
+	exitcode = 0;
 	if (cmd->type == EXEC)
 		exitcode = exec_exec(cmd, envp, my_envp, is_child);
 	else if (cmd->type == REDIR)
-		exitcode = exec_redir(cmd, envp, my_envp);
+		exitcode = exec_redir(cmd, envp, *my_envp);
 	else if (cmd->type == PIPE)
-		exitcode = exec_pipe(cmd, envp, my_envp);
+		exitcode = exec_pipe(cmd, envp, *my_envp);
 	else if (cmd->type == HEREDOC)
-		exitcode = exec_heredoc(cmd, envp, my_envp);
+		exitcode = exec_heredoc(cmd, envp, *my_envp);
 	return (exitcode);
 }

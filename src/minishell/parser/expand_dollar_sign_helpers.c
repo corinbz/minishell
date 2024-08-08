@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dollar_sign_helpers.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 11:19:48 by erybolov          #+#    #+#             */
-/*   Updated: 2024/07/30 11:23:51 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/08/06 20:20:49 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static char	*extract_variable_name(char *dollar_pos)
 	return (var);
 }
 
-static void	expand_dollar_sign(char *dollar_pos, t_link_list *env)
+static void	expand_dollar_sign(char *dollar_pos, t_link_list **env)
 {
 	char	*var;
 	char	*val;
@@ -91,13 +91,13 @@ static void	expand_dollar_sign(char *dollar_pos, t_link_list *env)
 
 	var = extract_variable_name(dollar_pos);
 	dollar_end = &dollar_pos[ft_strlen(var) + 1];
-	val = try_to_get_val_from_env(var, env);
+	val = try_to_get_val_from_env(var, *env);
 	free(var);
 	replace_var_with_val(dollar_pos, dollar_end, val);
 	free(val);
 }
 
-bool	try_to_expand_dollar_sign(char *s, t_link_list *env, t_state state)
+bool	try_to_expand_dollar_sign(char *s, t_link_list **my_envp, t_state state)
 {
 	while (*s)
 	{
@@ -117,7 +117,7 @@ bool	try_to_expand_dollar_sign(char *s, t_link_list *env, t_state state)
 		((!state.in_single && !state.in_double) || state.single_in_double || \
 		(state.in_double && !state.double_in_single)))
 		{
-			expand_dollar_sign(s, env);
+			expand_dollar_sign(s, my_envp);
 			return (true);
 		}
 		else
