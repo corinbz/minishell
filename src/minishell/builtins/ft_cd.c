@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/08/10 12:52:14 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/08/10 21:10:18 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	update_oldpwd(char *newpwd, t_link_list *my_envp)
 	return (0);
 }
 
-static int	update_pwd(char *newpwd, t_link_list *my_envp)
+int	update_pwd(char *newpwd, t_link_list *my_envp)
 {
 	char	*joinedpwd;
 

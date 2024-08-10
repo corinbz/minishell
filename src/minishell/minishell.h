@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/08/10 12:52:52 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/08/10 22:23:01 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <sys/wait.h>
 # include <stdnoreturn.h>
 # include <dirent.h>
-# include <linux/limits.h>
+# include <limits.h>
 # include <signal.h>
 # include <limits.h>
 # include <errno.h>
@@ -162,6 +162,7 @@ int			ft_export(char *new_param, t_link_list *head);
 int			ft_unset(char *param, t_link_list **head);
 int			ft_echo(char *newline, char **input);
 int			change_directory(char *new_path, t_link_list *my_envp);
+int			update_pwd(char *newpwd, t_link_list *my_envp);
 char		*get_new_path(char *dir, char *home, char *cwd);
 int			ft_cd(char *dir, t_link_list *my_envp);
 int			ft_exit(t_exec_cmd *cmd, int last_status);
