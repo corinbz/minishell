@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/08/06 19:25:45 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/10 11:48:15 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ int	ft_env(t_link_list *head)
 	curr = head;
 	while (curr)
 	{
+		if ((ft_strncmp((char *)curr->param, "?=", 2) == 0))
+		{
+			curr = curr->next;
+			continue ;
+		}
 		printf("%s\n", (char *)curr->param);
 		curr = curr->next;
 	}
