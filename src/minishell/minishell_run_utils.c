@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:06:39 by corin             #+#    #+#             */
-/*   Updated: 2024/08/06 21:21:37 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/11 01:19:37 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static void	process_and_execute_command(char *input, char **envp,
 	add_history(input);
 	expand_env_vars_and_quotes(&input, my_envp);
 	cmd = parse_cmd(input);
+	prepare_cmd(cmd);
 	exit_sts->exit_status = exec_cmd(cmd, envp, my_envp, false);
 	g_signal = 0;
 	free(input);

@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/08/10 22:23:01 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/08/11 01:30:23 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ void		expand_quotes(char *str);
 void		add_exit_status_to_envp(t_link_list **my_envp,
 				t_exit_status *exit_sts);
 bool		is_heredoc_cmd(t_cmd *cmd);
+void		prepare_cmd(t_cmd *cmd);
 
 /* ---------------------------- BUILTIN --------------------------------------*/
 t_link_list	*create_my_envp(char **envp);
