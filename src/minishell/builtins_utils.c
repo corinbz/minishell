@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 14:14:26 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/08/10 11:42:37 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/08/10 12:34:48 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	run_builtin_parent(t_exec_cmd *cmd, t_link_list **my_envp)
 	{
 		if (!cmd->arg_start[2])
 			return (ft_cd(cmd->arg_start[1], *my_envp));
-		printf("cd: no such file or directory: %s\n", cmd->arg_start[2]);
+		print_to_stderr(cmd->arg_start[2], "no such file or directory");
 		return (1);
 	}
 	if (ft_strncmp(cmd->arg_start[0], "export", 6) == 0)

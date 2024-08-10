@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 10:40:44 by corin             #+#    #+#             */
-/*   Updated: 2024/08/10 11:41:15 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/08/10 12:31:30 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ static void	exec_child_process(char *cmd_path, char **args, char **envp)
 {
 	if (ft_strncmp((cmd_path), "Permission denied", ft_strlen(cmd_path)) == 0)
 	{
-		printf("%s: Permission denied\n", args[0]);
+		print_to_stderr(args[0], "Permission denied");
 		exit(126);
 	}
 	else if (ft_strncmp((cmd_path), "Is a directory", ft_strlen(cmd_path)) == 0)
 	{
-		printf("%s: Is a directory\n", args[0]);
+		print_to_stderr(args[0], "Is a directory");
 		exit(126);
 	}
 	else if (execve(cmd_path, args, envp) == -1)
 	{
-		printf("%s: no executable found\n", args[0]);
+		print_to_stderr(args[0], "no executable found");
 		exit(127);
 	}
 }

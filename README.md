@@ -3,10 +3,11 @@ https://m4nnb3ll.medium.com/minishell-building-a-mini-bash-a-42-project-b55a1059
 
 TO FIX AFTER EVAL:
 - not trimmming the content inside double quotes "";
-- signals functions -extra testing;
+- signals functions -extra testing; [fixed]
 - export with no parameters; [fixed]
-- all the errors should go to STDERR;
+- all the errors should go to STDERR; [fixed]
 - do not display the ?= parameter inside ft_env; [fixed]
+- cd /noe --free invalid pointer; [fixed]
 
 
 # Allowed functions

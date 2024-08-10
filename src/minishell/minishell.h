@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 17:39:34 by erybolov          #+#    #+#             */
-/*   Updated: 2024/08/06 20:20:28 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/08/10 12:52:52 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ void		free_full_cmd(t_cmd *cmd);
 int			get_exit_sts(t_link_list *my_envp);
 int			save_original_fds(int *original_stdout_fd, int *original_stdin_fd);
 int			restore_original_fds(int original_stdout_fd, int original_stdin_fd);
+void		print_to_stderr(const char *optional, char *message);
 
 /* ---------------------------- PARSER ---------------------------------------*/
 t_cmd		*parse_cmd(char *input);
@@ -160,6 +161,8 @@ int			ft_env(t_link_list *head);
 int			ft_export(char *new_param, t_link_list *head);
 int			ft_unset(char *param, t_link_list **head);
 int			ft_echo(char *newline, char **input);
+int			change_directory(char *new_path, t_link_list *my_envp);
+char		*get_new_path(char *dir, char *home, char *cwd);
 int			ft_cd(char *dir, t_link_list *my_envp);
 int			ft_exit(t_exec_cmd *cmd, int last_status);
 int			builtin_type(t_exec_cmd *cmd);

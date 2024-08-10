@@ -6,7 +6,7 @@
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:23:38 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/08/04 14:57:51 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/08/10 12:52:14 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,8 @@ int	ft_cd(char *dir, t_link_list *my_envp)
 	update_oldpwd(cwd, my_envp);
 	if (ft_get_home(&home, my_envp))
 		write(2, "HOME not set\n", 14);
-	if (dir && ft_strncmp(dir, "/", 1) == 0)
-		new_path = ft_strdup(dir);
-	else if (!dir || ft_strncmp(dir, "~", 1) == 0)
-		new_path = ft_strdup(home);
-	else
-	{
-		dir = ft_strjoin("/", dir);
-		if (!dir)
-			return (perror("strjoin error\n"), 1);
-		new_path = ft_strjoin(cwd, dir);
-		if (!new_path)
-			return (free(dir), 1);
-	}
-	if (chdir(new_path) == -1)
-		return (free(dir), free(new_path), perror("cd"), 1);
-	free(dir);
-	return (update_pwd(cwd, my_envp), free(new_path), 0);
+	new_path = get_new_path(dir, home, cwd);
+	if (!new_path)
+		return (perror("Memory allocation error"), 1);
+	return (change_directory(new_path, my_envp));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:35:17 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/07/28 12:22:19 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/10 12:53:11 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,6 @@ void	ctrl_c(int sig)
 void	back_slash(int sig)
 {
 	g_signal = 131;
-	printf("Quit (core dumped)\n");
+	print_to_stderr(NULL, "Quit (core dumped)");
 	(void)sig;
 }

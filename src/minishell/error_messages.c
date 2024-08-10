@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_run.c                                    :+:      :+:    :+:   */
+/*   error_messages.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/11 18:10:09 by erybolov          #+#    #+#             */
-/*   Updated: 2024/08/10 11:51:05 by ccraciun         ###   ########.fr       */
+/*   Created: 2024/08/10 12:23:18 by ccraciun          #+#    #+#             */
+/*   Updated: 2024/08/10 12:53:31 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell_run(char **envp, t_link_list **my_envp,
-	t_exit_status *exit_sts)
+void	print_to_stderr(const char *optional, char *message)
 {
-	struct termios	saved_termios;
-	struct termios	raw_termios;
+	int	stdout_fd;
 
-	while (1)
-	{
-		run_signals(1);
-		initialize_terminal(&saved_termios, &raw_termios);
-		read_and_process_input(envp, my_envp, exit_sts);
-		reset_terminal(&saved_termios);
-	}
+	stdout_fd = dup(STDOUT_FILENO);
+	dup2(STDERR_FILENO, STDOUT_FILENO);
+	if (optional)
+		printf("%s : %s\n", optional, message);
+	else
+		printf("%s\n", message);
+	dup2(stdout_fd, STDOUT_FILENO);
+	close(stdout_fd);
 }
