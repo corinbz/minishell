@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:34:05 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/08/06 21:11:13 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/10 11:45:32 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,12 @@ int	ft_export(char *new_param, t_link_list *head)
 	{
 		while (head)
 		{
-			printf("declare -x %s", (char *)head->param);
+			if (ft_strncmp((char *)head->param, "?=", 2) == 0)
+			{
+				head = head->next;
+				continue ;
+			}
+			printf("declare -x %s\n", (char *)head->param);
 			head = head->next;
 		}
 		return (0);

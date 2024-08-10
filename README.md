@@ -4,7 +4,7 @@ https://m4nnb3ll.medium.com/minishell-building-a-mini-bash-a-42-project-b55a1059
 TO FIX AFTER EVAL:
 - not trimmming the content inside double quotes "";
 - signals functions -extra testing;
-- export with no parameters;
+- export with no parameters; fixed
 - all the errors should go to STDERR;
 - do not display the ?= parameter inside ft_env;
 
