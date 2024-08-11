@@ -6,7 +6,7 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 09:33:26 by erybolov          #+#    #+#             */
-/*   Updated: 2024/08/11 01:15:53 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/08/11 02:13:13 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,21 @@ static void	expand_quotes_loop(char *str_copy, char *str, t_state *state)
 
 static void	replace_spaces_to_keep(char *str, t_state *state)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
+	while (*str)
 	{
-		toggle_quote_state(str[i], state);
-		if (str[i] == ' ')
+		toggle_quote_state(*str, state);
+		if (*str == '<' || *str == '>' || *str == '|' || *str == ' ')
 		{
-			if (state->in_single || state->in_double)
-				str[i] = 31;
+			if (*str == '<' && (state->in_single || state->in_double))
+				*str = 28;
+			if (*str == '>' && (state->in_single || state->in_double))
+				*str = 29;
+			if (*str == '|' && (state->in_single || state->in_double))
+				*str = 30;
+			if (*str == ' ' && (state->in_single || state->in_double))
+				*str = 31;
 		}
-		i++;
+		str++;
 	}
 }
 

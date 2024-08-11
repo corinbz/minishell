@@ -6,7 +6,7 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 01:20:19 by erybolov          #+#    #+#             */
-/*   Updated: 2024/08/11 01:32:28 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/08/11 02:14:16 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ static void	prepare_exec_cmd(t_exec_cmd *c)
 		j = 0;
 		while (c->arg_start[i][j])
 		{
+			if (c->arg_start[i][j] == 28)
+				c->arg_start[i][j] = '<';
+			if (c->arg_start[i][j] == 29)
+				c->arg_start[i][j] = '>';
+			if (c->arg_start[i][j] == 30)
+				c->arg_start[i][j] = '|';
 			if (c->arg_start[i][j] == 31)
 				c->arg_start[i][j] = ' ';
 			j++;
@@ -38,6 +44,12 @@ static void	prepare_redir_cmd(t_redir_cmd *c)
 	i = 0;
 	while (c->token_start_pos[i])
 	{
+		if (c->token_start_pos[i] == 28)
+			c->token_start_pos[i] = '<';
+		if (c->token_start_pos[i] == 29)
+			c->token_start_pos[i] = '>';
+		if (c->token_start_pos[i] == 30)
+			c->token_start_pos[i] = '|';
 		if (c->token_start_pos[i] == 31)
 			c->token_start_pos[i] = ' ';
 		i++;
@@ -58,6 +70,12 @@ static void	prepare_heredoc_cmd(t_heredoc_cmd *c)
 	i = 0;
 	while (c->eof_start[i])
 	{
+		if (c->eof_start[i] == 28)
+			c->eof_start[i] = '<';
+		if (c->eof_start[i] == 29)
+			c->eof_start[i] = '>';
+		if (c->eof_start[i] == 30)
+			c->eof_start[i] = '|';
 		if (c->eof_start[i] == 31)
 			c->eof_start[i] = ' ';
 	}
