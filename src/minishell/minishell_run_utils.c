@@ -58,6 +58,6 @@ void	read_and_process_input(char **envp, t_link_list **my_envp,
 	rl_on_new_line();
 	if (!input)
 		handle_eof(exit_sts);
-	if (*input && input)
+	if (input && *input)
 		process_and_execute_command(input, envp, my_envp, exit_sts);
 }
