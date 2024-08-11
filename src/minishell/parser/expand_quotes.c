@@ -6,7 +6,7 @@
 /*   By: erybolov <erybolov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 09:33:26 by erybolov          #+#    #+#             */
-/*   Updated: 2024/08/11 02:13:13 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/08/12 00:51:29 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@ static void	expand_quotes_loop(char *str_copy, char *str, t_state *state)
 {
 	while (*str_copy)
 	{
-		if (toggle_quote_state(*str_copy, state))
-			str_copy++;
-		*str = *str_copy;
-		str++;
+		if (!toggle_quote_state(*str_copy, state))
+		{
+			*str = *str_copy;
+			str++;
+		}
 		str_copy++;
 	}
 	*str = '\0';
