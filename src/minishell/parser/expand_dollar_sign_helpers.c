@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 11:19:48 by erybolov          #+#    #+#             */
-/*   Updated: 2024/08/06 20:20:49 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/08/12 00:57:37 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,13 +113,11 @@ bool	try_to_expand_dollar_sign(char *s, t_link_list **my_envp, t_state state)
 			if (state.in_single)
 				state.double_in_single = !state.double_in_single;
 		}
-		if (*s == '$' && *(s + 1) != '\0' && *(s + 1) != '"' && \
+		if (*s == '$' && *(s + 1) != '\0' && *(s + 1) != ' ' \
+		&& *(s + 1) != '"' && \
 		((!state.in_single && !state.in_double) || state.single_in_double || \
 		(state.in_double && !state.double_in_single)))
-		{
-			expand_dollar_sign(s, my_envp);
-			return (true);
-		}
+			return (expand_dollar_sign(s, my_envp), true);
 		else
 			s++;
 	}
