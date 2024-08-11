@@ -6,7 +6,7 @@
 /*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 10:31:39 by corin             #+#    #+#             */
-/*   Updated: 2024/08/04 12:55:00 by erybolov         ###   ########.fr       */
+/*   Updated: 2024/08/11 03:44:35 by erybolov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,14 @@ char	**link_list_to_array(t_link_list **head)
 	int			i;
 	t_link_list	*curr;
 
+	if (!head || !*head)
+		return (NULL);
 	curr = *head;
 	i = 0;
 	size = get_link_list_size(curr);
-	if (!head || !*head)
-		return (NULL);
 	res = ft_calloc(size + 1, sizeof(char *));
 	if (!res)
 		return (ft_putstr_fd("calloc failed\n", 2), NULL);
-	curr = *head;
 	while (i < size)
 	{
 		res[i] = ft_strdup(curr->param);
