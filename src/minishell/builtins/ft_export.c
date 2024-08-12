@@ -3,27 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:34:05 by ccraciun          #+#    #+#             */
-/*   Updated: 2024/08/10 11:45:32 by ccraciun         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:20:39 by corin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	param_valid(char *param)
+static int	param_invalid(char *param)
 {
 	int	i;
 
-	i = 0;
-	if (ft_strchr(param, '=') == NULL)
-		return (0);
+	i = 1;
+	if (!ft_isalpha(param[0]) && param[0] != '?')
+		return (1);
 	while (param[i] != '=' && param[i])
 	{
-		if (ft_isalpha(param[i]) || param[i] == '?')
-			return (1);
-		i++;
+		if (ft_isalnum(param[i]))
+		{
+			i++;
+			continue ;
+		}
+		if (param[i] == '=')
+			return (2);
+		return (1);
 	}
 	return (0);
 }
@@ -100,8 +105,12 @@ int	ft_export(char *new_param, t_link_list *head)
 		}
 		return (0);
 	}
-	if (!param_valid(new_param))
+	if (param_invalid(new_param) == 2)
+	{
 		return (0);
+	}
+	if (param_invalid(new_param) == 1)
+		return (print_to_stderr(new_param, "not a valid identifier"), 1);
 	if (change_if_exists(new_param, head))
 		return (0);
 	return (add_new_param(new_param, head));
