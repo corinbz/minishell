@@ -78,6 +78,7 @@ static void	prepare_heredoc_cmd(t_heredoc_cmd *c)
 			c->eof_start[i] = '|';
 		if (c->eof_start[i] == 31)
 			c->eof_start[i] = ' ';
+		i++;
 	}
 	prepare_cmd(c->sub_cmd);
 }
