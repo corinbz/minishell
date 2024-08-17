@@ -31,6 +31,10 @@ int	ft_exit(t_exec_cmd *cmd, int last_status)
 	int	exit_status;
 
 	exit_status = last_status % 256;
+	if (!cmd)
+	{
+		exit(exit_status);
+	}
 	if (cmd->arg_start[1] && cmd->arg_start[2])
 	{
 		printf("minishell: exit: too many arguments\n");
