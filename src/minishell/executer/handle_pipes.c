@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_pipes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: corin <corin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ccraciun <ccraciun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 11:03:06 by corin             #+#    #+#             */
-/*   Updated: 2024/08/06 19:41:28 by corin            ###   ########.fr       */
+/*   Updated: 2024/08/17 10:55:39 by ccraciun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static pid_t	fork_and_exec_left(t_cmd *cmd, int end[2],
 			printf("dup2 left");
 		close(end[1]);
 		exec_cmd(((t_pipe_cmd *)cmd)->left, envp, &my_envp, true);
-		exit(1);
+		exit(0);
 	}
 	return (left);
 }
@@ -43,7 +43,7 @@ static pid_t	fork_and_exec_right(t_cmd *cmd, int end[2],
 			printf("dup2 right");
 		close(end[0]);
 		exec_cmd(((t_pipe_cmd *)cmd)->right, envp, &my_envp, true);
-		exit(1);
+		exit(0);
 	}
 	return (right);
 }
