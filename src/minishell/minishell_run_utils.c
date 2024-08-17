@@ -40,13 +40,18 @@ static void	process_and_execute_command(char *input, char **envp,
 
 	add_exit_status_to_envp(my_envp, exit_sts);
 	add_history(input);
-	expand_env_vars_and_quotes(&input, my_envp);
-	cmd = parse_cmd(input);
-	prepare_cmd(cmd);
-	exit_sts->exit_status = exec_cmd(cmd, envp, my_envp, false);
+	if (is_input_valid(input))
+	{
+		expand_env_vars_and_quotes(&input, my_envp);
+		cmd = parse_cmd(input);
+		prepare_cmd(cmd);
+		exit_sts->exit_status = exec_cmd(cmd, envp, my_envp, false);
+		free_full_cmd(cmd);
+	}
+	else
+		printf("minishell: syntax error\n");
 	g_signal = 0;
 	free(input);
-	free_full_cmd(cmd);
 }
 
 void	read_and_process_input(char **envp, t_link_list **my_envp,

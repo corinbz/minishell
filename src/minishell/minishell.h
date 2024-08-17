@@ -154,6 +154,7 @@ void		add_exit_status_to_envp(t_link_list **my_envp,
 				t_exit_status *exit_sts);
 bool		is_heredoc_cmd(t_cmd *cmd);
 void		prepare_cmd(t_cmd *cmd);
+bool		is_input_valid(char *input);
 
 /* ---------------------------- BUILTIN --------------------------------------*/
 t_link_list	*create_my_envp(char **envp);

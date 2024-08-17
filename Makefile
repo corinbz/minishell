@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3# -fsanitize=address 
+CFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address
 OBJDIR = ./obj/
 SRCDIR = ./src/
 INCLUDES = -I/usr/include/readline -I$(SRCDIR)
